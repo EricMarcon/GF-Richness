@@ -70,14 +70,14 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ```{r Options, include=FALSE}
 ### Customized options for this document
 # Add necessary packages here
-Packages <- c("ade4", "dbmss", "secret", "tidyverse")
+Packages <- c("ade4", "broom", "dbmss", "secret", "tidyverse")
 # Install them
 InstallPackages(Packages)
 
 # knitr options
 knitr::opts_chunk$set(
-  cache=FALSE, # Cache chunk results
-  echo = TRUE, # Show/Hide R chunks
+  cache=TRUE, # Cache chunk results
+  echo=TRUE, # Show/Hide R chunks
   warning=FALSE, # Show/Hide warnings
   messages=FALSE, # Show/Hide messages
   # Figure alignment and size
@@ -86,7 +86,7 @@ knitr::opts_chunk$set(
   dev = c("ragg_png", "pdf"),
   # Code chunk format
   tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=50),
-  size="scriptsize", knitr.graphics.auto_pdf = TRUE
+  size="scriptsize", knitr.graphics.auto_pdf=TRUE
   )
 options(width=50)
 
@@ -144,7 +144,7 @@ RandomizedPlots %>%
   SelectedPlots
 
 # ...or all plots
-SelectedPlots <- Plots["Plot"]
+# SelectedPlots <- Plots["Plot"]
 
 # Distances
 library("dbmss") %>% suppressMessages()
@@ -173,13 +173,75 @@ Sorensen <- 1-Sorensen
 ## Relation
 
 ```{r}
-plot(log10(Sorensen) ~ log10(Distances))
-# Régression linéaire, à partir de 1km de distance
-summary(regression <- lm(log10(Sorensen)[log10(Distances)>3] ~ log10(Distances)[log10(Distances)>3]))
-abline(a=regression$coefficients[1], b=regression$coefficients[2], col="red")
-# z
-(z <- -regression$coefficients[2]/2)
+tibble(Sorensen=as.numeric(log10(Sorensen)), Distance=as.numeric(log10(Distances))) %>% 
+  filter(Distance > 3) -> dist_plots
+lm(Sorensen~Distance, data=dist_plots) -> regression
+regression %>% summary()
+(-regression$coefficients[2]/2 -> z)
+dist_plots %>% 
+  ggplot(aes(x=Distance, y=Sorensen)) +
+    geom_point() +
+    geom_smooth(method = lm)
 ```
+## Bootstrap
+
+```{r}
+library("broom")
+estimate_z <- function() {
+  # Select one plot per location...
+  Plots %>% 
+    mutate(Random=runif(n())) -> 
+    RandomizedPlots
+  RandomizedPlots %>% 
+    group_by(Location) %>%
+    summarize(MaxRandom=max(Random)) %>% 
+    rename(Random=MaxRandom) %>% 
+    inner_join(RandomizedPlots) %>% 
+    suppressMessages %>% 
+    select(Plot) -> 
+    SelectedPlots
+  # Calculate distances
+  Plots %>% 
+    inner_join(SelectedPlots) %>%
+    suppressMessages %>% 
+    rename(PointName=Plot, X=X_UTM, Y=Y_UTM, PointType=Location) %>% 
+    mutate(PointWeight=1) %>% 
+    wmppp(unitname = c("meter", "meters")) %>% 
+    suppressWarnings %>% 
+    pairdist() %>% 
+    as.dist -> 
+    Distances
+  # Calculate Sorensen divergence
+  Abundances %>% 
+    inner_join(SelectedPlots) %>% 
+    suppressMessages %>% 
+    select(-Plot) %>% 
+    dist.binary(method = 5) -> Sorensen
+  Sorensen <- 1-Sorensen
+  # Regress
+  tibble(Sorensen=as.numeric(log10(Sorensen)), Distance=as.numeric(log10(Distances))) %>% 
+    dplyr::filter(Distance > 3) %>% 
+    lm(Sorensen~Distance, data=.) %>% 
+    tidy %>% 
+    dplyr::filter(term == "Distance") %>% 
+    select(estimate) %>% 
+    pull -> z
+  z <- -z/2
+  return(z)
+}
+n_simulations <- 100
+pgb <- txtProgressBar(min=0, max=n_simulations)
+sim_z <- rep(0, n_simulations)
+for (i in 1:n_simulations) {
+    sim_z[i] <- estimate_z()
+    setTxtProgressBar(pgb, i)
+}
+sim_z %>% density %>% plot
+as.SimTest(mean(sim_z), sim_z) %>% autoplot
+```
+
+
+
 
 ## Extrapolation
 
