@@ -26,7 +26,8 @@ jobs:
         shell: Rscript {0}
       - name: Private key
         run: |
-          echo ${{ secrets.rsa }} > GF-Richness.rsa
+          cat(${{ secrets.rsa }}, file="GF-Richness.rsa")
+        shell: Rscript {0}
       - name: Render Rmarkdown files
         run: |
           RMD_PATH=($(ls | grep "[.]Rmd$"))
