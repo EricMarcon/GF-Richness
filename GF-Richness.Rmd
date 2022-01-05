@@ -2,9 +2,16 @@
 title: "How many tree species in French Guiana Tropical Moist Forest?"
 author:
   - name: "Eric Marcon"
-  - name: "et al."
+  - name: "Ariane Mirabel"
+  - name: "Jean-François Molino"
+  - name: "Grégoire Vincent"
+  - name: "Daniel Sabatier"
 abstract: >
-  Abstract of the article.
+  The biodiversity of tropical rainforest is difficult to assess. 
+  Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories.
+  Guyadiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1180 species censused in 76 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. 
+  We can then extrapolate the number of species from a local, wide inventory (62.5 ha in Paracou research station).
+  We evaluate the number of tree species around 2000 over the territory.
 date: "`r format(Sys.time(), '%d %B %Y')`"
 url: https://GitHubID.github.io/Repository/
 github-repo: GitHubID/Repository
@@ -102,6 +109,8 @@ set.seed(973)
 ```
 
 # Introduction
+
+
 
 # Methods
 
