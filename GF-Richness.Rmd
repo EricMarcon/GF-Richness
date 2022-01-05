@@ -110,7 +110,14 @@ set.seed(973)
 
 # Introduction
 
-
+Biodiversity assessment in tropical moist forests is a practical challenge but a major goal considering they are the most diverse terrestrial ecosystems.
+Estimating the number of tree species is made possible by the long-term effort of sampling resulting in thousands of forest plots organized in various networks. 
+In French Guiana, the Guyadiv network consists of xxx plots accross the whole forest.
+Based on similar datasets, the diversity of tree species has been estimated in Amazonia [@TerSteege2013; @TerSteege2020] and at the world scale [@Slik2015].
+The methods used in these studies are not appropriate to estimate regional diversity, i.e. at a smaller scale where dispersal limitation is critical.
+The contibution of this paper is to estimate the number of tree species at the regional scale, in French Guiana (8 million hectares of tropical moist forest with no ecological boundary to distinguish them from the rest of Amazonia) and demonstrate which method is valid to do so.
+We build on Harte's self similarity model [@Harte1999] that implies the power-law relatioship of @Arrhenius1921 and provides a technique to evaluate its parameters [ @Harte1999a], previously applied by @Krishnamani2004 in the Western Ghats, India.
+We show that the log-series model underlying the work of @TerSteege2013 does not apply at the regional scale.
 
 # Methods
 
