@@ -112,20 +112,65 @@ set.seed(973)
 
 Biodiversity assessment in tropical moist forests is a practical challenge but a major goal considering they are the most diverse terrestrial ecosystems.
 Estimating the number of tree species is made possible by the long-term effort of sampling resulting in thousands of forest plots organized in various networks. 
-In French Guiana, the Guyadiv network consists of xxx plots accross the whole forest.
+In French Guiana, the Guyadiv network consists of close to 250 plots across the whole forest.
 Based on similar datasets, the diversity of tree species has been estimated in Amazonia [@TerSteege2013; @TerSteege2020] and at the world scale [@Slik2015].
-The methods used in these studies are not appropriate to estimate regional diversity, i.e. at a smaller scale where dispersal limitation is critical.
-The contibution of this paper is to estimate the number of tree species at the regional scale, in French Guiana (8 million hectares of tropical moist forest with no ecological boundary to distinguish them from the rest of Amazonia) and demonstrate which method is valid to do so.
-We build on Harte's self similarity model [@Harte1999] that implies the power-law relatioship of @Arrhenius1921 and provides a technique to evaluate its parameters [ @Harte1999a], previously applied by @Krishnamani2004 in the Western Ghats, India.
+The methods used in those studies are not appropriate to estimate regional diversity, i.e. at a smaller scale where dispersal limitation is critical.
+The contribution of this paper is to estimate the number of tree species at the regional scale, in French Guiana (8 million hectares of tropical moist forest with no ecological boundary to distinguish them from the rest of Amazonia) and demonstrate which method is valid to do so.
+We build on Harte's self similarity model [@Harte1999] that implies the power-law relatioship of @Arrhenius1921 and provides a technique to evaluate its parameters [@Harte1999a], previously applied by @Krishnamani2004 in the Western Ghats, India.
 We show that the log-series model underlying the work of @TerSteege2013 does not apply at the regional scale.
 
 # Methods
 
-Self-similarity [@Harte1999; @Harte1999a].
+Self-similarity [@Harte1999] is a property based on scale invariance.
+Consider a species $s$ that is present in an area $A_0$, say French Guiana.
+The probability to find it in half the whole area, denoted $A_1$ is $h_s$.
+Then, if it is present $A_1$, the probability to find it in turn in half $A_1$, denoted $A_2$, is also $h_s$, and so on.
+The probability to find the species in $A_n$ is $h_s^n$.
+In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, only depends on the relative size of the sub-area (half the parent area here for simplicity): it does not depend on the observation scale.
 
-Estimation of the richness of an Indian forest [@Krishnamani2004].
+Arrenhius's power law [@Arrhenius1921] is a consequence of the self-similarity property.
+The number of species $S(A)$ observed in an area $A$ is
 
-## Data
+\begin{equation}
+  S(A)=cA^z
+  (\#eq:Arrhenius)
+\end{equation}
+
+where $z$ is the power parameter and $c$ is the number of species in an area of size 1.
+This is a classical relation in macroecology, with long empirical and theoretical support [@GarciaMartin2006].
+
+If $z$ is known, the inventory of a reasonably large area $a$ allow computing $c=a^z/S(a)$.
+Then, $S(A)$ can be calculated for any value of $A$.
+
+@Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots distributed across the area.
+The @Sorensen1948 dissimilarity between two plots is
+
+\begin{equation}
+  \chi = 2 (S_1 \cap S_2) / (S_1 + S_2)
+  (\#eq:Sorensen)
+\end{equation}
+
+where $S_1$ (respectively $S_2$ is the number of species in plot 1 (resp. 2) and $(S_1 \cap S_2)$ is the number of common species.
+
+Applied to plots of the same size separated by distance $d$, Harte's relation simplifies to
+\begin{equation}
+  \chi \sim d^{2z}
+  (\#eq:estimatez)
+\end{equation}
+
+that can be estimated by the linear model $\log(\chi) \sim 2z \log(d)$.
+The logarithm of the Sorensen dissimilarity between pair of plots can be regressed against the logarithm of the distance between the plots: the slope of the regression is twice the value of $z$.
+
+The relation (\@ref(eq:estimatez)) holds at the same scale as the power law, i.e. at the regional scale [Grilli2012].
+@Krishnamani2004 estimated $z \approx 0.12$ with a very good fit to the linear model at distances up from 1 km.
+Their major issue was to estimate the number of species at this scale, i.e. on a square kilometer area, by extrapolating small plot data, leading them to estimate scale-dependent values of $z$ at scales where the model is arguably not valid.
+
+A large enough inventory, provided by a permanent forest facility, is necessary along with a set of small, widely spread forest plots.
+
+The Paracou research station [@Gourlet-Fleury2004] is located at latitude 5°18′N and longitude 52°53′W.
+It contains 12 6.25-ha at one 16-ha plots of primary rainforest summing up to a compact 91-ha inventory that can be considered continuous at the scale of French Guiana (8 million hectares).
+
+
 
 ```{r}
 # Decrypt the vault
@@ -136,11 +181,19 @@ Sys.setenv(USER_KEY = usethis::proj_path(paste0(name_project, ".rsa")))
 Plots <- get_secret("Plots", vault = vault)
 Abundances <- get_secret("Abundances", vault = vault)
 ```
+**Decription of Guyadiv here**
 
+We take into account the 68 one-hectare plots of the network. 
+They are located in 21 locations that allow a quite good coverage of the variability of the forest in French Guiana (**map here**).
+The number of plots varies across locations so the estimation of $z$ must be made with care.
+We sampled one random plot at each location to obtain $21*20/2=210$ pairs of plots.
+We calculated the Sorensen dissimilarity $\chi$ and the geographic distance $d$ between each pair of plots.
+We estimated $z$ as half the coefficient of the distance variable in the linear model $\log(\chi) \sim \log(d)$.
+We repeated these steps 100 times to obtain a distribution of estimated $z$ values depending on the plots drawn in each location.
+
+All analyses were made with R [@R] v. 4.1.2.
 
 # Results
-
-## Plots
 
 ## Random plot
 
@@ -199,6 +252,7 @@ dist_plots %>%
     geom_point() +
     geom_smooth(method = lm)
 ```
+
 ## Bootstrap
 
 ```{r}
@@ -256,14 +310,13 @@ sim_z %>% density %>% plot
 entropart::as.SimTest(mean(sim_z), sim_z) %>% autoplot
 ```
 
-
-
-
 ## Extrapolation
 
 ```{r}
-# Extrapolation de Paracou : .625km², 604 sp > c=631
-(c <- 600/.625^z)
+# Extrapolation de Paracou : .625km², 604 sp > c=631. A mettre à jour.
+paracou_area <- .625
+paracou_S <- 604
+(c <- paracou_S/paracou_area^z)
 # Nombre d'espèces total
 (spsim <- c*80000^z)
 ```
