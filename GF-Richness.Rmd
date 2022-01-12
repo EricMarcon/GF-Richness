@@ -125,10 +125,10 @@ Self-similarity [@Harte1999] is a property based on scale invariance.
 Consider a species $s$ that is present in an area $A_0$, say French Guiana.
 The probability to find it in half the whole area, denoted $A_1$ is $h_s$.
 Then, if it is present $A_1$, the probability to find it in turn in half $A_1$, denoted $A_2$, is also $h_s$, and so on.
-The probability to find the species in $A_n$ is $h_s^n$.
+The probability to find the species in $A_n$ is thus $h_s^n$.
 In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, only depends on the relative size of the sub-area (half the parent area here for simplicity): it does not depend on the observation scale.
 
-Arrenhius's power law [@Arrhenius1921] is a consequence of the self-similarity property.
+Arrenhius's power law [@Arrhenius1921] is a consequence [@Harte1999] of the self-similarity property.
 The number of species $S(A)$ observed in an area $A$ is
 
 \begin{equation}
@@ -143,27 +143,27 @@ If $z$ is known, the inventory of a reasonably large area $a$ allows computing $
 Then, $S(A)$ can be calculated for any value of $A$.
 
 @Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots distributed across the area.
-The @Sorensen1948 dissimilarity between two plots is
+The @Sorensen1948 similarity between two plots is
 
 \begin{equation}
   \chi = 2 (S_1 \cap S_2) / (S_1 + S_2)
   (\#eq:Sorensen)
 \end{equation}
 
-where $S_1$ (respectively $S_2$ is the number of species in plot 1 (resp. 2) and $(S_1 \cap S_2)$ is the number of common species.
+where $S_1$ (respectively $S_2$ is the number of species in plot 1 (resp. plot 2) and $(S_1 \cap S_2)$ is the number of common species.
 
-Applied to plots of the same size separated by distance $d$, Harte's relation simplifies to
+Applied to plots of the same size separated by distance $d$, Sorensen's similarity decreases with distance following the relation $\chi \sim d^{-2z}$ [@Harte1999a] that can be estimated by the linear model
+
 \begin{equation}
-  \chi \sim d^{2z}
+  \log(\chi) \sim \log(d)
   (\#eq:estimatez)
 \end{equation}
 
-that can be estimated by the linear model $\log(\chi) \sim 2z \log(d)$.
-The logarithm of the Sorensen dissimilarity between pair of plots can be regressed against the logarithm of the distance between the plots: the slope of the regression is twice the value of $z$.
+The logarithm of the Sorensen dissimilarity between pair of plots can be regressed against the logarithm of the distance between the plots: the slope of the regression is $-2z$.
 
 The relation \@ref(eq:estimatez) holds at the same scale as the power law, i.e. at the regional scale [@Grilli2012].
-@Krishnamani2004 estimated $z \approx 0.12$ with a very good fit to the linear model at distances up from 1 km.
-Their major issue was to estimate the number of species at this scale, i.e. on a square kilometer area, by extrapolating small plot data, leading them to estimate scale-dependent values of $z$ at scales where the model is arguably not valid.
+@Krishnamani2004 estimated $z \approx 0.12$ with a very good fit to the linear model at distances up from 1 km but not below.
+Our data confirm that.
 
 A large enough inventory, provided by a permanent forest facility, is necessary along with a set of small, widely spread forest plots.
 
@@ -337,13 +337,41 @@ Taking into account the uncertainty about $z$, its 95% confidence interval is be
 
 # Discussion
 
+The self-similarity model allows estimating the number of species of tropical forests at a regional scale.
+It requires a network of plots at a wide range of distances from each other to estimate Arrhenius's power law parameter.
+It should be completed by a continuous inventory whose size is consistent with the smallest scale of the power law.
+These constraints explain why the method has not been widely applied, beyond @Krishnamani2004 and this paper.
+
+At smaller scales, i.e. inside a single community, the relation between area and number of species is described by species accumulation curves (SAC).
+It is driven by statistical models that address incomplete sampling.
+After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao's or the jackknife apply.
+@Krishnamani2004 did not have the necessary 100-ha inventory to estimate the number of species at this scale, so they used the self-similarity model to extrapolate small plot data.
+This lead them to estimate successive scale-dependent values of $z$ with no theoretical support: the model is arguably not valid.
+
+At the scale of the metacommunity, defined in the neutral model of biogeography, the species distribution is in log-series.
+@TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
+We applied the same method to our data (**Appendix**).
+Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist (** Reference **).
+The regional species pool does not follow a log-series distribution because of dispersal limitation.
+In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
+
+The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000.
+A lot of approximations were made to obtain this result:
+- z fit
+- Paracou is marginal
+- Guyadiv is not perfect
+- Species delimitation
+
+Yet it is a very likely estimation according to the current knowledge > JF.
+
+
 # Appendix
 
 ## Similarity distance decay
 
-## Random plot
+The relation between Sorensen's similarity and distance is shown in figure *n
 
-One plot per location
+### Sample
 
 ```{r}
 # One plot per location...
@@ -374,7 +402,7 @@ Plots %>%
 ```
 
 
-## Sorensen
+### Sorensen
 
 ```{r}
 library("ade4") %>% suppressMessages()
@@ -385,7 +413,7 @@ Abundances %>%
 Sorensen <- 1-Sorensen
 ```
 
-## Relation
+### Relation
 
 ```{r}
 tibble(Sorensen=as.numeric(log10(Sorensen)), Distance=as.numeric(log10(Distances))) %>% 
@@ -398,7 +426,8 @@ dist_plots %>%
     geom_point() +
     geom_smooth(method = lm)
 ```
-## Fisher
+
+## Log-series estimation of the number of species
 
 ```{r}
 # Nombre d'arbres
