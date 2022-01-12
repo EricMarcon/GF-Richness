@@ -84,7 +84,7 @@ InstallPackages(Packages)
 # knitr options
 knitr::opts_chunk$set(
   cache=TRUE, # Cache chunk results
-  echo=TRUE, # Show/Hide R chunks
+  echo=FALSE, # Show/Hide R chunks
   warning=FALSE, # Show/Hide warnings
   messages=FALSE, # Show/Hide messages
   # Figure alignment and size
@@ -98,7 +98,7 @@ knitr::opts_chunk$set(
 options(width=50)
 
 # ggplot style
-library("tidyverse", "ade4")
+library("tidyverse")
 theme_set(theme_bw())
 theme_update(panel.background=element_rect(fill="transparent", colour=NA),
              plot.background=element_rect(fill="transparent", colour=NA))
@@ -139,7 +139,7 @@ The number of species $S(A)$ observed in an area $A$ is
 where $z$ is the power parameter and $c$ is the number of species in an area of size 1.
 This is a classical relation in macroecology, with long empirical and theoretical support [@GarciaMartin2006].
 
-If $z$ is known, the inventory of a reasonably large area $a$ allow computing $c=a^z/S(a)$.
+If $z$ is known, the inventory of a reasonably large area $a$ allows computing $c=a^z/S(a)$.
 Then, $S(A)$ can be calculated for any value of $A$.
 
 @Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots distributed across the area.
@@ -161,39 +161,185 @@ Applied to plots of the same size separated by distance $d$, Harte's relation si
 that can be estimated by the linear model $\log(\chi) \sim 2z \log(d)$.
 The logarithm of the Sorensen dissimilarity between pair of plots can be regressed against the logarithm of the distance between the plots: the slope of the regression is twice the value of $z$.
 
-The relation (\@ref(eq:estimatez)) holds at the same scale as the power law, i.e. at the regional scale [Grilli2012].
+The relation \@ref(eq:estimatez) holds at the same scale as the power law, i.e. at the regional scale [@Grilli2012].
 @Krishnamani2004 estimated $z \approx 0.12$ with a very good fit to the linear model at distances up from 1 km.
 Their major issue was to estimate the number of species at this scale, i.e. on a square kilometer area, by extrapolating small plot data, leading them to estimate scale-dependent values of $z$ at scales where the model is arguably not valid.
 
 A large enough inventory, provided by a permanent forest facility, is necessary along with a set of small, widely spread forest plots.
 
+```{r Paracou}
+# 3 control plots in blocks, p13-15, p16
+paracou_area <- (6*6.25+25)/100
+# From Paracou database
+paracou_S <- 604
+```
+
+```{r FrenchGuiana}
+# Extrapolation area in squared km
+A0 <- 80000
+```
 The Paracou research station [@Gourlet-Fleury2004] is located at latitude 5°18′N and longitude 52°53′W.
-It contains 12 6.25-ha at one 16-ha plots of primary rainforest summing up to a compact 91-ha inventory that can be considered continuous at the scale of French Guiana (8 million hectares).
+It contains six 6.25-ha and one 25-ha plots of primary rainforest summing up to a compact `r paracou_area`-ha inventory that can be considered continuous at the scale of French Guiana (`r A0/1000` million hectares).
 
-
-
-```{r}
+```{r Guyadiv}
+library("tidyverse") %>% suppressMessages()
 # Decrypt the vault
 library("secret") %>% suppressMessages()
 name_project <- "GF-Richness"
 vault <- "vault"
 Sys.setenv(USER_KEY = usethis::proj_path(paste0(name_project, ".rsa")))
+# Plots: code, location, X, Y
 Plots <- get_secret("Plots", vault = vault)
+# Abundances of species in each plot
 Abundances <- get_secret("Abundances", vault = vault)
+# Number of plots
+guyadiv_plots <- nrow(Plots)
+# Number of locations
+guyadiv_locations <- length(unique(Plots$Location))
 ```
 **Decription of Guyadiv here**
 
-We take into account the 68 one-hectare plots of the network. 
-They are located in 21 locations that allow a quite good coverage of the variability of the forest in French Guiana (**map here**).
+```{r n_simulations}
+# Number of simulations to run
+n_simulations <- 100L
+```
+
+
+We take into account the `r guyadiv_plots` one-hectare plots of the network. 
+They are located in `r guyadiv_locations` locations that allow a quite good coverage of the variability of the forest in French Guiana (**map here**).
 The number of plots varies across locations so the estimation of $z$ must be made with care.
-We sampled one random plot at each location to obtain $21*20/2=210$ pairs of plots.
+We sampled one random plot at each location to obtain $`r guyadiv_locations` \times `r guyadiv_locations-1`/2 = 210$ pairs of plots.
 We calculated the Sorensen dissimilarity $\chi$ and the geographic distance $d$ between each pair of plots.
 We estimated $z$ as half the coefficient of the distance variable in the linear model $\log(\chi) \sim \log(d)$.
-We repeated these steps 100 times to obtain a distribution of estimated $z$ values depending on the plots drawn in each location.
+We repeated these steps `r n_simulations` times to obtain a distribution of estimated $z$ values depending on the plots drawn in each location.
+The empirical mean $\mu_z$ and standard devation $\sigma_z$ of the distribution were calculated.
+$z$ was estimated as $\mu_z$ with a 95% confidence interval equal to $\pm t \sigma_z / \sqrt(`r n_simulations`)$.
 
 All analyses were made with R [@R] v. 4.1.2.
 
 # Results
+
+```{r estimate_z}
+library("ade4")
+library("broom")
+library("dbmss")
+# estimate_z selects one random plot per location,
+# estimates log(Sorensen) ~ log(Distance)
+# and returns z
+estimate_z <- function() {
+  # Select one plot per location...
+  Plots %>% 
+    # Set a random value to each plot
+    mutate(Random=runif(n())) -> 
+    RandomizedPlots
+  RandomizedPlots %>% 
+    group_by(Location) %>%
+    # Select the plot with the max random value in each location
+    summarize(MaxRandom=max(Random)) %>% 
+    rename(Random=MaxRandom) %>% 
+    # Eliminate non-selected plots
+    inner_join(RandomizedPlots) %>% 
+    suppressMessages %>% 
+    select(Plot) -> 
+    SelectedPlots
+  # Calculate distances
+  Plots %>% 
+    # Selected plots only
+    inner_join(SelectedPlots) %>%
+    suppressMessages %>% 
+    rename(PointName=Plot, X=X_UTM, Y=Y_UTM, PointType=Location) %>% 
+    mutate(PointWeight=1) %>% 
+    # Create a weighted, marked planar point pattern (dbmss)
+    wmppp(unitname = c("meter", "meters")) %>% 
+    suppressWarnings %>% 
+    # Calculate distances between pairs of plots
+    pairdist() %>% 
+    # Make a dist object (ade4)
+    as.dist -> 
+    Distances
+  # Calculate Sorensen divergence
+  Abundances %>% 
+    # Selected plots only
+    inner_join(SelectedPlots) %>% 
+    suppressMessages %>% 
+    select(-Plot) %>% 
+    # Calculate Sorensen similarity
+    dist.binary(method = 5) -> 
+    Sorensen
+  # Sorensen dissimilarity
+  Sorensen <- 1-Sorensen
+  # Regress log(Sorensen) ~ log(Distance)
+  tibble(Sorensen=as.numeric(log10(Sorensen)), 
+         Distance=as.numeric(log10(Distances))) %>% 
+    # Distances over 1km
+    dplyr::filter(Distance > 3) %>% 
+    # Estimate the model
+    lm(Sorensen~Distance, data=.) %>% 
+    # Extract the slope
+    tidy %>% 
+    dplyr::filter(term == "Distance") %>% 
+    select(estimate) %>% 
+    pull -> 
+    slope
+  # z is negative half the slope
+  z <- -slope/2
+  return(z)
+}
+```
+
+```{r bootstrap_z}
+if (interactive()) {
+  # Prepare a progress bar
+  pgb <- txtProgressBar(min=0, max=n_simulations)
+  # To store bootstrapped z values
+  sim_z <- rep(0, n_simulations)
+  # Run simulations
+  for (i in 1:n_simulations) {
+    sim_z[i] <- estimate_z()
+    setTxtProgressBar(pgb, i)
+  }
+} else {
+  # Compact code
+  sim_z <- replicate(n_simulations, estimate_z())
+}
+
+# Statistics
+z <- mean(sim_z)
+z_sigma <- sd(sim_z)
+alpha <- 0.05
+z_ci <- quantile(sim_z, probs = c(alpha/2, 1-alpha/2))
+# Not retained: standard error of the mean
+# z_ci <- qt(1-alpha/2,
+#           df=guyadiv_locations*(guyadiv_locations-1)/2 -2) *
+#  z_sigma / sqrt(n_simulations)
+
+# Plot the distribution of z
+# entropart::as.SimTest(z, sim_z) %>% autoplot
+```
+
+The estimated value of $z$ is `r z %>% round(3) %>% format(nsmall=2)` with a 95% confidence interval between `r z_ci[1] %>% round(3) %>% format(nsmall=3)` and `r z_ci[2] %>% round(3) %>% format(nsmall=3)`.
+
+```{r estimate_c}
+# From Paracou data
+c_est <- paracou_S/paracou_area^z
+```
+
+The number of species per squared kilometer, $c$, is `r c_est %>% round(0)`.
+
+```{r estimate_S}
+# Estimated number of species
+S <- c_est * A0^z
+S_ci <- c_est * A0^z_ci
+```
+
+Finally, the estimated number of species is `r S %>% round(0)`.
+Taking into account the uncertainty about $z$, its 95% confidence interval is between `r S_ci[1] %>% round(0) ` and `r S_ci[2] %>% round(0)`.
+
+# Discussion
+
+# Appendix
+
+## Similarity distance decay
 
 ## Random plot
 
@@ -252,75 +398,6 @@ dist_plots %>%
     geom_point() +
     geom_smooth(method = lm)
 ```
-
-## Bootstrap
-
-```{r}
-library("broom")
-estimate_z <- function() {
-  # Select one plot per location...
-  Plots %>% 
-    mutate(Random=runif(n())) -> 
-    RandomizedPlots
-  RandomizedPlots %>% 
-    group_by(Location) %>%
-    summarize(MaxRandom=max(Random)) %>% 
-    rename(Random=MaxRandom) %>% 
-    inner_join(RandomizedPlots) %>% 
-    suppressMessages %>% 
-    select(Plot) -> 
-    SelectedPlots
-  # Calculate distances
-  Plots %>% 
-    inner_join(SelectedPlots) %>%
-    suppressMessages %>% 
-    rename(PointName=Plot, X=X_UTM, Y=Y_UTM, PointType=Location) %>% 
-    mutate(PointWeight=1) %>% 
-    wmppp(unitname = c("meter", "meters")) %>% 
-    suppressWarnings %>% 
-    pairdist() %>% 
-    as.dist -> 
-    Distances
-  # Calculate Sorensen divergence
-  Abundances %>% 
-    inner_join(SelectedPlots) %>% 
-    suppressMessages %>% 
-    select(-Plot) %>% 
-    dist.binary(method = 5) -> Sorensen
-  Sorensen <- 1-Sorensen
-  # Regress
-  tibble(Sorensen=as.numeric(log10(Sorensen)), Distance=as.numeric(log10(Distances))) %>% 
-    dplyr::filter(Distance > 3) %>% 
-    lm(Sorensen~Distance, data=.) %>% 
-    tidy %>% 
-    dplyr::filter(term == "Distance") %>% 
-    select(estimate) %>% 
-    pull -> z
-  z <- -z/2
-  return(z)
-}
-n_simulations <- 100
-pgb <- txtProgressBar(min=0, max=n_simulations)
-sim_z <- rep(0, n_simulations)
-for (i in 1:n_simulations) {
-    sim_z[i] <- estimate_z()
-    setTxtProgressBar(pgb, i)
-}
-sim_z %>% density %>% plot
-entropart::as.SimTest(mean(sim_z), sim_z) %>% autoplot
-```
-
-## Extrapolation
-
-```{r}
-# Extrapolation de Paracou : .625km², 604 sp > c=631. A mettre à jour.
-paracou_area <- .625
-paracou_S <- 604
-(c <- paracou_S/paracou_area^z)
-# Nombre d'espèces total
-(spsim <- c*80000^z)
-```
-
 ## Fisher
 
 ```{r}
@@ -371,6 +448,5 @@ abline(h=Ntrees/2, lty=2, col="red")
 hdSpecies <- min(which(cumsum(EstimatedAbd)>Ntrees/2))
 abline(v=hdSpecies, lty=2, col="red")
 ```
-
 
 `r if (!knitr:::is_latex_output()) '# References {-}'`
