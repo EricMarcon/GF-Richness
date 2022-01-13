@@ -41,11 +41,9 @@ biblio-style: chicago
 toc-depth: 2
 always_allow_html: yes
 output:
-  bookdown::pdf_book:
-    template: latex/template.tex
-    citation_package: natbib
-    latex_engine: xelatex
-    keep_tex: yes
+  bookdown::html_document2:
+    toc: yes
+    toc_float: yes
   rmdformats::downcute:
     use_bookdown: yes
     lightbox: yes
@@ -55,9 +53,11 @@ output:
       download: "pdf"
       sharing:
         github: yes
-  bookdown::html_document2:
-    toc: yes
-    toc_float: yes
+  bookdown::pdf_book:
+    template: latex/template.tex
+    citation_package: natbib
+    latex_engine: xelatex
+    keep_tex: yes
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -154,7 +154,7 @@ The number of species $S(A)$ observed in an area $A$ is
 \end{equation}
 
 where $z$ is the power parameter and $c$ is the number of species in an area of size 1.
-This is a classical relation in macroecology, with long empirical and theoretical support [@GarciaMartin2006].
+This is a classical relation in macroecology, with long empirical and theoretical support [@Williamson2001; @GarciaMartin2006].
 
 If $z$ is known, the inventory of a reasonably large area $a$ allows computing $c=a^z/S(a)$.
 Then, $S(A)$ can be calculated for any value of $A$.
@@ -167,7 +167,7 @@ The @Sorensen1948 similarity between two plots is
   (\#eq:Sorensen)
 \end{equation}
 
-where $S_1$ (respectively $S_2$ is the number of species in plot 1 (resp. plot 2) and $(S_1 \cap S_2)$ is the number of common species.
+where $S_1$ (respectively $S_2$) is the number of species in plot 1 (resp. plot 2) and $S_1 \cap S_2$ is the number of common species.
 
 Applied to plots of the same size separated by distance $d$, Sorensen's similarity decreases with distance following the relation $\chi \sim d^{-2z}$ [@Harte1999a] that can be estimated by the linear model
 
@@ -197,6 +197,7 @@ A0 <- 80000
 ```
 The Paracou research station [@Gourlet-Fleury2004] is located at latitude 5°18′N and longitude 52°53′W.
 It contains six 6.25-ha and one 25-ha plots of primary rainforest summing up to a compact `r paracou_area`-ha inventory that can be considered continuous at the scale of French Guiana (`r A0/1000` million hectares).
+The number of tree species in this area is `r paracou_S`.
 
 ```{r Guyadiv}
 library("tidyverse")
@@ -218,7 +219,7 @@ guyadiv_locations <- length(unique(Plots$Location))
 
 ```{r n_simulations}
 # Number of simulations to run
-n_simulations <- 100L
+n_simulations <- 1000L
 ```
 
 
@@ -229,8 +230,8 @@ We sampled one random plot at each location to obtain $`r guyadiv_locations` \ti
 We calculated the Sorensen dissimilarity $\chi$ and the geographic distance $d$ between each pair of plots.
 We estimated $z$ as half the coefficient of the distance variable in the linear model $\log(\chi) \sim \log(d)$.
 We repeated these steps `r n_simulations` times to obtain a distribution of estimated $z$ values depending on the plots drawn in each location.
-The empirical mean $\mu_z$ and standard devation $\sigma_z$ of the distribution were calculated.
-$z$ was estimated as $\mu_z$ with a 95% confidence interval equal to $\pm t \sigma_z / \sqrt(`r n_simulations`)$.
+n were calculated.
+$z$ was estimated as the empirical mean of the distribution and its 95% confidence interval was obtained by eliminating the 2.5% extreme values on both tails.
 
 All analyses were made with R [@R] v. 4.1.2.
 
@@ -331,7 +332,7 @@ z_ci <- quantile(sim_z, probs = c(alpha/2, 1-alpha/2))
 # entropart::as.SimTest(z, sim_z) %>% autoplot
 ```
 
-The estimated value of $z$ is `r z %>% round(3) %>% format(nsmall=2)` with a 95% confidence interval between `r z_ci[1] %>% round(3) %>% format(nsmall=3)` and `r z_ci[2] %>% round(3) %>% format(nsmall=3)`.
+The estimated value of $z$ is `r z %>% round(3) %>% format(nsmall=3)` with a 95% confidence interval between `r z_ci[1] %>% round(3) %>% format(nsmall=3)` and `r z_ci[2] %>% round(3) %>% format(nsmall=3)`.
 
 ```{r estimate_c}
 # From Paracou data
@@ -356,27 +357,38 @@ It requires a network of plots at a wide range of distances from each other to e
 It should be completed by a continuous inventory whose size is consistent with the smallest scale of the power law.
 These constraints explain why the method has not been widely applied, beyond @Krishnamani2004 and this paper.
 
-At smaller scales, i.e. inside a single community, the relation between area and number of species is described by species accumulation curves (SAC).
-It is driven by statistical models that address incomplete sampling.
-After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao's or the jackknife apply.
+At smaller scales, i.e. inside a single community, the relation between area and number of species is described by species accumulation curves [SAC: @Gotelli2001].
+It is driven by statistical models that address incomplete sampling [@Shen2003; @Beguinot2015a].
+After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao's [@Chao2004] or the jackknife [@Burnham1978] apply.
 @Krishnamani2004 did not have the necessary 100-ha inventory to estimate the number of species at this scale, so they used the self-similarity model to extrapolate small plot data.
 This lead them to estimate successive scale-dependent values of $z$ with no theoretical support: the model is arguably not valid.
 
-At the scale of the metacommunity, defined in the neutral model of biogeography, the species distribution is in log-series.
+At the scale of the metacommunity, defined in the neutral model of biogeography [@Hubbell2001], the species distribution is in log-series [@Hubbell2001; @Volkov2003].
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
 We applied the same method to our data in appendix \@ref(apd-logseries).
 Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist (**Reference**).
-The regional species pool does not follow a log-series distribution because of dispersal limitation.
+The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
+As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
 
-The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000.
-A lot of approximations were made to obtain this result:
-- z fit
-- Paracou is marginal
-- Guyadiv is not perfect
-- Species delimitation
+The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
+As shown in figure \@ref(fig:slope), the fit of the linear model is not perfect.
+The theory does not address habitat variation, that is well-described in French Guiana [@Guitet2015b].
+The dissimilarity between plot pairs is thus explained by distance and habitat dissimilarity, the latter ignored in the model.
+Yet, the estimation of $z$ is quite robust because the Guyadiv network covers a wide range of habitats, allowing to cancel out local variability.
+Its value `r z %>% round(3) %>% format(nsmall=3)` is in line with that of @Krishnamani2004 in another tropical forest: it is very small compared to the classical 0.25 of @Arrhenius1921 or 0.263 of @Preston1962. 
+This was discussed by @MacArthur1967, chapter 2.
+The power law applies to embedded scales of the same ecosystem here, in contrast to the usual sets of isolated islands providing the data [@Triantis2012]: in our case, the number of species increases less with the area, leading to smaller $z$ values.
 
-Yet it is a very likely estimation according to the current knowledge > JF.
+Another issue of the estimation is due to its unique starting point, i.e. Paracou field station, that is not representative of the whole French Guiana.
+Actually, it is located at the edge of the forest, close to the coast.
+Again, the self-similarity model assumes that $c$, the number of species per squared kilometer, is the same everywhere.
+Local, observed values must be understood as variations around the real $c$, that should be estimated by replicating inventories across the whole region.
+This is of course impossible due to the huge necessary resources needed to settle a single one so Paracou's local richness adjusted to 1 km<sup>2</sup>  must be considered as the best available estimator of $c$.
+Its uncertainty cannot be evaluated because of the lack of replication.
+Its effect on the number of estimated species is proportional.
+
+2000 species are a very likely estimation according to the current knowledge **> JF**.
 
 
 # Appendix
