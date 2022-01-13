@@ -5,4 +5,4 @@
 
 Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness.
 
-[Read](https://github.com/EricMarcon/GF-Richness/GF-Richness.html) or [download](https://github.com/EricMarcon/GF-Richness/GF-Richness.pdf).
+[Read](https://ericmarcon.github.io/GF-Richness/GF-Richness.html) or [download](https://ericmarcon.github.io/GF-Richness/GF-Richness.pdf).
