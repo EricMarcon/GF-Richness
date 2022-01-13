@@ -1,4 +1,4 @@
-\documentclass[fleqn,$fontsize$]{article} % Document font size and equations flushed left
+\documentclass[fleqn,$fontsize$]{latex/stylish_article} % Document font size and equations flushed left
 
 \setcounter{tocdepth}{$toc-depth$}
 
@@ -51,7 +51,7 @@
 $if(csl-refs)$
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
-\newenvironment{CSLReferences}%
+\newenvironment{cslreferences}%
   {$if(csl-hanging-indent)$\setlength{\parindent}{0pt}%
   \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces$endif$}%
   {\par}
@@ -87,16 +87,38 @@ $endif$
   \setlist[enumerate]{noitemsep,nolistsep}
 
 % Tables
-\usepackage{longtable,booktabs,tabu}
-\usepackage{caption}                % Après babel
+\usepackage{longtable,booktabs}
+\usepackage{caption}
 % These lines are needed to make table captions work with longtable:
 \makeatletter
 \def\fnum@table{\tablename~\thetable}
 \makeatother
-\usepackage{tabularx}               % Line breaks in tables
-  \renewcommand{\arraystretch}{1.8}
-\usepackage{multirow}               % Merged lines in tables
+% longtable 2 columns
+% https://tex.stackexchange.com/questions/161431/how-to-solve-longtable-is-not-in-1-column-mode-error
+\makeatletter
+\let\oldlt\longtable
+\let\endoldlt\endlongtable
+\def\longtable{\@ifnextchar[\longtable@i \longtable@ii}
+\def\longtable@i[#1]{\begin{figure}[t]
+\onecolumn
+\begin{minipage}{0.5\textwidth}\scriptsize
+\oldlt[#1]
+}
+\def\longtable@ii{\begin{figure}[t]
+\onecolumn
+\begin{minipage}{0.5\textwidth}\scriptsize
+\oldlt
+}
+\def\endlongtable{\endoldlt
+\end{minipage}
+\twocolumn
+\end{figure}}
+\makeatother
 
+% Full-width tables
+\usepackage{tabu}
+\renewenvironment{table}{\begin{table*}}{\end{table*}\ignorespacesafterend}
+  
 $if(preamble)$
 % User-adder preamble
 $preamble$
@@ -106,33 +128,53 @@ $endif$
 \RequirePackage{hyperref}           % Hypertext links, PDF bookmarks
   \hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true}
 
-
 %----------------------------------------------------------------------------------------
 %	ARTICLE INFORMATION
 %----------------------------------------------------------------------------------------
 
-\title{$title$} % Article title
+$if(journalinfo)$
+\JournalInfo{$journalinfo$} % Journal information
+$else$
+\JournalInfo{\ }
+$endif$
+$if(archive)$
+\Archive{$archive$} % Additional notes (e.g. copyright, DOI, review/research article)
+$else$
+\Archive{\ }
+$endif$
 
-\author{
-$for(author)$$author.name$$sep$\\ $endfor$
+\PaperTitle{$title$} % Article title
+
+\Authors{
+$for(author)$$author.name$\textsuperscript{$author.authsuperscript$}$sep$\\ $endfor$
 } % Authors
+\affiliation{
+$for(affiliation)$\textsuperscript{$affiliation.affsuperscript$}$affiliation.dptuniv$\\ \hspace{1em} $affiliation.address$$sep$\\$endfor$
+}
+\affiliation{*\textbf{$corrauthorlabel$}: $corrauthor.email$, $if(corrauthor.url)$$corrauthor.url$$endif$} % Corresponding author
 
+\Keywords{$for(keywords)$$keywords$$sep$, $endfor$} % Keywords
+\newcommand{\keywordname}{$keywordlabel$} % Defines the keywords heading name
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\Abstract{
+$abstract$
+}
+
+%----------------------------------------------------------------------------------------
 
 \begin{document}
 
 \selectlanguage{$lang$}
 
+\flushbottom % Makes all text pages the same height
+
 \maketitle % Print the title and abstract box
 
-$if(abstract)$
-\begin{abstract}
-$abstract$
-\end{abstract}
-$endif$
-
-$if(pdftoc)$
 \tableofcontents % Print the contents section
-$endif$
 
 \thispagestyle{empty} % Removes page numbering from the first page
 

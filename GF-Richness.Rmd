@@ -1,11 +1,50 @@
 ---
-title: "How many tree species in French Guiana Tropical Moist Forest?"
+title: "Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness"
 author:
   - name: "Eric Marcon"
+    authsuperscript: 1*
   - name: "Ariane Mirabel"
+    authsuperscript: 2
   - name: "Jean-François Molino"
+    authsuperscript: 3
   - name: "Grégoire Vincent"
+    authsuperscript: 4
   - name: "Daniel Sabatier"
+    authsuperscript: 5
+affiliation:
+  - affsuperscript: 1
+    dptuniv: "Department / University"
+    address: >
+      Street address,
+      Zip code,
+      Country.
+  - affsuperscript: 2
+    dptuniv: "Department / University"
+    address: >
+      Street address,
+      Zip code,
+      Country.
+  - affsuperscript: 3
+    dptuniv: "Department / University"
+    address: >
+      Street address,
+      Zip code,
+      Country.
+  - affsuperscript: 4
+    dptuniv: "Department / University"
+    address: >
+      Street address,
+      Zip code,
+      Country.
+  - affsuperscript: 5
+    dptuniv: "Department / University"
+    address: >
+      Street address,
+      Zip code,
+      Country.
+corrauthor:
+    email: eric.marcon@agroparistech.fr
+    url: https://www.company.com
 abstract: >
   The biodiversity of tropical rainforest is difficult to assess. 
   Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories.
@@ -13,6 +52,9 @@ abstract: >
   We can then extrapolate the number of species from a local, wide inventory (62.5 ha in Paracou research station).
   We evaluate the number of tree species around 2000 over the territory.
 date: "`r format(Sys.time(), '%d %B %Y')`"
+keywords: [keyword1, keyword2, etc]
+journalinfo: "Publication reference"
+archive: "DOI: xxx/xx"
 url: https://GitHubID.github.io/Repository/
 github-repo: GitHubID/Repository
 lang: en-US
@@ -24,9 +66,11 @@ pdftoc: false
 toc-depth: 3
 always_allow_html: yes
 output:
-  bookdown::html_document2:
-    toc: yes
-    toc_float: yes
+  bookdown::pdf_book:
+    template: latex/template.tex
+    citation_package: natbib
+    latex_engine: xelatex
+    keep_tex: yes
   rmdformats::downcute:
     use_bookdown: yes
     lightbox: yes
@@ -36,11 +80,9 @@ output:
       download: "pdf"
       sharing:
         github: yes
-  bookdown::pdf_book:
-    template: latex/template.tex
-    citation_package: natbib
-    latex_engine: xelatex
-    keep_tex: yes
+  bookdown::html_document2:
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -155,7 +197,7 @@ where $S_1$ (respectively $S_2$ is the number of species in plot 1 (resp. plot 2
 Applied to plots of the same size separated by distance $d$, Sorensen's similarity decreases with distance following the relation $\chi \sim d^{-2z}$ [@Harte1999a] that can be estimated by the linear model
 
 \begin{equation}
-  \log(\chi) \sim \log(d)
+  \log(\chi) \sim \log(d).
   (\#eq:estimatez)
 \end{equation}
 
@@ -348,7 +390,7 @@ This lead them to estimate successive scale-dependent values of $z$ with no theo
 At the scale of the metacommunity, defined in the neutral model of biogeography, the species distribution is in log-series.
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
 We applied the same method to our data in appendix \@ref(apd-logseries).
-Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist (** Reference **).
+Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist (**Reference**).
 The regional species pool does not follow a log-series distribution because of dispersal limitation.
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 
