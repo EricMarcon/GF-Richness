@@ -86,7 +86,7 @@ knitr::opts_chunk$set(
   cache=TRUE, # Cache chunk results
   echo=FALSE, # Show/Hide R chunks
   warning=FALSE, # Show/Hide warnings
-  messages=FALSE, # Show/Hide messages
+  message=FALSE, # Show/Hide messages
   # Figure alignment and size
   fig.align='center', out.width='80%',
   # Graphic devices (ragg_png is better than standard png)
@@ -182,9 +182,9 @@ The Paracou research station [@Gourlet-Fleury2004] is located at latitude 5°18�
 It contains six 6.25-ha and one 25-ha plots of primary rainforest summing up to a compact `r paracou_area`-ha inventory that can be considered continuous at the scale of French Guiana (`r A0/1000` million hectares).
 
 ```{r Guyadiv}
-library("tidyverse") %>% suppressMessages()
+library("tidyverse")
 # Decrypt the vault
-library("secret") %>% suppressMessages()
+library("secret")
 name_project <- "GF-Richness"
 vault <- "vault"
 Sys.setenv(USER_KEY = usethis::proj_path(paste0(name_project, ".rsa")))
@@ -239,14 +239,12 @@ estimate_z <- function() {
     rename(Random=MaxRandom) %>% 
     # Eliminate non-selected plots
     inner_join(RandomizedPlots) %>% 
-    suppressMessages %>% 
     select(Plot) -> 
     SelectedPlots
   # Calculate distances
   Plots %>% 
     # Selected plots only
     inner_join(SelectedPlots) %>%
-    suppressMessages %>% 
     rename(PointName=Plot, X=X_UTM, Y=Y_UTM, PointType=Location) %>% 
     mutate(PointWeight=1) %>% 
     # Create a weighted, marked planar point pattern (dbmss)
@@ -261,12 +259,11 @@ estimate_z <- function() {
   Abundances %>% 
     # Selected plots only
     inner_join(SelectedPlots) %>% 
-    suppressMessages %>% 
     select(-Plot) %>% 
-    # Calculate Sorensen similarity
+    # Calculate Sorensen dissimilarity
     dist.binary(method = 5) -> 
     Sorensen
-  # Sorensen dissimilarity
+  # Sorensen similarity
   Sorensen <- 1-Sorensen
   # Regress log(Sorensen) ~ log(Distance)
   tibble(Sorensen=as.numeric(log10(Sorensen)), 
@@ -350,7 +347,7 @@ This lead them to estimate successive scale-dependent values of $z$ with no theo
 
 At the scale of the metacommunity, defined in the neutral model of biogeography, the species distribution is in log-series.
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
-We applied the same method to our data (**Appendix**).
+We applied the same method to our data in appendix \@ref(apd-logseries).
 Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist (** Reference **).
 The regional species pool does not follow a log-series distribution because of dispersal limitation.
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
@@ -369,113 +366,106 @@ Yet it is a very likely estimation according to the current knowledge > JF.
 
 ## Similarity distance decay
 
-The relation between Sorensen's similarity and distance is shown in figure *n
+The relation between Sorensen's similarity and distance is shown in figure \@ref(fig:slope).
+All pairs of plots more than 1 km apart are shown.
+The estimation of $z$ is not made this way because some locations contain more plots than others so their weight is increased.
+The technique used in the text of the paper consists of drawing a random plot in each location to estimate $z$, and repeat this process a large number of times to estimate the expectation of $z$.
 
-### Sample
+(ref:slope) Relation between Sorensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 1km apart. A linear model is fitted: the slope of the regression is $-2z$.
+```{r slope, fig.cap="(ref:slope)"}
+library("ade4")
+library("dbmss")
 
-```{r}
-# One plot per location...
+# Calculate distances between plots
 Plots %>% 
-  mutate(Random=runif(n())) -> 
-  RandomizedPlots
-RandomizedPlots %>% 
-  group_by(Location) %>%
-  summarize(MaxRandom=max(Random)) %>% 
-  rename(Random=MaxRandom) %>% 
-  inner_join(RandomizedPlots) %>% 
-  select(Plot) -> 
-  SelectedPlots
-
-# ...or all plots
-# SelectedPlots <- Plots["Plot"]
-
-# Distances
-library("dbmss") %>% suppressMessages()
-Plots %>% 
-  inner_join(SelectedPlots) %>%
   rename(PointName=Plot, X=X_UTM, Y=Y_UTM, PointType=Location) %>% 
   mutate(PointWeight=1) %>% 
+  # Create a weighted, marked planar point pattern (dbmss)
   wmppp(unitname = c("meter", "meters")) %>% 
+  suppressWarnings %>% 
+  # Calculate distances between pairs of plots
   pairdist() %>% 
+  # Make a dist object (ade4)
   as.dist -> 
   Distances
-```
 
-
-### Sorensen
-
-```{r}
-library("ade4") %>% suppressMessages()
+# Calculate Sorensen's similarity
 Abundances %>% 
-  inner_join(SelectedPlots) %>% 
   select(-Plot) %>% 
-  dist.binary(method = 5) -> Sorensen
+  # Calculate Sorensen dissimilarity
+  dist.binary(method = 5) -> 
+  Sorensen
+# similarity
 Sorensen <- 1-Sorensen
-```
 
-### Relation
-
-```{r}
-tibble(Sorensen=as.numeric(log10(Sorensen)), Distance=as.numeric(log10(Distances))) %>% 
-  filter(Distance > 3) -> dist_plots
-lm(Sorensen~Distance, data=dist_plots) -> regression
-regression %>% summary()
-(-regression$coefficients[2]/2 -> z)
-dist_plots %>% 
+# Regress log(Sorensen) ~ log(Distance)
+tibble(Sorensen=as.numeric(log10(Sorensen)), 
+       Distance=as.numeric(log10(Distances))) %>% 
+  # Distances over 1km
+  dplyr::filter(Distance > 3) %>% 
   ggplot(aes(x=Distance, y=Sorensen)) +
     geom_point() +
     geom_smooth(method = lm)
 ```
 
-## Log-series estimation of the number of species
 
-```{r}
-# Nombre d'arbres
-Ntrees <- 8*10^6 * mean(colSums(Abundances[, -1]))
-# Taux de couverture par placette
-###########################
-library("entropart") %>% suppressMessages()
-C <- apply(Abundances[, -1], 1, function(X) Coverage(X))
-# Distribution de probabilités, corrigée par les taux de couverture
+## Log-series estimation of the number of species {#apd-logseries}
+
+Assuming that the plots are samples of a metacommunity that follows a log-series distribution, the rank-abundance curve can be extrapolated (figure \@ref(fig:logseries)) following @TerSteege2013.
+
+(ref:logseries) Extrapolation of the rank-abundance curve built from the Guyadiv plots.
+```{r logseries, fig.cap="(ref:logseries)"}
+# Number of trees = area x number of trees per 1-ha plot
+n_trees <- round(A0 * 100 * mean(colSums(Abundances[, -1])))
+
+# Coverage by plot
+library("entropart")
+C <- apply(Abundances[, -1], 1, Coverage, CheckArguments=FALSE)
+
+# Probability of species in the metacommunity, corrected by coverage
 ObsProba <- C %*% as.matrix(Abundances[, -1]/rowSums(Abundances[, -1]))/nrow(Abundances)
-plot(as.ProbaVector(ObsProba))
-# Abondances
-EstimatedAbd <- as.AbdVector(round(ObsProba*Ntrees, 0))
-# 50% centraux
-EA50 <- as.AbdVector(sort(EstimatedAbd, decreasing = T)[round(length(EstimatedAbd)/4):round(length(EstimatedAbd)*3/4)])
-x <- 1:length(EA50)
+
+# Estimated abundance of species
+EstimatedAbd <- as.AbdVector(ObsProba*n_trees)
+
+# Central 50% of the curve
+EA50 <- as.AbdVector(sort(EstimatedAbd, decreasing = TRUE)[round(length(EstimatedAbd)/4):round(length(EstimatedAbd)*3/4)])
+x <- seq_along(EA50)
 y <- as.numeric(log(EA50))
-# Régression rang-abondance sur la partie rectiligne de la courbe
+
+# Regress abundance ~ rank
 EA50lm <- lm(y ~ x)
-# Nombre d'espèces extrapolé
-NbSpecies <- round(-EA50lm$coefficients[1]/EA50lm$coefficients[2]) + round(length(EstimatedAbd)/4)-1
-# Régression de la partie rectiligne
-plot(y~x, ylim=c(0,max(y)))
-summary(EA50lm)
-abline(a=EA50lm$coefficients[1], b=EA50lm$coefficients[2], col="red")
-# Metacommunauté complète: partie observée
-EA75 <- sort(EstimatedAbd, decreasing = T)[1:round(length(EstimatedAbd)*3/4)]
-plot(EstimatedAbd, ylim=c(1, max(EA75)), xlim=c(0, NbSpecies), col="grey")
-points(EA75, ylim=c(1, max(EA75)), xlim=c(0,-EA50lm$coefficients[1]/EA50lm$coefficients[2]))
-Extra <- exp(EA50lm$coefficients[1])*cumprod(rep(exp(EA50lm$coefficients[2]), NbSpecies-round(length(EstimatedAbd)/4)+1))
-lines(x=round(length(EstimatedAbd)/4):NbSpecies, y=Extra, col="red")
-# Vérification : effectif total
-(Ntotal <- sum(EA75) + sum(Extra[(length(EA75)-NbSpecies+length(Extra)+1):length(Extra)]))
-# Ajustement d'une log-série
-plot(as.AbdVector(round(c(EA75, Extra[(length(EA75)-NbSpecies+length(Extra)+1):length(Extra)]))), Distribution = "lseries")
-# Nombre d'espèces estimées
-NbSpecies
+
+# Extrapolated number of species
+n_species <- as.integer(-EA50lm$coefficients[1]/EA50lm$coefficients[2] + length(EstimatedAbd)/4 -1)
+
+# Plot
+EA75 <- sort(EstimatedAbd, decreasing = TRUE)[1:round(length(EstimatedAbd)*3/4)]
+plot(EstimatedAbd, ylim=c(1, max(EA75)), xlim=c(0, n_species), col="grey")
+points(EA75)
+Extra <- exp(EA50lm$coefficients[1])*cumprod(rep(exp(EA50lm$coefficients[2]), n_species-round(length(EstimatedAbd)/4)+1))
+lines(x=round(length(EstimatedAbd)/4):n_species, y=Extra, col="red")
 ```
+
+The estimated number of species according to this model is `r n_species`.
+This is undoubtedly a severe overestimation, see the discussion section of the paper.
+
 
 ## Hyperdominance
 
-```{r}
+Hyperdominance is a characteristic of many distributions of species.
+Figure \@ref(fig:hyperdominance) shows the accumulation of individuals from the most adundant to the rarest species.
+
+(ref:hyperdominance) Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical lines allows reading the corresponding rank of the species.
+```{r hyperdominance, fig.cap="(ref:hyperdominance)"}
 # Hyperdominance
-EstimatedAbd <- sort(round(ObsProba*Ntrees, 0), decreasing = TRUE)
-plot(cumsum(EstimatedAbd), ylim=c(0, Ntrees))
-abline(h=Ntrees/2, lty=2, col="red")
-hdSpecies <- min(which(cumsum(EstimatedAbd)>Ntrees/2))
+EstimatedAbd <- sort(round(ObsProba*n_trees, 0), decreasing = TRUE)
+plot(cumsum(EstimatedAbd), ylim=c(0, n_trees))
+abline(h=n_trees/2, lty=2, col="red")
+hdSpecies <- min(which(cumsum(EstimatedAbd)>n_trees/2))
 abline(v=hdSpecies, lty=2, col="red")
 ```
+`r hdSpecies` species, i.e. `r round(hdSpecies/S*100)`% of their estimated number, contain half the number of trees.
+
 
 `r if (!knitr:::is_latex_output()) '# References {-}'`
