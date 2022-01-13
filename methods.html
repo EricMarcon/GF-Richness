@@ -143,7 +143,7 @@ The number of species <span class="math inline">\(S(A)\)</span> observed in an a
   \tag{2.1}
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(z\)</span> is the power parameter and <span class="math inline">\(c\)</span> is the number of species in an area of size 1.
-This is a classical relation in macroecology, with long empirical and theoretical support <span class="citation">(Gárcia Martín and Goldenfeld 2006)</span>.</p>
+This is a classical relation in macroecology, with long empirical and theoretical support <span class="citation">(Williamson, Gaston, and Lonsdale 2001; Gárcia Martín and Goldenfeld 2006)</span>.</p>
 <p>If <span class="math inline">\(z\)</span> is known, the inventory of a reasonably large area <span class="math inline">\(a\)</span> allows computing <span class="math inline">\(c=a^z/S(a)\)</span>.
 Then, <span class="math inline">\(S(A)\)</span> can be calculated for any value of <span class="math inline">\(A\)</span>.</p>
 <p><span class="citation">Harte et al. (1999)</span> showed that under the assumption of self-similarity, <span class="math inline">\(z\)</span> can be inferred from the dissimilarity between small and distant plots distributed across the area.
@@ -152,7 +152,7 @@ The <span class="citation">Sørensen (1948)</span> similarity between two plots 
   \chi = 2 (S_1 \cap S_2) / (S_1 + S_2)
   \tag{2.2}
 \end{equation}\]</span></p>
-<p>where <span class="math inline">\(S_1\)</span> (respectively <span class="math inline">\(S_2\)</span> is the number of species in plot 1 (resp. plot 2) and <span class="math inline">\((S_1 \cap S_2)\)</span> is the number of common species.</p>
+<p>where <span class="math inline">\(S_1\)</span> (respectively <span class="math inline">\(S_2\)</span>) is the number of species in plot 1 (resp. plot 2) and <span class="math inline">\(S_1 \cap S_2\)</span> is the number of common species.</p>
 <p>Applied to plots of the same size separated by distance <span class="math inline">\(d\)</span>, Sorensen’s similarity decreases with distance following the relation <span class="math inline">\(\chi \sim d^{-2z}\)</span> <span class="citation">(Harte et al. 1999)</span> that can be estimated by the linear model</p>
 <p><span class="math display" id="eq:estimatez">\[\begin{equation}
   \log(\chi) \sim \log(d).
@@ -168,7 +168,8 @@ Our data confirm that.</p>
 <p></p>
 <p>
 The Paracou research station <span class="citation">(Gourlet-Fleury, Guehl, and Laroussinie 2004)</span> is located at latitude 5°18′N and longitude 52°53′W.
-It contains six 6.25-ha and one 25-ha plots of primary rainforest summing up to a compact 0.625-ha inventory that can be considered continuous at the scale of French Guiana (80 million hectares).</p>
+It contains six 6.25-ha and one 25-ha plots of primary rainforest summing up to a compact 0.625-ha inventory that can be considered continuous at the scale of French Guiana (80 million hectares).
+The number of tree species in this area is 604.</p>
 <p></p>
 <p>
 <strong>Decription of Guyadiv here</strong></p>
@@ -180,9 +181,9 @@ The number of plots varies across locations so the estimation of <span class="ma
 We sampled one random plot at each location to obtain <span class="math inline">\(21 \times 20/2 = 210\)</span> pairs of plots.
 We calculated the Sorensen dissimilarity <span class="math inline">\(\chi\)</span> and the geographic distance <span class="math inline">\(d\)</span> between each pair of plots.
 We estimated <span class="math inline">\(z\)</span> as half the coefficient of the distance variable in the linear model <span class="math inline">\(\log(\chi) \sim \log(d)\)</span>.
-We repeated these steps 100 times to obtain a distribution of estimated <span class="math inline">\(z\)</span> values depending on the plots drawn in each location.
-The empirical mean <span class="math inline">\(\mu_z\)</span> and standard devation <span class="math inline">\(\sigma_z\)</span> of the distribution were calculated.
-<span class="math inline">\(z\)</span> was estimated as <span class="math inline">\(\mu_z\)</span> with a 95% confidence interval equal to <span class="math inline">\(\pm t \sigma_z / \sqrt(100)\)</span>.</p>
+We repeated these steps 1000 times to obtain a distribution of estimated <span class="math inline">\(z\)</span> values depending on the plots drawn in each location.
+n were calculated.
+<span class="math inline">\(z\)</span> was estimated as the empirical mean of the distribution and its 95% confidence interval was obtained by eliminating the 2.5% extreme values on both tails.</p>
 <p>All analyses were made with R <span class="citation">(R Core Team 2022)</span> v. 4.1.2.</p>
 </div>
             </section>

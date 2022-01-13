@@ -134,24 +134,34 @@ div.csl-indent {
 It requires a network of plots at a wide range of distances from each other to estimate Arrhenius’s power law parameter.
 It should be completed by a continuous inventory whose size is consistent with the smallest scale of the power law.
 These constraints explain why the method has not been widely applied, beyond <span class="citation">Krishnamani, Kumar, and Harte (2004)</span> and this paper.</p>
-<p>At smaller scales, i.e. inside a single community, the relation between area and number of species is described by species accumulation curves (SAC).
-It is driven by statistical models that address incomplete sampling.
-After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao’s or the jackknife apply.
+<p>At smaller scales, i.e. inside a single community, the relation between area and number of species is described by species accumulation curves <span class="citation">(SAC: Gotelli and Colwell 2001)</span>.
+It is driven by statistical models that address incomplete sampling <span class="citation">(Shen, Chao, and Lin 2003; Béguinot 2015)</span>.
+After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao’s <span class="citation">(Chao 2004)</span> or the jackknife <span class="citation">(Burnham and Overton 1978)</span> apply.
 <span class="citation">Krishnamani, Kumar, and Harte (2004)</span> did not have the necessary 100-ha inventory to estimate the number of species at this scale, so they used the self-similarity model to extrapolate small plot data.
 This lead them to estimate successive scale-dependent values of <span class="math inline">\(z\)</span> with no theoretical support: the model is arguably not valid.</p>
-<p>At the scale of the metacommunity, defined in the neutral model of biogeography, the species distribution is in log-series.
+<p>At the scale of the metacommunity, defined in the neutral model of biogeography <span class="citation">(Hubbell 2001)</span>, the species distribution is in log-series <span class="citation">(Hubbell 2001; Volkov et al. 2003)</span>.
 <span class="citation">ter Steege et al. (2013)</span> fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
 We applied the same method to our data in appendix <a href="appendix.html#apd-logseries">5.2</a>.
 Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist (<strong>Reference</strong>).
-The regional species pool does not follow a log-series distribution because of dispersal limitation.
-In other words, the regional community is not a sample of the metacommunity: many of the metacommunity’s species are not present.</p>
-<p>The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000.
-A lot of approximations were made to obtain this result:
-- z fit
-- Paracou is marginal
-- Guyadiv is not perfect
-- Species delimitation</p>
-<p>Yet it is a very likely estimation according to the current knowledge &gt; JF.</p>
+The regional species pool does not follow a log-series distribution because of dispersal limitation <span class="citation">(Grilli et al. 2012)</span>.
+In other words, the regional community is not a sample of the metacommunity: many of the metacommunity’s species are not present.
+As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.</p>
+<p>The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
+As shown in figure <a href="appendix.html#fig:slope">5.1</a>, the fit of the linear model is not perfect.
+The theory does not address habitat variation, that is well-described in French Guiana <span class="citation">(Guitet et al. 2015)</span>.
+The dissimilarity between plot pairs is thus explained by distance and habitat dissimilarity, the latter ignored in the model.
+Yet, the estimation of <span class="math inline">\(z\)</span> is quite robust because the Guyadiv network covers a wide range of habitats, allowing to cancel out local variability.
+Its value 0.103 is in line with that of <span class="citation">Krishnamani, Kumar, and Harte (2004)</span> in another tropical forest: it is very small compared to the classical 0.25 of <span class="citation">Arrhenius (1921)</span> or 0.263 of <span class="citation">Preston (1962)</span>.
+This was discussed by <span class="citation">MacArthur and Wilson (1967)</span>, chapter 2.
+The power law applies to embedded scales of the same ecosystem here, in contrast to the usual sets of isolated islands providing the data <span class="citation">(Triantis, Guilhaumon, and Whittaker 2012)</span>: in our case, the number of species increases less with the area, leading to smaller <span class="math inline">\(z\)</span> values.</p>
+<p>Another issue of the estimation is due to its unique starting point, i.e. Paracou field station, that is not representative of the whole French Guiana.
+Actually, it is located at the edge of the forest, close to the coast.
+Again, the self-similarity model assumes that <span class="math inline">\(c\)</span>, the number of species per squared kilometer, is the same everywhere.
+Local, observed values must be understood as variations around the real <span class="math inline">\(c\)</span>, that should be estimated by replicating inventories across the whole region.
+This is of course impossible due to the huge necessary resources needed to settle a single one so Paracou’s local richness adjusted to 1 km<sup>2</sup> must be considered as the best available estimator of <span class="math inline">\(c\)</span>.
+Its uncertainty cannot be evaluated because of the lack of replication.
+Its effect on the number of estimated species is proportional.</p>
+<p>2000 species are a very likely estimation according to the current knowledge <strong>&gt; JF</strong>.</p>
 </div>
             </section>
 
