@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness</title>
-  <meta name="description" content="References | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness" />
+  <title>5 Appendix | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness</title>
+  <meta name="description" content="5 Appendix | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness" />
+  <meta property="og:title" content="5 Appendix | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://GitHubID.github.io/Repository/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="GitHubID/Repository" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness" />
+  <meta name="twitter:title" content="5 Appendix | Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="appendix.html"/>
-
+<link rel="prev" href="discussion.html"/>
+<link rel="next" href="references.html"/>
 <style type="text/css">
 p.abstract{
   text-align: center;
@@ -128,45 +128,53 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Arrhenius, Olof. 1921. <span>“Species and Area.”</span> <em>Journal of Ecology</em> 9 (1): 95–99. <a href="https://doi.org/10.2307/2255763">https://doi.org/10.2307/2255763</a>.
+<div id="appendix" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Appendix</h1>
+<div id="similarity-distance-decay" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Similarity distance decay</h2>
+<p>The relation between Sorensen’s similarity and distance is shown in figure <a href="appendix.html#fig:slope">5.1</a>.
+All pairs of plots more than 1 km apart are shown.
+The estimation of <span class="math inline">\(z\)</span> is not made this way because some locations contain more plots than others so their weight is increased.
+The technique used in the text of the paper consists of drawing a random plot in each location to estimate <span class="math inline">\(z\)</span>, and repeat this process a large number of times to estimate the expectation of <span class="math inline">\(z\)</span>.</p>
+
+<p></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:slope"></span>
+<img src="GF-Richness_files/figure-html/slope-1.png" alt="Relation between Sorensen’s similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 1km apart. A linear model is fitted: the slope of the regression is \(-2z\)." width="80%" />
+<p class="caption">
+Figure 5.1: Relation between Sorensen’s similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 1km apart. A linear model is fitted: the slope of the regression is <span class="math inline">\(-2z\)</span>.
+</p>
 </div>
-<div class="csl-entry">
-Gárcia Martín, Héctor, and Nigel Goldenfeld. 2006. <span>“On the Origin and Robustness of Power-Law Species-Area Relationships in Ecology.”</span> <em>Proceedings of the National Academy of Sciences of the United States of America</em> 103 (27): 10310–15. <a href="https://doi.org/10.1073/pnas.0510605103">https://doi.org/10.1073/pnas.0510605103</a>.
+<p></p>
 </div>
-<div class="csl-entry">
-Gourlet-Fleury, Sylvie, Jean Marc Guehl, and Olivier Laroussinie. 2004. <em>Ecology &amp; Management of a Neotropical Rainforest. <span>Lessons</span> Drawn from <span>Paracou</span>, a Long-Term Experimental Research Site in <span>French Guiana</span></em>. <span>Paris</span>: <span>Elsevier</span>.
+<div id="apd-logseries" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Log-series estimation of the number of species</h2>
+<p>Assuming that the plots are samples of a metacommunity that follows a log-series distribution, the rank-abundance curve can be extrapolated (figure <a href="appendix.html#fig:logseries">5.2</a>) following <span class="citation">ter Steege et al. (2013)</span>.</p>
+
+<p></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:logseries"></span>
+<img src="GF-Richness_files/figure-html/logseries-1.png" alt="Extrapolation of the rank-abundance curve built from the Guyadiv plots." width="80%" />
+<p class="caption">
+Figure 5.2: Extrapolation of the rank-abundance curve built from the Guyadiv plots.
+</p>
 </div>
-<div class="csl-entry">
-Grilli, Jacopo, Sandro Azaele, Jayanth R. Banavar, and Amos Maritan. 2012. <span>“Spatial Aggregation and the Speciesarea Relationship Across Scales.”</span> <em>Journal of Theoretical Biology</em> 313 (0): 87–97. <a href="https://doi.org/10.1016/j.jtbi.2012.07.030">https://doi.org/10.1016/j.jtbi.2012.07.030</a>.
+<p></p>
+<p>The estimated number of species according to this model is 3951.
+This is undoubtedly a severe overestimation, see the discussion section of the paper.</p>
 </div>
-<div class="csl-entry">
-Harte, John, Ann Kinzig, and Jessica Green. 1999. <span>“Self-Similarity in the Distribution and Abundance of Species.”</span> <em>Science</em> 284 (5412): 334–36. <a href="https://doi.org/10.1126/science.284.5412.334">https://doi.org/10.1126/science.284.5412.334</a>.
+<div id="hyperdominance" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Hyperdominance</h2>
+<p>Hyperdominance is a characteristic of many distributions of species.
+Figure <a href="appendix.html#fig:hyperdominance">5.3</a> shows the accumulation of individuals from the most adundant to the rarest species.</p>
+
+<p></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:hyperdominance"></span>
+<img src="GF-Richness_files/figure-html/hyperdominance-1.png" alt="Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical lines allows reading the corresponding rank of the species." width="80%" />
+<p class="caption">
+Figure 5.3: Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical lines allows reading the corresponding rank of the species.
+</p>
 </div>
-<div class="csl-entry">
-Harte, John, Sarah Mccarthy, Kevin Taylor, Ann Kinzig, and Marc L. Fischer. 1999. <span>“Estimating Species-Area Relationships from Scale Plot to Landscape Data Using Species Spatial-Turnover.”</span> <em>Oikos</em> 86 (1): 45–54. <a href="https://doi.org/10.2307/3546568">https://doi.org/10.2307/3546568</a>.
-</div>
-<div class="csl-entry">
-Krishnamani, R., A. Kumar, and John Harte. 2004. <span>“Estimating Species Richness at Large Spatial Scales Using Data from Small Discrete Plots.”</span> <em>Ecography</em> 27 (5): 637–42. <a href="https://doi.org/10.1111/j.0906-7590.2004.03790.x">https://doi.org/10.1111/j.0906-7590.2004.03790.x</a>.
-</div>
-<div class="csl-entry">
-R Core Team. 2022. <em>R: <span>A</span> Language and Environment for Statistical Computing</em>. <span>Vienna, Austria</span>: <span>R Foundation for Statistical Computing</span>.
-</div>
-<div class="csl-entry">
-Slik, J. W. Ferry, Víctor Arroyo-Rodríguez, Shin-Ichiro Aiba, Patricia Alvarez-Loayza, Luciana F. Alves, Peter S. Ashton, Patricia Balvanera, et al. 2015. <span>“An Estimate of the Number of Tropical Tree Species.”</span> <em>Proceedings of the National Academy of Sciences of the United States of America</em> 112 (24): 7472–77. <a href="https://doi.org/10.1073/pnas.1423147112">https://doi.org/10.1073/pnas.1423147112</a>.
-</div>
-<div class="csl-entry">
-Sørensen, T. 1948. <span>“A Method of Establishing Groups of Equal Amplitude in Plant Sociology Based on Similarity of Species Content and Its Application to Analyses of the Vegetation on Danish Commons.”</span> <em>Biologiske Skrifter</em>, Biologiske skrifter, 5 (4): 1–34.
-</div>
-<div class="csl-entry">
-ter Steege, Hans, Nigel C. A. Pitman, Daniel Sabatier, Christopher Baraloto, Rafael P. Salomão, Juan Ernesto Guevara, Oliver L. Phillips, et al. 2013. <span>“Hyperdominance in the Amazonian Tree Flora.”</span> <em>Science</em> 342 (6156): 1243092. <a href="https://doi.org/10.1126/science.1243092">https://doi.org/10.1126/science.1243092</a>.
-</div>
-<div class="csl-entry">
-ter Steege, Hans, Paulo I. Prado, Renato A. F. de Lima, Edwin Pos, Luiz de Souza Coelho, Diogenes de Andrade Lima Filho, Rafael P. Salomão, et al. 2020. <span>“Biased-Corrected Richness Estimates for the <span>Amazonian</span> Tree Flora.”</span> <em>Scientific Reports</em> 10 (1): 10130. <a href="https://doi.org/10.1038/s41598-020-66686-3">https://doi.org/10.1038/s41598-020-66686-3</a>.
-</div>
+<p>
+110 species, i.e. 5% of their estimated number, contain half the number of trees.</p>
 </div>
 </div>
             </section>
@@ -174,8 +182,8 @@ ter Steege, Hans, Paulo I. Prado, Renato A. F. de Lima, Edwin Pos, Luiz de Souza
           </div>
         </div>
       </div>
-<a href="appendix.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="discussion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
