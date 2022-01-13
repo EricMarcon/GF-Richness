@@ -7,8 +7,6 @@ author:
     authsuperscript: 2
   - name: "Jean-François Molino"
     authsuperscript: 3
-  - name: "Grégoire Vincent"
-    authsuperscript: 3
   - name: "Daniel Sabatier"
     authsuperscript: 3
 affiliation:
@@ -44,15 +42,6 @@ output:
   bookdown::html_document2:
     toc: yes
     toc_float: yes
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-  bookdown::word_document2: default
-  bookdown::gitbook:
-    config:
-      download: "pdf"
-      sharing:
-        github: yes
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
