@@ -362,7 +362,7 @@ After replacing the sampled area by the number of individuals it contains, well-
 At the scale of the metacommunity, defined as of the neutral model of biogeography, the species distribution is in log-series [@Hubbell2001; @Volkov2003].
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
 We applied the same method to our data in appendix \@ref(apd-logseries).
-Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist (**Reference**).
+Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist [@Molino2022].
 The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
