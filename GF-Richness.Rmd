@@ -366,7 +366,7 @@ Its estimation is close to 4000 species in French Guiana: a very unlikely result
 The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
-For the sames reason, hyperdominance is less pronounced: 5% of the species contain half the trees (apendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
+For the sames reason, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
 
 The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
 As shown in figure \@ref(fig:slope), the fit of the linear model is not perfect.
@@ -439,23 +439,38 @@ tibble(Sorensen=as.numeric(log10(Sorensen)),
 
 Assuming that the plots are samples of a metacommunity that follows a log-series distribution, the rank-abundance curve can be extrapolated (figure \@ref(fig:logseries)) following @TerSteege2013.
 
-(ref:logseries) Extrapolation of the rank-abundance curve built from the GuyaDiv plots.
-```{r logseries, fig.cap="(ref:logseries)"}
+```{r n_trees}
 # Number of trees = area x number of trees per 1-ha plot
 n_trees <- round(A0 * 100 * mean(colSums(Abundances[, -1])))
+```
 
-# Coverage by plot
+First, the total number of trees is estimated by extrapolation of the average number of trees per plot.
+There are close to `r round(n_trees/1E6)` million trees in French Guiana.
+
+The probability for one of these trees to belong to a given species is obtained by averaging the probability of the species among plots.
+Each plot is a sample of a local community whose composition is not completely known: for example, many rare species are not in the sample.
+The observed frequency of a species in a plot is not the probability of the species in the community: frequencies sum up to 1 while the sum of the actual probabilities of observed species, called the sample coverage [@Good1953], sums up to 1 minus that of the unobserved species.
+The actual probabilities of observed species can be estimated following @Chao2015, with the *entropart* package [@Marcon2014c].
+
+```{r chao2015}
+p_est_plots <- as.data.frame(Abundances[, -1])
+p_est_plots[, ] <- 0
+
 library("entropart")
-C <- apply(Abundances[, -1], 1, Coverage, CheckArguments=FALSE)
+for (plot in seq_len(nrow(Abundances))) {
+  p_est <- as.ProbaVector(as.AbdVector(Abundances[plot, -1]), Correction="Chao2015", Unveiling="None")
+  p_est_plots[plot, names(p_est)] <- p_est
+}
 
-# Probability of species in the metacommunity, corrected by coverage
-ObsProba <- C %*% as.matrix(Abundances[, -1]/rowSums(Abundances[, -1]))/nrow(Abundances)
+abd_est <- as.AbdVector(sort(n_trees * colMeans(p_est_plots), decreasing = TRUE))
+```
 
-# Estimated abundance of species
-EstimatedAbd <- as.AbdVector(ObsProba*n_trees)
+The most abundant tree species is *`r names(abd_est[1])`* with around `r round(abd_est[1]/1E6)` million trees.
 
+(ref:logseries) Extrapolation of the rank-abundance curve built from the GuyaDiv plots. Extrapolated abundances (in log scale) of observed species are plotted against the rank of their species. The abundances of unobserved species (the red curve) is extrapolated linearly from the center 50% of the distribution of the observed species. The rarest 25%, ignored for the extrapolation, are plotted as grey points.
+```{r logseries, fig.cap="(ref:logseries)"}
 # Central 50% of the curve
-EA50 <- as.AbdVector(sort(EstimatedAbd, decreasing = TRUE)[round(length(EstimatedAbd)/4):round(length(EstimatedAbd)*3/4)])
+EA50 <- as.AbdVector(abd_est[round(length(abd_est)/4):round(length(abd_est)*3/4)])
 x <- seq_along(EA50)
 y <- as.numeric(log(EA50))
 
@@ -463,14 +478,14 @@ y <- as.numeric(log(EA50))
 EA50lm <- lm(y ~ x)
 
 # Extrapolated number of species
-n_species <- as.integer(-EA50lm$coefficients[1]/EA50lm$coefficients[2] + length(EstimatedAbd)/4 -1)
+n_species <- as.integer(-EA50lm$coefficients[1]/EA50lm$coefficients[2] + length(abd_est)/4 -1)
 
 # Plot
-EA75 <- sort(EstimatedAbd, decreasing = TRUE)[1:round(length(EstimatedAbd)*3/4)]
-plot(EstimatedAbd, ylim=c(1, max(EA75)), xlim=c(0, n_species), col="grey")
+EA75 <- abd_est[1:round(length(abd_est)*3/4)]
+plot(abd_est, ylim=c(1, max(EA75)), xlim=c(0, n_species), col="grey")
 points(EA75)
-Extra <- exp(EA50lm$coefficients[1])*cumprod(rep(exp(EA50lm$coefficients[2]), n_species-round(length(EstimatedAbd)/4)+1))
-lines(x=round(length(EstimatedAbd)/4):n_species, y=Extra, col="red")
+Extra <- exp(EA50lm$coefficients[1])*cumprod(rep(exp(EA50lm$coefficients[2]), n_species-round(length(abd_est)/4)+1))
+lines(x=round(length(abd_est)/4):n_species, y=Extra, col="red")
 ```
 
 The estimated number of species according to this model is `r n_species`.
@@ -485,10 +500,12 @@ Figure \@ref(fig:hyperdominance) shows the accumulation of individuals from the 
 (ref:hyperdominance) Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical lines allows reading the corresponding rank of the species.
 ```{r hyperdominance, fig.cap="(ref:hyperdominance)"}
 # Hyperdominance
-EstimatedAbd <- sort(round(ObsProba*n_trees, 0), decreasing = TRUE)
-plot(cumsum(EstimatedAbd), ylim=c(0, n_trees))
+plot(cumsum(abd_est), ylim=c(0, n_trees), xlab="Rank", ylab="Cumulated Number of Trees", axes=FALSE)
+axis(1, axTicks(1)+1)
+axis(2)
+box()
 abline(h=n_trees/2, lty=2, col="red")
-hdSpecies <- min(which(cumsum(EstimatedAbd)>n_trees/2))
+hdSpecies <- min(which(cumsum(abd_est)>n_trees/2))
 abline(v=hdSpecies, lty=2, col="red")
 ```
 
