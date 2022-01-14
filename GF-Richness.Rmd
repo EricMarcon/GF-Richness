@@ -25,7 +25,7 @@ corrauthor:
 abstract: >
   The biodiversity of tropical rainforest is difficult to assess. 
   Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories.
-  GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1180 species censused in 76 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. 
+  GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1507 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. 
   We can then extrapolate the number of species from a local, wide inventory (62.5 ha in Paracou research station).
   We evaluate the number of tree species around 2000 over the territory.
 keywords: [Biodiversity, Tropical Forest, Self Similarity, French Guiana]
