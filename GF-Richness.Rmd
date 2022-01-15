@@ -185,7 +185,7 @@ paracou_S <- 604
 A0 <- 80000
 ```
 The Paracou research station [@Gourlet-Fleury2004] is located at latitude 5°18'N and longitude 52°53'W.
-It contains six 6.25-ha and one 25-ha plots of primary rainforest summing up to a compact `r paracou_area`-ha inventory that can be considered continuous at the scale of French Guiana (`r A0/1000` million hectares).
+It contains six 6.25-ha and one 25-ha plots of primary rainforest summing up to a compact `r paracou_area`-km^2^ inventory that can be considered continuous at the scale of French Guiana (`r A0/1000` million hectares).
 The number of tree species in this area is `r paracou_S`.
 
 (ref:GuyaDivMap) The GuyaDiv network.
@@ -275,6 +275,8 @@ estimate_z <- function() {
   Abundances %>% 
     # Selected plots only
     inner_join(SelectedPlots) %>% 
+    # Suppress messages from GH Action logs
+    suppressMessages %>% 
     select(-Plot) %>% 
     # Calculate Sorensen dissimilarity
     dist.binary(method = 5) -> 
@@ -285,7 +287,7 @@ estimate_z <- function() {
   tibble(Sorensen=as.numeric(log10(Sorensen)), 
          Distance=as.numeric(log10(Distances))) %>% 
     # Distances over 1km
-    dplyr::filter(Distance > 3) %>% 
+    dplyr::filter(Distance > log10(0.8)) %>% 
     # Estimate the model
     lm(Sorensen~Distance, data=.) %>% 
     # Extract the slope
@@ -393,11 +395,11 @@ Its effect on the number of estimated species is proportional.
 ## Similarity distance decay
 
 The relation between Sorensen's similarity and distance is presented in figure \@ref(fig:slope).
-All pairs of plots more than 1 km apart are shown.
+All pairs of plots more than 800 meters apart (the scale of Paracou's 0.625-km^2^ inventory) are shown.
 The estimation of $z$ is not made this way because some locations contain more plots than others so their weight is increased.
 The technique used in the text of the paper consists of drawing a random plot in each location to estimate $z$, and repeat this process a large number of times to estimate the expectation of $z$.
 
-(ref:slope) Relation between Sorensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 1km apart. A linear model is fitted: the slope of the regression is $-2z$.
+(ref:slope) Relation between Sorensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 800m apart, up to 377km. A linear model is fitted: the slope of the regression is $-2z$.
 ```{r slope, fig.cap="(ref:slope)"}
 library("ade4")
 library("dbmss")
