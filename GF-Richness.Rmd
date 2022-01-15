@@ -158,14 +158,14 @@ The @Sorensen1948 similarity between two plots is
 
 where $S_1$ (respectively $S_2$) is the number of species in plot 1 (resp. plot 2) and $S_1 \cap S_2$ is the number of common species.
 
-Applied to plots of the same size separated by distance $d$, Sorensen's similarity decreases with distance following the relation $\chi \sim d^{-2z}$ [@Harte1999a] that can be estimated by the linear model
+Applied to plots of the same size separated by distance $d$, Sørensen's similarity decreases with distance following the relation $\chi \sim d^{-2z}$ [@Harte1999a] that can be estimated by the linear model
 
 \begin{equation}
   \log(\chi) \sim \log(d).
   (\#eq:estimatez)
 \end{equation}
 
-The logarithm of the Sorensen dissimilarity between pairs of plots can be regressed against the logarithm of the distance between the plots: the slope of the regression is $-2z$.
+The logarithm of the Sørensen dissimilarity between pairs of plots can be regressed against the logarithm of the distance between the plots: the slope of the regression is $-2z$.
 
 The relation \@ref(eq:estimatez) holds at the same scale as the power law, i.e. at the regional scale [@Grilli2012].
 @Krishnamani2004 estimated $z \approx 0.12$ with a very good fit to the linear model at distances up from 1 km but not below.
@@ -221,7 +221,7 @@ We take into account the `r guyadiv_plots` one-hectare plots of the network.
 They are located in `r guyadiv_locations` locations that allow a quite good coverage of the variability of the forest in French Guiana (figure \@ref(fig:GuyaDivMap)).
 The number of plots varies across locations so the estimation of $z$ must be made with care.
 We sampled one random plot at each location to obtain $`r guyadiv_locations` \times `r guyadiv_locations-1`/2 = 210$ pairs of plots.
-We calculated the Sorensen dissimilarity $\chi$ and the geographic distance $d$ between each pair of plots.
+We calculated the Sørensen dissimilarity $\chi$ and the geographic distance $d$ between each pair of plots.
 We estimated $z$ as half the coefficient of the distance variable in the linear model $\log(\chi) \sim \log(d)$.
 We repeated these steps `r n_simulations` times to obtain a distribution of estimated $z$ values depending on the plots drawn in each location.
 n were calculated.
@@ -394,12 +394,12 @@ Its effect on the number of estimated species is proportional.
 
 ## Similarity distance decay
 
-The relation between Sorensen's similarity and distance is presented in figure \@ref(fig:slope).
+The relation between Sørensen's similarity and distance is presented in figure \@ref(fig:slope).
 All pairs of plots more than 800 meters apart (the scale of Paracou's 0.625-km^2^ inventory) are shown.
 The estimation of $z$ is not made this way because some locations contain more plots than others so their weight is increased.
 The technique used in the text of the paper consists of drawing a random plot in each location to estimate $z$, and repeat this process a large number of times to estimate the expectation of $z$.
 
-(ref:slope) Relation between Sorensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 800m apart, up to 377km. A linear model is fitted: the slope of the regression is $-2z$.
+(ref:slope) Relation between Sørensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 800m apart, up to 377km. A linear model is fitted: the slope of the regression is $-2z$.
 ```{r slope, fig.cap="(ref:slope)"}
 library("ade4")
 library("dbmss")
