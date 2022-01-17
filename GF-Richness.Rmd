@@ -2,9 +2,9 @@
 title: "Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness"
 author:
   - name: "Eric Marcon"
-    authsuperscript: 1*
+    authsuperscript: 1,4*
   - name: "Ariane Mirabel"
-    authsuperscript: 2
+    authsuperscript: 2,4
   - name: "Jean-François Molino"
     authsuperscript: 3
   - name: "Daniel Sabatier"
@@ -16,10 +16,8 @@ affiliation:
     dptuniv: "Department / University"
   - affsuperscript: 3
     dptuniv: "UMR Amap, CIRAD, CNRS, INRAE, IRD, Univ Montpellier, Montpellier, France."
-    address: >
-      Street address,
-      Zip code,
-      Country.
+  - affsuperscript: 4
+    dptuniv: "UMR EcoFoG, AgroParisTech, CIRAD, CNRS, INRAE, Univ Antilles, Univ Guyane, Kourou, France."
 corrauthor:
     email: eric.marcon@agroparistech.fr
 abstract: >
