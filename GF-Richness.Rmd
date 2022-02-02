@@ -28,7 +28,7 @@ abstract: >
   We evaluate the number of tree species around 2200 over the territory.
 keywords: [Biodiversity, Tropical Forest, Self Similarity, French Guiana]
 date: "`r format(Sys.time(), '%d %B %Y')`"
-archive: "DOI: xxx/xx"
+archive: "`r format(Sys.time(), '%d %B %Y')`"
 url: https://GitHubID.github.io/Repository/
 github-repo: GitHubID/Repository
 lang: en-US
@@ -361,7 +361,7 @@ S_ci <- c_est * A0^z_ci
 ```
 
 Finally, the estimated number of species is `r S %>% round(0)`.
-Taking into account the uncertainty about $z$, its 95% confidence interval is between `r S_ci[1] %>% round(0) ` and `r S_ci[2] %>% round(0)`.
+Taking into account the uncertainty about $z$, its 95% confidence interval is between `r S_ci[1] %>% round(0)` and `r S_ci[2] %>% round(0)`.
 
 # Discussion
 
@@ -383,7 +383,7 @@ In other words, the regional community is not a sample of the metacommunity: man
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
 For the sames reason, hyperdominance is less pronounced: 5% of the species contain half the trees (apendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
 
-The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
+The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to `r round(S/100)*100`, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
 As shown in figure \@ref(fig:slope), the fit of the linear model is not perfect.
 The theory does not address habitat variation, that is well-described in French Guiana [@Guitet2015b].
 The dissimilarity between plot pairs is thus explained by distance and habitat dissimilarity, the latter ignored in the model.
@@ -400,7 +400,7 @@ This is of course impossible due to the huge resources needed to settle a single
 Its uncertainty cannot be evaluated because of the lack of replication.
 Its effect on the number of estimated species is proportional.
 
-2000 species are a very likely estimation according to the current knowledge **> JF**.
+`r S %>% round(0)` species are a very likely estimation according to the current knowledge **> JF**.
 
 
 # Appendix
