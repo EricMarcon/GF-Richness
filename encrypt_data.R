@@ -54,18 +54,25 @@ read_csv2("data/GUYADIV_202107.csv") %>%
   summarize(Abundance=n(), .groups='drop') %>%
   pivot_wider(names_from=Taxon, values_from=Abundance, values_fill=0) ->
   Abundances
+# Paracou abundance data
+read_csv2("data/Paracou.csv", col_names=FALSE) %>%
+  pull(X1) ->
+  Paracou_abd
 
 ## Store secrets ####
 add_secret("Plots", value = Plots, users = c(paste0("github-", name_github_user), name_project), vault = vault)
 add_secret("Abundances", value = Abundances, users = c(paste0("github-", name_github_user), name_project), vault = vault)
+add_secret("Paracou_abd", value = Paracou_abd, users = c(paste0("github-", name_github_user), name_project), vault = vault)
 
 
 # Test ####
 list_secrets(vault = vault)
 list_owners("Plots", vault = vault)
 list_owners("Abundances", vault = vault)
+list_owners("Paracou_abd", vault = vault)
 # Decrypt with the private key of the project
 Sys.setenv(USER_KEY = usethis::proj_path(paste0(name_project, ".rsa")))
 local_key()
 get_secret("Plots", vault = vault)
 get_secret("Abundances", vault = vault)
+get_secret("Paracou_abd", vault = vault)
