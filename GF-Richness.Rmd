@@ -24,8 +24,8 @@ abstract: >
   The biodiversity of tropical rainforest is difficult to assess. 
   Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories.
   GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1315 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. 
-  We can then extrapolate the number of species from a local, wide inventory (62.5 ha in Paracou research station).
-  We evaluate the number of tree species around 2000 over the territory.
+  We can then extrapolate the number of species from a local, wide inventory (118.75 ha in Paracou research station).
+  We evaluate the number of tree species around 2200 over the territory.
 keywords: [Biodiversity, Tropical Forest, Self Similarity, French Guiana]
 date: "`r format(Sys.time(), '%d %B %Y')`"
 archive: "DOI: xxx/xx"
@@ -512,7 +512,7 @@ This is undoubtedly a severe overestimation, see the discussion section of the p
 Hyperdominance is a characteristic of many distributions of species.
 Figure \@ref(fig:hyperdominance) shows the accumulation of individuals from the most adundant to the rarest species.
 
-(ref:hyperdominance) Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical lines allows reading the corresponding rank of the species.
+(ref:hyperdominance) Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical line allows reading the corresponding rank of the species.
 ```{r hyperdominance, fig.cap="(ref:hyperdominance)"}
 # Hyperdominance
 plot(cumsum(abd_est), ylim=c(0, n_trees), xlab="Rank", ylab="Cumulated Number of Trees", axes=FALSE)
