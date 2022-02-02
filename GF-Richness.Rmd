@@ -2,13 +2,13 @@
 title: "Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness"
 author:
   - name: "Eric Marcon"
-    authsuperscript: 1,4*
+    authsuperscript: "1,4*"
   - name: "Ariane Mirabel"
-    authsuperscript: 2,4
+    authsuperscript: "2,4"
   - name: "Jean-François Molino"
-    authsuperscript: 3
+    authsuperscript: "3"
   - name: "Daniel Sabatier"
-    authsuperscript: 3
+    authsuperscript: "3"
 affiliation:
   - affsuperscript: 1
     dptuniv: "AgroParisTech, UMR Amap, CIRAD, CNRS, INRAE, IRD, Univ Montpellier, Montpellier, France."
@@ -120,7 +120,7 @@ In French Guiana, the GuyaDiv network consists of close to 250 plots across the 
 Based on similar datasets, the diversity of tree species has been estimated in Amazonia [@TerSteege2013; @TerSteege2020] and at the world scale [@Slik2015].
 The methods used in those studies are not appropriate to estimate regional diversity, i.e. at a smaller scale where dispersal limitation is critical.
 The contribution of this paper is to estimate the number of tree species at the regional scale, in French Guiana (8 million hectares of tropical moist forest with no ecological boundary to distinguish them from the rest of Amazonia) and demonstrate which method is valid to do so.
-We build on Harte's self similarity model [@Harte1999] that implies the power-law relatioship of @Arrhenius1921 and provides a technique to evaluate its parameters [@Harte1999a], previously applied by @Krishnamani2004 in the Western Ghats, India.
+We build on Harte's self similarity model [@Harte1999] that implies the power-law relationship of @Arrhenius1921 and provides a technique to evaluate its parameters [@Harte1999a], previously applied by @Krishnamani2004 in the Western Ghats, India.
 We show that the log-series model underlying the work of @TerSteege2013 does not apply at the regional scale.
 
 # Methods
@@ -135,13 +135,13 @@ Sys.setenv(USER_KEY = usethis::proj_path(paste0(name_project, ".rsa")))
 ```
 
 Self-similarity [@Harte1999] is a property based on scale invariance.
-Consider a species $s$ that is present in an area $A_0$, say French Guiana.
-The probability to find it in half the whole area, denoted $A_1$ is $h_s$.
-Then, if it is present $A_1$, the probability to find it in turn in half $A_1$, denoted $A_2$, is also $h_s$, and so on.
-The probability to find the species in $A_n$ is thus $h_s^n$.
-In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, only depends on the relative size of the sub-area (half the parent area here for simplicity): it does not depend on the observation scale.
+Consider a species that is present in an area $A_0$, say French Guiana.
+The probability to find it in half the whole area, denoted $A_1$ is $a$.
+Then, if it is present $A_1$, the probability to find it in turn in half $A_1$, denoted $A_2$, is also $a$, and so on.
+The probability to find the species in $A_n$ is thus $a^n$.
+In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, is constant: it does not depend either on the observation scale nor the species considered.
 
-Arrenhius's power law [@Arrhenius1921] is a consequence [@Harte1999] of the self-similarity property.
+Arrenhius's power law [@Arrhenius1921] both implies and is a consequence of the self-similarity property [@Harte1999].
 The number of species $S(A)$ observed in an area $A$ is
 
 \begin{equation}
@@ -150,9 +150,10 @@ The number of species $S(A)$ observed in an area $A$ is
 \end{equation}
 
 where $z$ is the power parameter and $c$ is the number of species in an area of size 1.
+Actually, $a=2^{-z}$.
 This is a classical relation in macroecology, with long empirical and theoretical support [@Williamson2001; @GarciaMartin2006].
 
-If $z$ is known, the inventory of a reasonably large area $a$ allows computing $c=a^z/S(a)$.
+If $z$ is known, the inventory of a reasonably large area $b$ allows computing $c=b^{z}/S(b)$.
 Then, $S(A)$ can be calculated for any value of $A$.
 
 @Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots distributed across the area.
@@ -198,7 +199,7 @@ paracou_S <- round(Diversity(Paracou_abd, q=0,
 A0 <- 80000
 ```
 The Paracou research station [@Gourlet-Fleury2004] is located at latitude 5°18'N and longitude 52°53'W.
-It contains fifteen 6.25-ha and one 25-ha plots of primary rainforest summing up a `r paracou_area`-km^2^ inventory.
+It contains fifteen 6.25-ha and one 25-ha plots of primary rainforest summing up to a `r paracou_area`-km^2^ inventory.
 It is included in a `r paracou_envelope`-km^2^ convex envelope.
 
 We obtained the abundances of 697 species from the Paracou database (https://paracoudata.cirad.fr/) after eliminating undetermined trees (with a botanical confidence level below 2, i.e. either not identified by a botanist or not identify at the genus level).
@@ -381,7 +382,7 @@ Its estimation is close to 4000 species in French Guiana: a very unlikely result
 The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
-For the sames reason, hyperdominance is less pronounced: 5% of the species contain half the trees (apendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
+For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
 
 The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to `r round(S/100)*100`, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
 As shown in figure \@ref(fig:slope), the fit of the linear model is not perfect.
@@ -510,7 +511,7 @@ This is undoubtedly a severe overestimation, see the discussion section of the p
 ## Hyperdominance {#apd-hyperdominance}
 
 Hyperdominance is a characteristic of many distributions of species.
-Figure \@ref(fig:hyperdominance) shows the accumulation of individuals from the most adundant to the rarest species.
+Figure \@ref(fig:hyperdominance) shows the accumulation of individuals from the most abundant to the rarest species.
 
 (ref:hyperdominance) Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical line allows reading the corresponding rank of the species.
 ```{r hyperdominance, fig.cap="(ref:hyperdominance)"}
