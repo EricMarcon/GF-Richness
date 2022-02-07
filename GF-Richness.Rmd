@@ -198,7 +198,7 @@ paracou_S <- round(Diversity(Paracou_abd, q=0,
 # Extrapolation area in squared km
 A0 <- 80000
 ```
-The Paracou research station [@Gourlet-Fleury2004] is located at latitude 5°18'N and longitude 52°53'W.
+The Paracou research station [@Gourlet-Fleury2004] is located at coordinates 5°18'N and 52°53'W.
 It contains fifteen 6.25-ha and one 25-ha plots of primary rainforest summing up to a `r paracou_area`-km^2^ inventory.
 It is included in a `r paracou_envelope`-km^2^ convex envelope.
 
@@ -413,7 +413,7 @@ All pairs of plots more than 800 meters apart (the scale of Paracou's 0.625-km^2
 The estimation of $z$ is not made this way because some locations contain more plots than others so their weight is increased.
 The technique used in the text of the paper consists of drawing a random plot in each location to estimate $z$, and repeat this process a large number of times to estimate the expectation of $z$.
 
-(ref:slope) Relation between Sørensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 800m apart, up to 377km. A linear model is fitted: the slope of the regression is $-2z$.
+(ref:slope) Relation between Sørensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 800 m apart, up to 377 km. A linear model is fitted: the slope of the regression is $-2z$.
 ```{r slope, fig.cap="(ref:slope)"}
 library("ade4")
 library("dbmss")
