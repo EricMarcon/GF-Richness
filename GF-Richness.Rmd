@@ -11,11 +11,11 @@ author:
     authsuperscript: 3
 affiliation:
   - affsuperscript: 1
-    dptuniv: "AgroParisTech, UMR Amap, CIRAD, CNRS, INRAE, IRD, Univ Montpellier, Montpellier, France."
+    dptuniv: "AgroParisTech, AMAP, CIRAD, CNRS, INRAE, IRD, Univ Montpellier, Montpellier, France."
   - affsuperscript: 2
     dptuniv: "Department / University"
   - affsuperscript: 3
-    dptuniv: "UMR Amap, CIRAD, CNRS, INRAE, IRD, Univ Montpellier, Montpellier, France."
+    dptuniv: "AMAP, IRD, CIRAD, CNRS, INRAE, Univ Montpellier, Montpellier, France."
   - affsuperscript: 4
     dptuniv: "UMR EcoFoG, AgroParisTech, CIRAD, CNRS, INRAE, Univ Antilles, Univ Guyane, Kourou, France."
 corrauthor:
@@ -128,11 +128,11 @@ We show that the log-series model underlying the work of @TerSteege2013 does not
 Self-similarity [@Harte1999] is a property based on scale invariance.
 Consider a species $s$ that is present in an area $A_0$, say French Guiana.
 The probability to find it in half the whole area, denoted $A_1$ is $h_s$.
-Then, if it is present $A_1$, the probability to find it in turn in half $A_1$, denoted $A_2$, is also $h_s$, and so on.
+Then, if it is present in $A_1$, the probability to find it in turn in half $A_1$, denoted $A_2$, is also $h_s$, and so on.
 The probability to find the species in $A_n$ is thus $h_s^n$.
 In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, only depends on the relative size of the sub-area (half the parent area here for simplicity): it does not depend on the observation scale.
 
-Arrenhius's power law [@Arrhenius1921] is a consequence [@Harte1999] of the self-similarity property.
+The Arrenhius power law [@Arrhenius1921] is a consequence [@Harte1999] of the self-similarity property.
 The number of species $S(A)$ observed in an area $A$ is
 
 \begin{equation}
@@ -207,16 +207,18 @@ guyadiv_plots <- nrow(Plots)
 # Number of locations
 guyadiv_locations <- length(unique(Plots$Location))
 ```
-**Decription of GuyaDiv here**
+
+
 
 ```{r n_simulations}
 # Number of simulations to run
 n_simulations <- 1000L
 ```
 
-
+Since the installation of the first plots in 1986, the GuyaDiv network [@Engel2015] has continuously grown until today. 
+It now consists of 243 plots of various sizes and shapes, distributed in various forest types, in 30 sites across French Guiana (figure \@ref(fig:GuyaDivMap)). 
 We take into account the `r guyadiv_plots` one-hectare plots of the network. 
-They are located in `r guyadiv_locations` locations that allow a quite good coverage of the variability of the forest in French Guiana (figure \@ref(fig:GuyaDivMap)).
+They are located in `r guyadiv_locations` sites, which provides fairly good coverage of the variability of the forest in French Guiana .
 The number of plots varies across locations so the estimation of $z$ must be made with care.
 We sampled one random plot at each location to obtain $`r guyadiv_locations` \times `r guyadiv_locations-1`/2 = 210$ pairs of plots.
 We calculated the Sørensen dissimilarity $\chi$ and the geographic distance $d$ between each pair of plots.
@@ -385,8 +387,17 @@ This is of course impossible due to the huge resources needed to settle a single
 Its uncertainty cannot be evaluated because of the lack of replication.
 Its effect on the number of estimated species is proportional.
 
-2000 species are a very likely estimation according to the current knowledge **> JF**.
-
+A recent work [@Molino2022] lists nearly 1800 species of indigenous trees in French Guiana, based on herbarium collections on the one hand, and on data from the GuyaDiv and GuyaFor plot networks [@Engel2015] on the other. 
+However, this checklist is only a state of the art of our knowledge of the tree flora. 
+Even in the most intensively explored areas, botanists conducting botanical inventories have identified a number of entities that are morphologically distinct from all known species in French Guiana, and which they therefore consider to be still unnamed species. 
+They gave them provisional names (e.g. *Pouteria* sp. A), until more information is available to either recognize species known in other parts of the world, or to describe them and give them a valid name according to the Code of Nomenclature. 
+The GuyaDiv and GuyaFor databases together currently list more than 300 of these unnamed species, but @Molino2022 selected only 144 of them for their checklist, the ones that were best characterized and best illustrated by good quality herbarium specimens. 
+Although it cannot be excluded that some of the other 150-200 unnamed species are in fact simple morphological variants of already described species, they believe that most of them represent distinct species. 
+In other words, the number of known species in French Guiana (named and unnamed) is probably already close to 2000. 
+Furthermore, the available data is very unevenly distributed across the territory. 
+The south and especially the north-west of French Guiana are poorly explored botanically (few inventory plots, relatively few herbarium specimens), while their floras are significantly different from the better inventoried northern and central zones. 
+It is thus very likely that the exploration of these little-known areas will add new species to the list. Therefore, the estimate of `r S %>% round(0)` spp. given here seems quite plausible, given the state of our knowledge.
+ 
 
 # Appendix
 
