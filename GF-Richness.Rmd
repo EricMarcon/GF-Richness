@@ -141,7 +141,7 @@ Then, if it is present $A_1$, the probability to find it in turn in half $A_1$, 
 The probability to find the species in $A_n$ is thus $a^n$.
 In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, is constant: it does not depend either on the observation scale nor the species considered.
 
-The Arrenhius power law [@Arrhenius1921] both implies and is a consequence of the self-similarity property [@Harte1999].
+The Arrhenius power law [@Arrhenius1921] both implies and is a consequence of the self-similarity property [@Harte1999].
 The number of species $S(A)$ observed in an area $A$ is
 
 \begin{equation}
@@ -156,7 +156,7 @@ This is a classical relation in macroecology, with long empirical and theoretica
 If $z$ is known, the inventory of a reasonably large area $b$ allows computing $c=b^{z}/S(b)$.
 Then, $S(A)$ can be calculated for any value of $A$.
 
-@Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots distributed across the area.
+@Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots of equal size distributed across the area.
 The @Sorensen1948 similarity between two plots is
 
 \begin{equation}
@@ -177,39 +177,6 @@ The logarithm of the Sørensen dissimilarity between pairs of plots can be regre
 
 The relation \@ref(eq:estimatez) holds at the same scale as the power law, i.e. at the regional scale [@Grilli2012].
 @Krishnamani2004 estimated $z \approx 0.12$ with a very good fit to the linear model at distances up from 1 km but not below.
-Our data confirm that.
-
-A large enough inventory, provided by a permanent forest facility, is necessary along with a set of small, widely spread forest plots.
-
-```{r Paracou}
-# All plots
-paracou_area <- (15*6.25+25)/100
-paracou_envelope <- 3.5
-# From Paracou database
-# Abundances of species in each plot
-Paracou_abd <- get_secret("Paracou_abd", vault = vault)
-# Extrapolate richness to the envelope area
-library("entropart")
-paracou_S <- round(Diversity(Paracou_abd, q=0, 
-                Level=round(paracou_envelope/paracou_area*sum(Paracou_abd))))
-```
-
-```{r FrenchGuiana}
-# Extrapolation area in squared km
-A0 <- 80000
-```
-The Paracou research station [@Gourlet-Fleury2004] is located at coordinates 5°18'N and 52°53'W.
-It contains fifteen 6.25-ha and one 25-ha plots of primary rainforest summing up to a `r paracou_area`-km^2^ inventory.
-It is included in a `r paracou_envelope`-km^2^ convex envelope.
-
-We obtained the abundances of 697 species from the Paracou database (https://paracoudata.cirad.fr/) after eliminating undetermined trees (with a botanical confidence level below 2, i.e. either not identified by a botanist or not identify at the genus level).
-We extrapolated richness up to the size of the envelope following @Colwell2012, assuming the number of trees per area identical to that of the inventory.
-We found `r paracou_S` species.
-
-(ref:GuyaDivMap) The GuyaDiv network.
-```{r GuyaDivMap, fig.cap="(ref:GuyaDivMap)"}
-knitr::include_graphics('images/GuyaDiv2021.jpg')
-```
 
 ```{r GuyaDiv}
 # Plots: code, location, X, Y
@@ -225,16 +192,63 @@ guyadiv_plots <- nrow(Plots)
 guyadiv_locations <- length(unique(Plots$Location))
 ```
 
+A large enough inventory, provided by a permanent forest facility, is necessary along with a set of small, widely spread forest plots.
+Our plot network is GuyaDiv [@Engel2015].
+Since the installation of the first plots in 1986, the GuyaDiv network has continuously grown until today. 
+It now consists of 243 plots of various sizes and shapes, distributed in various forest types, in 30 sites across French Guiana (figure \@ref(fig:GuyaDivMap)). 
+We took into account the `r guyadiv_plots` one-hectare plots of the network. 
+They are located in `r guyadiv_locations` sites, which provides fairly good coverage of the variability of the forest in French Guiana.
+
+(ref:GuyaDivMap) The GuyaDiv network. Paracou, Piste de Saint-Elie and Nouragues are denoted PAR, PSE and NOU.
+```{r GuyaDivMap, fig.cap="(ref:GuyaDivMap)"}
+knitr::include_graphics('images/GuyaDiv2021.jpg')
+```
+
+We gathered 3 local, large inventories to account for environmental variability and a network of plot covering the whole region.
+
+```{r Paracou, eval=FALSE}
+# Extrapolation of species with confidence >=2 in the database
+# All plots
+paracou_area <- (15*6.25+25)/100
+paracou_envelope <- 3.5
+# From Paracou database
+# Abundances of species in each plot
+Paracou_abd <- get_secret("Paracou_abd", vault = vault)
+# Extrapolate richness to the envelope area
+library("entropart")
+paracou_S <- round(Diversity(Paracou_abd, q=0, 
+                Level=round(paracou_envelope/paracou_area*sum(Paracou_abd))))
+```
+
+```{r b}
+# Number of species and envelope area
+paracou_S <- 571+575-443+37
+paracou_envelope <- 4.84
+PSE_S <- 763
+PSE_envelope <- 3
+NOU_S <- 850
+NOU_envelope <- 2.5
+```
+
+The Paracou research station [@Gourlet-Fleury2004] contains six 6.25-ha and one 25-ha plots of primary rainforest.
+Nine 6.25-ha plots were logged between 1986 and 1988 in a forestry experiment that temporarily increased the recruitment of light-demanding species [@Mirabel2021] and the functional diversity [@Mirabel2020].
+
+In a rather conservative approach, we retained only the well-identified trees of the permanent plots (571 species) and added available data from the GuyaDiv network: transects from @Molino2001 and ten 0.49-ha plots around the Guyaflux tower [@Bonal2008] contain 575 species, including 132 new ones.
+37 more species at the Cayenne herbarium [CAY: @Hoff1989] were collected in the area but outside the plots.
+The total number of species is thus `r paracou_S` included in a `r paracou_envelope`-km^2^ convex envelope.
+
+The Piste de Saint-Elie site has been intensively sampled for 50 years.
+It encompasses four 1-ha and one half-hectare plots in GuyaDiv and a few small plots added for various studies.
+Moreover, many herbarium specimen were collected from the site.
+As a whole, we gathered `r PSE_S` species in a `r PSE_envelope`-km^2^ area.
+
+Nouragues research station [@Bongers2001] provides 22 hectares of permanent plots curated the same way Paracou's in a common network called Guyafor.
+We applied the same protocol, adding Guyadiv plots and herbarium collections up to `r NOU_S` species in a `r NOU_envelope`-km^2^ area.
 
 ```{r n_simulations}
 # Number of simulations to run
 n_simulations <- 1000L
 ```
-
-Since the installation of the first plots in 1986, the GuyaDiv network [@Engel2015] has continuously grown until today. 
-It now consists of 243 plots of various sizes and shapes, distributed in various forest types, in 30 sites across French Guiana (figure \@ref(fig:GuyaDivMap)). 
-We take into account the `r guyadiv_plots` one-hectare plots of the network. 
-They are located in `r guyadiv_locations` sites, which provides fairly good coverage of the variability of the forest in French Guiana.
 
 The number of plots varies across locations so the estimation of $z$ must be made with care.
 We sampled one random plot at each location to obtain $`r guyadiv_locations` \times `r guyadiv_locations-1`/2 = 210$ pairs of plots.
@@ -243,7 +257,13 @@ We estimated $z$ as half the coefficient of the distance variable in the linear 
 We repeated these steps `r n_simulations` times to obtain a distribution of estimated $z$ values depending on the plots drawn in each location.
 $z$ was estimated as the empirical mean of the distribution and its 95% confidence interval was obtained by eliminating the 2.5% extreme values on both tails.
 
+```{r FrenchGuiana}
+# Extrapolation area in squared km
+A0 <- 80000
+```
+
 All analyses were made with R [@R] v. 4.1.2.
+
 
 # Results
 
