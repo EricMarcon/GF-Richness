@@ -376,6 +376,11 @@ We repeated these steps 1000 times to obtain a distribution of estimated <span c
 <span class="math inline">\(z\)</span> was estimated as the empirical mean of the distribution and its 95% confidence interval was obtained by eliminating the 2.5% extreme values on both tails.</p>
 <p></p>
 <p></p>
+<p>The confidence interval of the estimation of the number of species is assessed by combining the uncertainty in <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>.
+The variance of <span class="math inline">\(c\)</span> is estimated from the three observed values.
+That of <span class="math inline">\(A^z\)</span> is obtained from the empirical distribution of <span class="math inline">\(z\)</span>.
+The variance of their product is calculated then (the formula and its derivation are in Appendix <a href="#apd-variance">5.2</a>).
+Finally, we assume the normality of the distribution of the product of the estimates to retain an approximate 95% confidence interval of <span class="math inline">\(\pm\)</span> 2 standard deviations.</p>
 <p>All analyses were made with R <span class="citation">(R Core Team 2022)</span> v. 4.1.2.</p>
 </div>
 <div id="results" class="section level1" number="3">
@@ -387,11 +392,12 @@ We repeated these steps 1000 times to obtain a distribution of estimated <span c
 <p>The estimated value of <span class="math inline">\(z\)</span> is 0.103 with a 95% confidence interval between 0.089 and 0.121.</p>
 <p></p>
 <p></p>
-<p>The number of species per squared kilometer, <span class="math inline">\(c\)</span>, is 629.</p>
+<p>The estimated number of species per squared kilometer, <span class="math inline">\(c\)</span>, is respectively 629, 681 and 773 in Paracou, Piste de St Elie and Nouragues.
+The average value is 694.</p>
 <p></p>
 <p></p>
-<p>Finally, the estimated number of species is 2019.
-Taking into account the uncertainty about <span class="math inline">\(z\)</span>, its 95% confidence interval is between 1709 and 2453.</p>
+<p>Finally, the estimated number of species is 2230.
+Taking into account the uncertainty about <span class="math inline">\(z\)</span>, its 95% confidence interval is between 1589 and 2872.</p>
 </div>
 <div id="discussion" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Discussion</h1>
@@ -404,27 +410,28 @@ It is driven by statistical models that address incomplete sampling <span class=
 After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao’s <span class="citation">(Chao 2004)</span> or the jackknife <span class="citation">(Burnham and Overton 1978)</span> apply.</p>
 <p>At the scale of the metacommunity, defined as of the neutral model of biogeography, the species distribution is in log-series <span class="citation">(Hubbell 2001; Volkov et al. 2003)</span>.
 <span class="citation">ter Steege et al. (2013)</span> fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
-We applied the same method to our data in appendix <a href="#apd-logseries">5.2</a>.
+We applied the same method to our data in appendix <a href="#apd-logseries">5.3</a>.
 Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist <span class="citation">(Molino et al. 2022)</span>.
 The regional species pool does not follow a log-series distribution because of dispersal limitation <span class="citation">(Grilli et al. 2012)</span>.
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity’s species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
-For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix <a href="#apd-hyperdominance">5.3</a>), compared to 1.4% in Amazonia as a whole <span class="citation">(ter Steege et al. 2013)</span>.</p>
-<p>The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2000, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
-As shown in figure <a href="#fig:slope">5.1</a>, the fit of the linear model is not perfect.
+For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix <a href="#apd-hyperdominance">5.4</a>), compared to 1.4% in Amazonia as a whole <span class="citation">(ter Steege et al. 2013)</span>.</p>
+<p>The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2200, with a quite wide confidence interval due to the variability in the estimation of both the number of trees in a squared kilometer and the power-law parameter.</p>
+<p>As shown in figure <a href="#fig:slope">5.1</a>, the fit of the linear model is not perfect.
 The theory does not address habitat variation, that is well-described in French Guiana <span class="citation">(Guitet et al. 2015)</span>.
 The dissimilarity between plot pairs is thus explained by distance and habitat dissimilarity, the latter ignored in the model.
 Yet, the estimation of <span class="math inline">\(z\)</span> is quite robust because the GuyaDiv network covers a wide range of habitats, allowing to cancel out local variability.
+Adding more plots or describing a few more species in the previous plots may not change <span class="math inline">\(z\)</span> significantly since it is obtained from the dissimilarity between plots.
 Its value 0.103 is in line with that of <span class="citation">Krishnamani, Kumar, and Harte (2004)</span> in another tropical forest: it is very small compared to the classical 0.25 of <span class="citation">Arrhenius (1921)</span> or 0.263 of <span class="citation">Preston (1962)</span>.
 This was discussed by <span class="citation">MacArthur and Wilson (1967)</span>, chapter 2.
 The power law applies to embedded scales of the same ecosystem here, in contrast to the usual sets of isolated islands providing the data <span class="citation">(Triantis, Guilhaumon, and Whittaker 2012)</span>: in our case, the number of species increases less with the area, leading to smaller <span class="math inline">\(z\)</span> values.</p>
-<p>Another issue of the estimation is due to its unique starting point, i.e. Paracou field station, that is not representative of the whole French Guiana.
-Actually, it is located at the edge of the forest, close to the coast.
+<p>The critical aspect of the estimation is the accuracy of the starting point of the extrapolation, that mainly depends on the representativeness of the local inventories
 Again, the self-similarity model assumes that <span class="math inline">\(c\)</span>, the number of species per squared kilometer, is the same everywhere.
 Local, observed values must be understood as variations around the real <span class="math inline">\(c\)</span>, that should be estimated by replicating inventories across the whole region.
-This is of course impossible due to the huge resources needed to settle a single one so Paracou’s local richness adjusted to 1 km<sup>2</sup> must be considered as the best available estimator of <span class="math inline">\(c\)</span>.
-Its uncertainty cannot be evaluated because of the lack of replication.
-Its effect on the number of estimated species is proportional.</p>
+This is of course restricted by to the huge resources needed to settle a single one: three replicates are an exceptional amount of data.
+Paracou, Piste de St Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
+We made a strict selection of the data to count the numbers of species, which are thus lower bounds.
+Ongoing efforts of botanists may increase the value of <span class="math inline">\(c\)</span>, implying a proportional increase in the estimation of the number of species.</p>
 <p>A recent work <span class="citation">(Molino et al. 2022)</span> lists nearly 1800 species of indigenous trees in French Guiana, based on herbarium collections on the one hand, and on data from the GuyaDiv and GuyaFor plot networks <span class="citation">(Engel 2015)</span> on the other.
 However, this checklist is only a state of the art of our knowledge of the tree flora.
 Even in the most intensively explored areas, botanists conducting botanical inventories have identified a number of entities that are morphologically distinct from all known species in French Guiana, and which they therefore consider to be still unnamed species.
@@ -434,7 +441,8 @@ Although it cannot be excluded that some of the other 150-200 unnamed species ar
 In other words, the number of known species in French Guiana (named and unnamed) is probably already close to 2000.
 Furthermore, the available data is very unevenly distributed across the territory.
 The south and especially the north-west of French Guiana are poorly explored botanically (few inventory plots, relatively few herbarium specimens), while their floras are significantly different from the better inventoried northern and central zones.
-It is thus very likely that the exploration of these little-known areas will add new species to the list. Therefore, the estimate of 2019 spp. given here seems quite plausible, given the state of our knowledge.</p>
+It is thus very likely that the exploration of these little-known areas will add new species to the list.
+Therefore, the estimate of 2230 spp. given here seems quite plausible, given the state of our knowledge.</p>
 </div>
 <div id="appendix" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Appendix</h1>
@@ -454,8 +462,25 @@ Figure 5.1: Relation between Sørensen’s similarity and the distance between p
 </div>
 <p></p>
 </div>
-<div id="apd-logseries" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Log-series estimation of the number of species</h2>
+<div id="apd-variance" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Variance of the product of two random variables</h2>
+<p>Let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> two random variables, here the estimators of <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>.</p>
+<p>The variance of their product <span class="math inline">\(XY\)</span> is</p>
+<p><span class="math display" id="eq:varprod">\[\begin{align}
+  Var(XY)=E(X^2Y^2)-E^2(XY)
+    = E(X^2)E(Y^2) + Cov(X^2,Y^2)-[E(X)E(Y) + Cov(X,Y)]^2.
+  \tag{5.1}
+\end{align}\]</span></p>
+<p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent (this applies to <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>), covariances are 0 and the variance reduces to</p>
+<p><span class="math display" id="eq:varprodind">\[\begin{align}
+  Var(XY)= E(X^2)E(Y^2) -[E(X)E(Y)]^2
+    = [Var(X)+E(X)^2][Var(Y)+E(Y)^2] - [E(X)E(Y)]^2
+    = Var(X)Var(Y) + E(X)^2Var(Y) + E(Y)^2Var(X).
+  \tag{5.2}
+\end{align}\]</span></p>
+</div>
+<div id="apd-logseries" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Log-series estimation of the number of species</h2>
 <p>Assuming that the plots are samples of a metacommunity that follows a log-series distribution, the rank-abundance curve can be extrapolated (figure <a href="#fig:logseries">5.2</a>) following <span class="citation">ter Steege et al. (2013)</span>.</p>
 <p></p>
 <p></p>
@@ -480,8 +505,8 @@ Figure 5.2: Extrapolation of the rank-abundance curve built from the GuyaDiv plo
 <p>The estimated number of species according to this model is 3554.
 This is undoubtedly a severe overestimation, see the discussion section of the paper.</p>
 </div>
-<div id="apd-hyperdominance" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Hyperdominance</h2>
+<div id="apd-hyperdominance" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Hyperdominance</h2>
 <p>Hyperdominance is a characteristic of many distributions of species.
 Figure <a href="#fig:hyperdominance">5.3</a> shows the accumulation of individuals from the most abundant to the rarest species.</p>
 
