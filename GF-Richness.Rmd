@@ -13,7 +13,7 @@ affiliation:
   - affsuperscript: 1
     dptuniv: "AgroParisTech, AMAP, CIRAD, CNRS, INRAE, IRD, Univ Montpellier, Montpellier, France."
   - affsuperscript: 2
-    dptuniv: "Department / University"
+    dptuniv: "Department of Biology, Western University, ON, Canada"
   - affsuperscript: 3
     dptuniv: "AMAP, IRD, CIRAD, CNRS, INRAE, Univ Montpellier, Montpellier, France."
   - affsuperscript: 4
