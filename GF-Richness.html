@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2022-02-10" />
+<meta name="date" content="2022-02-11" />
 
 <title>Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness</title>
 
@@ -277,10 +277,10 @@ div.tocify {
 <h4 class="author">Ariane Mirabel</h4>
 <h4 class="author">Jean-François Molino</h4>
 <h4 class="author">Daniel Sabatier</h4>
-<h4 class="date">10 February 2022</h4>
+<h4 class="date">11 February 2022</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
-<p>The biodiversity of tropical rainforest is difficult to assess. Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories. GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1315 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. We can then extrapolate the number of species from a local, wide inventory (118.75 ha in Paracou research station). We evaluate the number of tree species around 2200 over the territory.</p>
+<p>The biodiversity of tropical rainforest is difficult to assess. Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories. GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1315 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. We can then extrapolate the number of species from three local, wide inventories (over 2.5 km<sup>2</sup>). We evaluate the number of tree species around 2200 over the territory.</p>
 </div>
 
 </div>
@@ -308,16 +308,16 @@ Then, if it is present <span class="math inline">\(A_1\)</span>, the probability
 The probability to find the species in <span class="math inline">\(A_n\)</span> is thus <span class="math inline">\(a^n\)</span>.
 In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, is constant: it does not depend either on the observation scale nor the species considered.</p>
 <p>The Arrhenius power law <span class="citation">(Arrhenius 1921)</span> both implies and is a consequence of the self-similarity property <span class="citation">(Harte, Kinzig, and Green 1999)</span>.
-The number of species <span class="math inline">\(S(A)\)</span> observed in an area <span class="math inline">\(A\)</span> is</p>
+The number of species <span class="math inline">\(\mathrm{S}(A)\)</span> observed in an area <span class="math inline">\(A\)</span> is</p>
 <p><span class="math display" id="eq:Arrhenius">\[\begin{equation}
-  S(A)=cA^z
+  \mathrm{S}(A)=cA^z
   \tag{2.1}
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(z\)</span> is the power parameter and <span class="math inline">\(c\)</span> is the number of species in an area of size 1.
 Actually, <span class="math inline">\(a=2^{-z}\)</span>.
 This is a classical relation in macroecology, with long empirical and theoretical support <span class="citation">(Williamson, Gaston, and Lonsdale 2001; Gárcia Martín and Goldenfeld 2006)</span>.</p>
 <p>If <span class="math inline">\(z\)</span> is known, the inventory of a reasonably large area <span class="math inline">\(b\)</span> allows computing <span class="math inline">\(c=b^{z}/S(b)\)</span>.
-Then, <span class="math inline">\(S(A)\)</span> can be calculated for any value of <span class="math inline">\(A\)</span>.</p>
+Then, <span class="math inline">\(\mathrm{S}(A)\)</span> can be calculated for any value of <span class="math inline">\(A\)</span>.</p>
 <p><span class="citation">Harte et al. (1999)</span> showed that under the assumption of self-similarity, <span class="math inline">\(z\)</span> can be inferred from the dissimilarity between small and distant plots of equal size distributed across the area.
 The <span class="citation">Sørensen (1948)</span> similarity between two plots is</p>
 <p><span class="math display" id="eq:Sorensen">\[\begin{equation}
@@ -379,8 +379,8 @@ We repeated these steps 1000 times to obtain a distribution of estimated <span c
 <p>The confidence interval of the estimation of the number of species is assessed by combining the uncertainty in <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>.
 The variance of <span class="math inline">\(c\)</span> is estimated from the three observed values.
 That of <span class="math inline">\(A^z\)</span> is obtained from the empirical distribution of <span class="math inline">\(z\)</span>.
-The variance of their product is calculated then (the formula and its derivation are in Appendix <a href="#apd-variance">5.2</a>).
-Finally, we assume the normality of the distribution of the product of the estimates to retain an approximate 95% confidence interval of <span class="math inline">\(\pm\)</span> 2 standard deviations.</p>
+The variance of their product is calculated (the formula and its derivation are in Appendix <a href="#apd-variance">5.2</a>).
+Finally, we assumed the normality of the distribution of the product of the estimates to retain an approximate 95% confidence interval of <span class="math inline">\(\pm\)</span> 2 standard deviations.</p>
 <p>All analyses were made with R <span class="citation">(R Core Team 2022)</span> v. 4.1.2.</p>
 </div>
 <div id="results" class="section level1" number="3">
@@ -392,7 +392,7 @@ Finally, we assume the normality of the distribution of the product of the estim
 <p>The estimated value of <span class="math inline">\(z\)</span> is 0.103 with a 95% confidence interval between 0.089 and 0.121.</p>
 <p></p>
 <p></p>
-<p>The estimated number of species per squared kilometer, <span class="math inline">\(c\)</span>, is respectively 629, 681 and 773 in Paracou, Piste de St Elie and Nouragues.
+<p>The estimated number of species per squared kilometer, <span class="math inline">\(c\)</span>, is respectively 629, 681 and 773 in Paracou, Piste de Saint Elie and Nouragues.
 The average value is 694.</p>
 <p></p>
 <p></p>
@@ -428,10 +428,10 @@ The power law applies to embedded scales of the same ecosystem here, in contrast
 <p>The critical aspect of the estimation is the accuracy of the starting point of the extrapolation, that mainly depends on the representativeness of the local inventories
 Again, the self-similarity model assumes that <span class="math inline">\(c\)</span>, the number of species per squared kilometer, is the same everywhere.
 Local, observed values must be understood as variations around the real <span class="math inline">\(c\)</span>, that should be estimated by replicating inventories across the whole region.
-This is of course restricted by to the huge resources needed to settle a single one: three replicates are an exceptional amount of data.
-Paracou, Piste de St Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
+This is of course restricted by the huge resources needed to settle a single one: three replicates are an exceptional amount of data.
+Paracou, Piste de Saint Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
 We made a strict selection of the data to count the numbers of species, which are thus lower bounds.
-Ongoing efforts of botanists may increase the value of <span class="math inline">\(c\)</span>, implying a proportional increase in the estimation of the number of species.</p>
+Ongoing efforts of botanists may increase a bit the value of <span class="math inline">\(c\)</span>, implying a proportional increase in the estimation of the number of species.</p>
 <p>A recent work <span class="citation">(Molino et al. 2022)</span> lists nearly 1800 species of indigenous trees in French Guiana, based on herbarium collections on the one hand, and on data from the GuyaDiv and GuyaFor plot networks <span class="citation">(Engel 2015)</span> on the other.
 However, this checklist is only a state of the art of our knowledge of the tree flora.
 Even in the most intensively explored areas, botanists conducting botanical inventories have identified a number of entities that are morphologically distinct from all known species in French Guiana, and which they therefore consider to be still unnamed species.
@@ -467,15 +467,15 @@ Figure 5.1: Relation between Sørensen’s similarity and the distance between p
 <p>Let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> two random variables, here the estimators of <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>.</p>
 <p>The variance of their product <span class="math inline">\(XY\)</span> is</p>
 <p><span class="math display" id="eq:varprod">\[\begin{align}
-  Var(XY)=E(X^2Y^2)-E^2(XY)
-    = E(X^2)E(Y^2) + Cov(X^2,Y^2)-[E(X)E(Y) + Cov(X,Y)]^2.
+  \mathrm{Var}(XY) &amp;=\mathbb{E}(X^2Y^2)-\mathbb{E}^2(XY) \\
+          &amp;= \mathbb{E}(X^2)\mathbb{E}(Y^2) + \mathrm{Cov}(X^2,Y^2)-[\mathbb{E}(X)\mathbb{E}(Y) + \mathrm{Cov}(X,Y)]^2.
   \tag{5.1}
 \end{align}\]</span></p>
 <p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent (this applies to <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>), covariances are 0 and the variance reduces to</p>
 <p><span class="math display" id="eq:varprodind">\[\begin{align}
-  Var(XY)= E(X^2)E(Y^2) -[E(X)E(Y)]^2
-    = [Var(X)+E(X)^2][Var(Y)+E(Y)^2] - [E(X)E(Y)]^2
-    = Var(X)Var(Y) + E(X)^2Var(Y) + E(Y)^2Var(X).
+  \mathrm{Var}(XY)&amp;= \mathbb{E}(X^2)\mathbb{E}(Y^2) -[\mathbb{E}(X)\mathbb{E}(Y)]^2 \\
+         &amp;= [\mathrm{Var}(X)+\mathbb{E}(X)^2][\mathrm{Var}(Y)+\mathbb{E}(Y)^2] - [\mathbb{E}(X)E(Y)]^2 \\
+         &amp;= \mathrm{Var}(X)\mathrm{Var}(Y) + E(X)^2\mathrm{Var}(Y) + E(Y)^2\mathrm{Var}(X).
   \tag{5.2}
 \end{align}\]</span></p>
 </div>
