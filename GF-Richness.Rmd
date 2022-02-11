@@ -45,6 +45,8 @@ output:
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: yes
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
 ---
 
 ```{r DoNotModify, include=FALSE}
