@@ -386,7 +386,7 @@ c_NOU <- NOU_S/NOU_envelope^z
 c_est <- (c_paracou + c_PSE + c_NOU)/3
 ```
 
-The estimated number of species per squared kilometer, $c$, is respectively `r c_paracou %>% round(0)`, `r c_PSE %>% round(0)` and `r c_NOU %>% round(0)` in Paracou, Piste de Saint Elie and Nouragues.
+The estimated number of species per squared kilometer, $c$, is respectively `r c_paracou %>% round(0)`, `r c_PSE %>% round(0)` and `r c_NOU %>% round(0)` in Paracou, Piste de Saint-Elie and Nouragues.
 The average value is `r c_est %>% round(0)`.
 
 ```{r estimate_S}
@@ -417,7 +417,7 @@ After replacing the sampled area by the number of individuals it contains, well-
 At the scale of the metacommunity, defined as of the neutral model of biogeography, the species distribution is in log-series [@Hubbell2001; @Volkov2003].
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
 We applied the same method to our data in appendix \@ref(apd-logseries).
-Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist [@Molino2022].
+Its estimation is close to 3500 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist [@Molino2022].
 The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
@@ -438,7 +438,7 @@ The critical aspect of the estimation is the accuracy of the starting point of t
 Again, the self-similarity model assumes that $c$, the number of species per squared kilometer, is the same everywhere.
 Local, observed values must be understood as variations around the real $c$, that should be estimated by replicating inventories across the whole region.
 This is of course restricted by the huge resources needed to settle a single one: three replicates are an exceptional amount of data.
-Paracou, Piste de Saint Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
+Paracou, Piste de Saint-Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
 We made a strict selection of the data to count the numbers of species, which are thus lower bounds.
 Ongoing efforts of botanists may increase a bit the value of $c$, implying a proportional increase in the estimation of the number of species.
 
