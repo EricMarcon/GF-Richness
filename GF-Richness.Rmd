@@ -24,7 +24,7 @@ abstract: >
   The biodiversity of tropical rainforest is difficult to assess. 
   Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories.
   GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1315 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. 
-  We can then extrapolate the number of species from a local, wide inventory (118.75 ha in Paracou research station).
+  We can then extrapolate the number of species from three local, wide inventories (over 2.5 km^2^).
   We evaluate the number of tree species around 2200 over the territory.
 keywords: [Biodiversity, Tropical Forest, Self Similarity, French Guiana]
 date: "`r format(Sys.time(), '%d %B %Y')`"
@@ -142,10 +142,10 @@ The probability to find the species in $A_n$ is thus $a^n$.
 In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, is constant: it does not depend either on the observation scale nor the species considered.
 
 The Arrhenius power law [@Arrhenius1921] both implies and is a consequence of the self-similarity property [@Harte1999].
-The number of species $S(A)$ observed in an area $A$ is
+The number of species $\mathrm{S}(A)$ observed in an area $A$ is
 
 \begin{equation}
-  S(A)=cA^z
+  \mathrm{S}(A)=cA^z
   (\#eq:Arrhenius)
 \end{equation}
 
@@ -154,7 +154,7 @@ Actually, $a=2^{-z}$.
 This is a classical relation in macroecology, with long empirical and theoretical support [@Williamson2001; @GarciaMartin2006].
 
 If $z$ is known, the inventory of a reasonably large area $b$ allows computing $c=b^{z}/S(b)$.
-Then, $S(A)$ can be calculated for any value of $A$.
+Then, $\mathrm{S}(A)$ can be calculated for any value of $A$.
 
 @Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots of equal size distributed across the area.
 The @Sorensen1948 similarity between two plots is
@@ -265,8 +265,8 @@ A0 <- 80000
 The confidence interval of the estimation of the number of species is assessed by combining the uncertainty in $c$ and $A^z$.
 The variance of $c$ is estimated from the three observed values.
 That of $A^z$ is obtained from the empirical distribution of $z$.
-The variance of their product is calculated then (the formula and its derivation are in Appendix \@ref(apd-variance)).
-Finally, we assume the normality of the distribution of the product of the estimates to retain an approximate 95% confidence interval of $\pm$ 2 standard deviations.
+The variance of their product is calculated (the formula and its derivation are in Appendix \@ref(apd-variance)).
+Finally, we assumed the normality of the distribution of the product of the estimates to retain an approximate 95% confidence interval of $\pm$ 2 standard deviations.
 
 All analyses were made with R [@R] v. 4.1.2.
 
@@ -384,7 +384,7 @@ c_NOU <- NOU_S/NOU_envelope^z
 c_est <- (c_paracou + c_PSE + c_NOU)/3
 ```
 
-The estimated number of species per squared kilometer, $c$, is respectively `r c_paracou %>% round(0)`, `r c_PSE %>% round(0)` and `r c_NOU %>% round(0)` in Paracou, Piste de St Elie and Nouragues.
+The estimated number of species per squared kilometer, $c$, is respectively `r c_paracou %>% round(0)`, `r c_PSE %>% round(0)` and `r c_NOU %>% round(0)` in Paracou, Piste de Saint Elie and Nouragues.
 The average value is `r c_est %>% round(0)`.
 
 ```{r estimate_S}
@@ -435,10 +435,10 @@ The power law applies to embedded scales of the same ecosystem here, in contrast
 The critical aspect of the estimation is the accuracy of the starting point of the extrapolation, that mainly depends on the representativeness of the local inventories
 Again, the self-similarity model assumes that $c$, the number of species per squared kilometer, is the same everywhere.
 Local, observed values must be understood as variations around the real $c$, that should be estimated by replicating inventories across the whole region.
-This is of course restricted by to the huge resources needed to settle a single one: three replicates are an exceptional amount of data.
-Paracou, Piste de St Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
+This is of course restricted by the huge resources needed to settle a single one: three replicates are an exceptional amount of data.
+Paracou, Piste de Saint Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
 We made a strict selection of the data to count the numbers of species, which are thus lower bounds.
-Ongoing efforts of botanists may increase the value of $c$, implying a proportional increase in the estimation of the number of species.
+Ongoing efforts of botanists may increase a bit the value of $c$, implying a proportional increase in the estimation of the number of species.
 
 A recent work [@Molino2022] lists nearly 1800 species of indigenous trees in French Guiana, based on herbarium collections on the one hand, and on data from the GuyaDiv and GuyaFor plot networks [@Engel2015] on the other. 
 However, this checklist is only a state of the art of our knowledge of the tree flora. 
@@ -507,17 +507,17 @@ Let $X$ and $Y$ two random variables, here the estimators of $c$ and $A^z$.
 The variance of their product $XY$ is
 
 \begin{align}
-  Var(XY)=E(X^2Y^2)-E^2(XY)
-    = E(X^2)E(Y^2) + Cov(X^2,Y^2)-[E(X)E(Y) + Cov(X,Y)]^2.
+  \mathrm{Var}(XY) &=\mathbb{E}(X^2Y^2)-\mathbb{E}^2(XY) \\
+          &= \mathbb{E}(X^2)\mathbb{E}(Y^2) + \mathrm{Cov}(X^2,Y^2)-[\mathbb{E}(X)\mathbb{E}(Y) + \mathrm{Cov}(X,Y)]^2.
   (\#eq:varprod)
 \end{align}
 
 If $X$ and $Y$ are independent (this applies to $c$ and $A^z$), covariances are 0 and the variance reduces to
 
 \begin{align}
-  Var(XY)= E(X^2)E(Y^2) -[E(X)E(Y)]^2
-    = [Var(X)+E(X)^2][Var(Y)+E(Y)^2] - [E(X)E(Y)]^2
-    = Var(X)Var(Y) + E(X)^2Var(Y) + E(Y)^2Var(X).
+  \mathrm{Var}(XY)&= \mathbb{E}(X^2)\mathbb{E}(Y^2) -[\mathbb{E}(X)\mathbb{E}(Y)]^2 \\
+         &= [\mathrm{Var}(X)+\mathbb{E}(X)^2][\mathrm{Var}(Y)+\mathbb{E}(Y)^2] - [\mathbb{E}(X)E(Y)]^2 \\
+         &= \mathrm{Var}(X)\mathrm{Var}(Y) + E(X)^2\mathrm{Var}(Y) + E(Y)^2\mathrm{Var}(X).
   (\#eq:varprodind)
 \end{align}
 
