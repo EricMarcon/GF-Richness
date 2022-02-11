@@ -466,18 +466,25 @@ Figure 5.1: Relation between Sørensen’s similarity and the distance between p
 <h2><span class="header-section-number">5.2</span> Variance of the product of two random variables</h2>
 <p>Let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> two random variables, here the estimators of <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>.</p>
 <p>The variance of their product <span class="math inline">\(XY\)</span> is</p>
-<p><span class="math display" id="eq:varprod">\[\begin{align}
-  \mathrm{Var}(XY) &amp;=\mathbb{E}(X^2Y^2)-\mathbb{E}^2(XY) \\
-          &amp;= \mathbb{E}(X^2)\mathbb{E}(Y^2) + \mathrm{Cov}(X^2,Y^2)-[\mathbb{E}(X)\mathbb{E}(Y) + \mathrm{Cov}(X,Y)]^2.
+<p><span class="math display" id="eq:varprod">\[\begin{equation} 
+  \begin{split}
+    \mathrm{Var}(XY) &amp;= \mathbb{E}(X^2Y^2) -\mathbb{E}^2(XY) \\
+                     &amp;= \mathbb{E}(X^2)\mathbb{E}(Y^2) +\mathrm{Cov}(X^2,Y^2) \\
+                     &amp;\quad -[\mathbb{E}(X)\mathbb{E}(Y) +\mathrm{Cov}(X,Y)]^2.
+  \end{split}
   \tag{5.1}
-\end{align}\]</span></p>
+\end{equation}\]</span></p>
 <p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent (this applies to <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>), covariances are 0 and the variance reduces to</p>
-<p><span class="math display" id="eq:varprodind">\[\begin{align}
-  \mathrm{Var}(XY)&amp;= \mathbb{E}(X^2)\mathbb{E}(Y^2) -[\mathbb{E}(X)\mathbb{E}(Y)]^2 \\
-         &amp;= [\mathrm{Var}(X)+\mathbb{E}(X)^2][\mathrm{Var}(Y)+\mathbb{E}(Y)^2] - [\mathbb{E}(X)E(Y)]^2 \\
-         &amp;= \mathrm{Var}(X)\mathrm{Var}(Y) + E(X)^2\mathrm{Var}(Y) + E(Y)^2\mathrm{Var}(X).
+<p><span class="math display" id="eq:varprodind">\[\begin{equation} 
+  \begin{split}
+    \mathrm{Var}(XY)&amp;= \mathbb{E}(X^2)\mathbb{E}(Y^2) -[\mathbb{E}(X)\mathbb{E}(Y)]^2 \\
+                    &amp;= [\mathrm{Var}(X)+\mathbb{E}(X)^2][\mathrm{Var}(Y)+\mathbb{E}(Y)^2] \\
+                    &amp;\quad -[\mathbb{E}(X)E(Y)]^2 \\
+                    &amp;= \mathrm{Var}(X)\mathrm{Var}(Y) \\
+                    &amp;\quad +E(X)^2\mathrm{Var}(Y) +E(Y)^2\mathrm{Var}(X).
+  \end{split}
   \tag{5.2}
-\end{align}\]</span></p>
+\end{equation}\]</span></p>
 </div>
 <div id="apd-logseries" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> Log-series estimation of the number of species</h2>
