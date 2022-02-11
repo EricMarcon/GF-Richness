@@ -44,7 +44,7 @@ output:
     template: latex/template.tex
     citation_package: natbib
     latex_engine: xelatex
-    keep_tex: yes
+    keep_tex: no
   bookdown::word_document2:
      reference_docx: "images/template.docx"
 ---
@@ -508,20 +508,27 @@ Let $X$ and $Y$ two random variables, here the estimators of $c$ and $A^z$.
 
 The variance of their product $XY$ is
 
-\begin{align}
-  \mathrm{Var}(XY) &=\mathbb{E}(X^2Y^2)-\mathbb{E}^2(XY) \\
-          &= \mathbb{E}(X^2)\mathbb{E}(Y^2) + \mathrm{Cov}(X^2,Y^2)-[\mathbb{E}(X)\mathbb{E}(Y) + \mathrm{Cov}(X,Y)]^2.
+\begin{equation} 
+  \begin{split}
+    \mathrm{Var}(XY) &= \mathbb{E}(X^2Y^2) -\mathbb{E}^2(XY) \\
+                     &= \mathbb{E}(X^2)\mathbb{E}(Y^2) +\mathrm{Cov}(X^2,Y^2) \\
+                     &\quad -[\mathbb{E}(X)\mathbb{E}(Y) +\mathrm{Cov}(X,Y)]^2.
+  \end{split}
   (\#eq:varprod)
-\end{align}
+\end{equation}
 
 If $X$ and $Y$ are independent (this applies to $c$ and $A^z$), covariances are 0 and the variance reduces to
 
-\begin{align}
-  \mathrm{Var}(XY)&= \mathbb{E}(X^2)\mathbb{E}(Y^2) -[\mathbb{E}(X)\mathbb{E}(Y)]^2 \\
-         &= [\mathrm{Var}(X)+\mathbb{E}(X)^2][\mathrm{Var}(Y)+\mathbb{E}(Y)^2] - [\mathbb{E}(X)E(Y)]^2 \\
-         &= \mathrm{Var}(X)\mathrm{Var}(Y) + E(X)^2\mathrm{Var}(Y) + E(Y)^2\mathrm{Var}(X).
+\begin{equation} 
+  \begin{split}
+    \mathrm{Var}(XY)&= \mathbb{E}(X^2)\mathbb{E}(Y^2) -[\mathbb{E}(X)\mathbb{E}(Y)]^2 \\
+                    &= [\mathrm{Var}(X)+\mathbb{E}(X)^2][\mathrm{Var}(Y)+\mathbb{E}(Y)^2] \\
+                    &\quad -[\mathbb{E}(X)E(Y)]^2 \\
+                    &= \mathrm{Var}(X)\mathrm{Var}(Y) \\
+                    &\quad +E(X)^2\mathrm{Var}(Y) +E(Y)^2\mathrm{Var}(X).
+  \end{split}
   (\#eq:varprodind)
-\end{align}
+\end{equation}
 
 
 ## Log-series estimation of the number of species {#apd-logseries}
