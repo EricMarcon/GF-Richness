@@ -236,16 +236,16 @@ The Paracou research station [@Gourlet-Fleury2004] contains six 6.25-ha and one 
 Nine 6.25-ha plots were logged between 1986 and 1988 in a forestry experiment that temporarily increased the recruitment of light-demanding species [@Mirabel2021] and the functional diversity [@Mirabel2020].
 
 In a rather conservative approach, we retained only the well-identified trees of the permanent plots (571 species) and added available data from the GuyaDiv network: transects from @Molino2001 and ten 0.49-ha plots around the Guyaflux tower [@Bonal2008] contain 575 species, including 132 new ones.
-37 more species at the Cayenne herbarium [CAY: @Hoff1989] were collected in the area but outside the plots.
+37 more species at the French Guiana IRD Herbarium [CAY: @Gonzalez2022] were collected in the area but outside the plots.
 The total number of species is thus `r paracou_S` included in a `r paracou_envelope`-km^2^ convex envelope.
 
 The Piste de Saint-Elie site has been intensively sampled for 50 years.
-It encompasses four 1-ha and one half-hectare plots in GuyaDiv and a few small plots added for various studies.
+It encompasses nineteen 1-ha and one half-hectare plots in GuyaDiv and a few small plots added for various studies.
 Moreover, many herbarium specimen were collected from the site.
 As a whole, we gathered `r PSE_S` species in a `r PSE_envelope`-km^2^ area.
 
 Nouragues research station [@Bongers2001] provides 22 hectares of permanent plots curated the same way Paracou's in a common network called Guyafor.
-We applied the same protocol, adding Guyadiv plots and herbarium collections up to `r NOU_S` species in a `r NOU_envelope`-km^2^ area.
+We applied the same protocol, adding 11 Guyadiv plots and herbarium collections up to `r NOU_S` species in a `r NOU_envelope`-km^2^ area.
 
 ```{r n_simulations}
 # Number of simulations to run
