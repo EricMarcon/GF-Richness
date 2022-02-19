@@ -24,7 +24,7 @@ abstract: >
   The biodiversity of tropical rainforest is difficult to assess. 
   Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories.
   GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1315 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. 
-  We can then extrapolate the number of species from a local, wide inventory (118.75 ha in Paracou research station).
+  We can then extrapolate the number of species from three local, wide inventories (over 2.5 km^2^).
   We evaluate the number of tree species around 2200 over the territory.
 keywords: [Biodiversity, Tropical Forest, Self Similarity, French Guiana]
 date: "`r format(Sys.time(), '%d %B %Y')`"
@@ -44,7 +44,9 @@ output:
     template: latex/template.tex
     citation_package: natbib
     latex_engine: xelatex
-    keep_tex: yes
+    keep_tex: no
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -142,10 +144,10 @@ The probability to find the species in $A_n$ is thus $a^n$.
 In other words, the conditional probability to find a species in a sub-area, given that it is present in the area containing it, is constant: it does not depend either on the observation scale nor the species considered.
 
 The Arrhenius power law [@Arrhenius1921] both implies and is a consequence of the self-similarity property [@Harte1999].
-The number of species $S(A)$ observed in an area $A$ is
+The number of species $\mathrm{S}(A)$ observed in an area $A$ is
 
 \begin{equation}
-  S(A)=cA^z
+  \mathrm{S}(A)=cA^z
   (\#eq:Arrhenius)
 \end{equation}
 
@@ -154,7 +156,7 @@ Actually, $a=2^{-z}$.
 This is a classical relation in macroecology, with long empirical and theoretical support [@Williamson2001; @GarciaMartin2006].
 
 If $z$ is known, the inventory of a reasonably large area $b$ allows computing $c=b^{z}/S(b)$.
-Then, $S(A)$ can be calculated for any value of $A$.
+Then, $\mathrm{S}(A)$ can be calculated for any value of $A$.
 
 @Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots of equal size distributed across the area.
 The @Sorensen1948 similarity between two plots is
@@ -234,16 +236,16 @@ The Paracou research station [@Gourlet-Fleury2004] contains six 6.25-ha and one 
 Nine 6.25-ha plots were logged between 1986 and 1988 in a forestry experiment that temporarily increased the recruitment of light-demanding species [@Mirabel2021] and the functional diversity [@Mirabel2020].
 
 In a rather conservative approach, we retained only the well-identified trees of the permanent plots (571 species) and added available data from the GuyaDiv network: transects from @Molino2001 and ten 0.49-ha plots around the Guyaflux tower [@Bonal2008] contain 575 species, including 132 new ones.
-37 more species at the Cayenne herbarium [CAY: @Hoff1989] were collected in the area but outside the plots.
+37 more species at the French Guiana IRD Herbarium [CAY: @Gonzalez2022] were collected in the area but outside the plots.
 The total number of species is thus `r paracou_S` included in a `r paracou_envelope`-km^2^ convex envelope.
 
 The Piste de Saint-Elie site has been intensively sampled for 50 years.
-It encompasses four 1-ha and one half-hectare plots in GuyaDiv and a few small plots added for various studies.
+It encompasses nineteen 1-ha and one half-hectare plots in GuyaDiv and a few small plots added for various studies.
 Moreover, many herbarium specimen were collected from the site.
 As a whole, we gathered `r PSE_S` species in a `r PSE_envelope`-km^2^ area.
 
 Nouragues research station [@Bongers2001] provides 22 hectares of permanent plots curated the same way Paracou's in a common network called Guyafor.
-We applied the same protocol, adding Guyadiv plots and herbarium collections up to `r NOU_S` species in a `r NOU_envelope`-km^2^ area.
+We applied the same protocol, adding 11 Guyadiv plots and herbarium collections up to `r NOU_S` species in a `r NOU_envelope`-km^2^ area.
 
 ```{r n_simulations}
 # Number of simulations to run
@@ -261,6 +263,12 @@ $z$ was estimated as the empirical mean of the distribution and its 95% confiden
 # Extrapolation area in squared km
 A0 <- 80000
 ```
+
+The confidence interval of the estimation of the number of species is assessed by combining the uncertainty in $c$ and $A^z$.
+The variance of $c$ is estimated from the three observed values.
+That of $A^z$ is obtained from the empirical distribution of $z$.
+The variance of their product is calculated (the formula and its derivation are in Appendix \@ref(apd-variance)).
+Finally, we assumed the normality of the distribution of the product of the estimates to retain an approximate 95% confidence interval of $\pm$ 2 standard deviations.
 
 All analyses were made with R [@R] v. 4.1.2.
 
@@ -371,20 +379,29 @@ z_ci <- quantile(sim_z, probs = c(alpha/2, 1-alpha/2))
 The estimated value of $z$ is `r z %>% round(3) %>% format(nsmall=3)` with a 95% confidence interval between `r z_ci[1] %>% round(3) %>% format(nsmall=3)` and `r z_ci[2] %>% round(3) %>% format(nsmall=3)`.
 
 ```{r estimate_c}
-# From Paracou data
-c_est <- paracou_S/paracou_envelope^z
+# From 3 sites
+c_paracou <- paracou_S/paracou_envelope^z
+c_PSE <- PSE_S/PSE_envelope^z
+c_NOU <- NOU_S/NOU_envelope^z
+c_est <- (c_paracou + c_PSE + c_NOU)/3
 ```
 
-The number of species per squared kilometer, $c$, is `r c_est %>% round(0)`.
+The estimated number of species per squared kilometer, $c$, is respectively `r c_paracou %>% round(0)`, `r c_PSE %>% round(0)` and `r c_NOU %>% round(0)` in Paracou, Piste de Saint-Elie and Nouragues.
+The average value is `r c_est %>% round(0)`.
 
 ```{r estimate_S}
 # Estimated number of species
 S <- c_est * A0^z
-S_ci <- c_est * A0^z_ci
+# Confidence interval
+var_Az <- var(A0^sim_z)
+e_Az <- mean(A0^sim_z)
+var_c <- var(c(c_paracou, c_PSE, c_NOU))
+var_S <- c_est^2*var_Az + e_Az^2*var_c + var_Az*var_c
+sigma_S <- sqrt(var_S)
 ```
 
 Finally, the estimated number of species is `r S %>% round(0)`.
-Taking into account the uncertainty about $z$, its 95% confidence interval is between `r S_ci[1] %>% round(0)` and `r S_ci[2] %>% round(0)`.
+Taking into account the uncertainty about $z$, its 95% confidence interval is between `r (S-2*sigma_S) %>% round(0)` and `r (S+2*sigma_S) %>% round(0)`.
 
 # Discussion
 
@@ -400,28 +417,30 @@ After replacing the sampled area by the number of individuals it contains, well-
 At the scale of the metacommunity, defined as of the neutral model of biogeography, the species distribution is in log-series [@Hubbell2001; @Volkov2003].
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
 We applied the same method to our data in appendix \@ref(apd-logseries).
-Its estimation is close to 4000 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist [@Molino2022].
+Its estimation is close to 3500 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist [@Molino2022].
 The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
 For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
 
-The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to `r round(S/100)*100`, with a quite wide confidence interval due to the variability in the estimation of the power-law parameter.
+The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to `r round(S/100)*100`, with a quite wide confidence interval due to the variability in the estimation of both the number of trees in a squared kilometer and the power-law parameter.
+
 As shown in figure \@ref(fig:slope), the fit of the linear model is not perfect.
 The theory does not address habitat variation, that is well-described in French Guiana [@Guitet2015b].
 The dissimilarity between plot pairs is thus explained by distance and habitat dissimilarity, the latter ignored in the model.
 Yet, the estimation of $z$ is quite robust because the GuyaDiv network covers a wide range of habitats, allowing to cancel out local variability.
+Adding more plots or describing a few more species in the previous plots may not change $z$ significantly since it is obtained from the dissimilarity between plots.
 Its value `r z %>% round(3) %>% format(nsmall=3)` is in line with that of @Krishnamani2004 in another tropical forest: it is very small compared to the classical 0.25 of @Arrhenius1921 or 0.263 of @Preston1962. 
 This was discussed by @MacArthur1967, chapter 2.
 The power law applies to embedded scales of the same ecosystem here, in contrast to the usual sets of isolated islands providing the data [@Triantis2012]: in our case, the number of species increases less with the area, leading to smaller $z$ values.
 
-Another issue of the estimation is due to its unique starting point, i.e. Paracou field station, that is not representative of the whole French Guiana.
-Actually, it is located at the edge of the forest, close to the coast.
+The critical aspect of the estimation is the accuracy of the starting point of the extrapolation, that mainly depends on the representativeness of the local inventories
 Again, the self-similarity model assumes that $c$, the number of species per squared kilometer, is the same everywhere.
 Local, observed values must be understood as variations around the real $c$, that should be estimated by replicating inventories across the whole region.
-This is of course impossible due to the huge resources needed to settle a single one so Paracou's local richness adjusted to 1 km^2^  must be considered as the best available estimator of $c$.
-Its uncertainty cannot be evaluated because of the lack of replication.
-Its effect on the number of estimated species is proportional.
+This is of course restricted by the huge resources needed to settle a single one: three replicates are an exceptional amount of data.
+Paracou, Piste de Saint-Elie and Nouragues represent quite well the variability of local richness of the forest of French Guiana.
+We made a strict selection of the data to count the numbers of species, which are thus lower bounds.
+Ongoing efforts of botanists may increase a bit the value of $c$, implying a proportional increase in the estimation of the number of species.
 
 A recent work [@Molino2022] lists nearly 1800 species of indigenous trees in French Guiana, based on herbarium collections on the one hand, and on data from the GuyaDiv and GuyaFor plot networks [@Engel2015] on the other. 
 However, this checklist is only a state of the art of our knowledge of the tree flora. 
@@ -432,7 +451,8 @@ Although it cannot be excluded that some of the other 150-200 unnamed species ar
 In other words, the number of known species in French Guiana (named and unnamed) is probably already close to 2000. 
 Furthermore, the available data is very unevenly distributed across the territory. 
 The south and especially the north-west of French Guiana are poorly explored botanically (few inventory plots, relatively few herbarium specimens), while their floras are significantly different from the better inventoried northern and central zones. 
-It is thus very likely that the exploration of these little-known areas will add new species to the list. Therefore, the estimate of `r S %>% round(0)` spp. given here seems quite plausible, given the state of our knowledge.
+It is thus very likely that the exploration of these little-known areas will add new species to the list. 
+Therefore, the estimate of `r S %>% round(0)` spp. given here seems quite plausible, given the state of our knowledge.
  
 
 # Appendix
@@ -480,6 +500,35 @@ tibble(Sorensen=as.numeric(log10(Sorensen)),
     geom_point() +
     geom_smooth(method = lm)
 ```
+
+
+## Variance of the product of two random variables {#apd-variance}
+
+Let $X$ and $Y$ two random variables, here the estimators of $c$ and $A^z$.
+
+The variance of their product $XY$ is
+
+\begin{equation} 
+  \begin{split}
+    \mathrm{Var}(XY) &= \mathbb{E}(X^2Y^2) -\mathbb{E}^2(XY) \\
+                     &= \mathbb{E}(X^2)\mathbb{E}(Y^2) +\mathrm{Cov}(X^2,Y^2) \\
+                     &\quad -[\mathbb{E}(X)\mathbb{E}(Y) +\mathrm{Cov}(X,Y)]^2.
+  \end{split}
+  (\#eq:varprod)
+\end{equation}
+
+If $X$ and $Y$ are independent (this applies to $c$ and $A^z$), covariances are 0 and the variance reduces to
+
+\begin{equation} 
+  \begin{split}
+    \mathrm{Var}(XY)&= \mathbb{E}(X^2)\mathbb{E}(Y^2) -[\mathbb{E}(X)\mathbb{E}(Y)]^2 \\
+                    &= [\mathrm{Var}(X)+\mathbb{E}(X)^2][\mathrm{Var}(Y)+\mathbb{E}(Y)^2] \\
+                    &\quad -[\mathbb{E}(X)E(Y)]^2 \\
+                    &= \mathrm{Var}(X)\mathrm{Var}(Y) \\
+                    &\quad +E(X)^2\mathrm{Var}(Y) +E(Y)^2\mathrm{Var}(X).
+  \end{split}
+  (\#eq:varprodind)
+\end{equation}
 
 
 ## Log-series estimation of the number of species {#apd-logseries}
