@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2022-02-19" />
+<meta name="date" content="2022-03-13" />
 
 <title>Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness</title>
 
@@ -56,6 +56,7 @@ if (window.hljs) {
   }
 }
 </script>
+
 
 
 <style type="text/css">
@@ -116,6 +117,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -277,7 +281,7 @@ div.tocify {
 <h4 class="author">Ariane Mirabel</h4>
 <h4 class="author">Jean-François Molino</h4>
 <h4 class="author">Daniel Sabatier</h4>
-<h4 class="date">19 February 2022</h4>
+<h4 class="date">13 March 2022</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>The biodiversity of tropical rainforest is difficult to assess. Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories. GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1315 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. We can then extrapolate the number of species from three local, wide inventories (over 2.5 km<sup>2</sup>). We evaluate the number of tree species around 2200 over the territory.</p>
@@ -364,7 +368,7 @@ The total number of species is thus 740 included in a 4.84-km<sup>2</sup> convex
 It encompasses nineteen 1-ha and one half-hectare plots in GuyaDiv and a few small plots added for various studies.
 Moreover, many herbarium specimen were collected from the site.
 As a whole, we gathered 763 species in a 3-km<sup>2</sup> area.</p>
-<p>Nouragues research station <span class="citation">(Bongers et al. 2001)</span> provides 22 hectares of permanent plots curated the same way Paracou’s in a common network called Guyafor.
+<p>Nouragues research station <span class="citation">(Bongers et al. 2001)</span> provides 22 hectares of permanent plots curated the same way as Paracou’s in a common network called Guyafor.
 We applied the same protocol, adding 11 Guyadiv plots and herbarium collections up to 850 species in a 2.5-km<sup>2</sup> area.</p>
 <p></p>
 <p></p>
@@ -407,15 +411,18 @@ It should be completed by a continuous inventory whose size is consistent with t
 These constraints explain why the method has not been widely applied, beyond <span class="citation">Krishnamani, Kumar, and Harte (2004)</span> and this paper.</p>
 <p>At smaller scales, i.e. inside a single community, the relation between area and number of species is described by species accumulation curves <span class="citation">(SAC: Gotelli and Colwell 2001)</span>.
 It is driven by statistical models that address incomplete sampling <span class="citation">(Shen, Chao, and Lin 2003; Béguinot 2015)</span>.
-After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao’s <span class="citation">(Chao 2004)</span> or the jackknife <span class="citation">(Burnham and Overton 1978)</span> apply.</p>
+After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao’s <span class="citation">(Chao 2004)</span> or the jackknife <span class="citation">(Burnham and Overton 1978)</span> apply.
+This estimation is in appendix <a href="#apd-npe">5.3</a>.
+It is less than 1700 species, i.e. less than the total number of known species <span class="citation">(Molino et al. 2022)</span>.
+As already underlined by <span class="citation">ter Steege et al. (2013)</span>, this method is not appropriate at large scales because of severe undersampling: many local communities are just not included in the data.</p>
 <p>At the scale of the metacommunity, defined as of the neutral model of biogeography, the species distribution is in log-series <span class="citation">(Hubbell 2001; Volkov et al. 2003)</span>.
 <span class="citation">ter Steege et al. (2013)</span> fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
-We applied the same method to our data in appendix <a href="#apd-logseries">5.3</a>.
+We applied the same method to our data in appendix <a href="#apd-logseries">5.4</a>.
 Its estimation is close to 3500 species in French Guiana: a very unlikely result according to the current expert knowledge and the recent checklist <span class="citation">(Molino et al. 2022)</span>.
 The regional species pool does not follow a log-series distribution because of dispersal limitation <span class="citation">(Grilli et al. 2012)</span>.
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity’s species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
-For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix <a href="#apd-hyperdominance">5.4</a>), compared to 1.4% in Amazonia as a whole <span class="citation">(ter Steege et al. 2013)</span>.</p>
+For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix <a href="#apd-hyperdominance">5.5</a>), compared to 1.4% in Amazonia as a whole <span class="citation">(ter Steege et al. 2013)</span>.</p>
 <p>The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to 2200, with a quite wide confidence interval due to the variability in the estimation of both the number of trees in a squared kilometer and the power-law parameter.</p>
 <p>As shown in figure <a href="#fig:slope">5.1</a>, the fit of the linear model is not perfect.
 The theory does not address habitat variation, that is well-described in French Guiana <span class="citation">(Guitet et al. 2015)</span>.
@@ -463,7 +470,7 @@ Figure 5.1: Relation between Sørensen’s similarity and the distance between p
 <p></p>
 </div>
 <div id="apd-variance" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Variance of the product of two random variables</h2>
+<h2><span class="header-section-number">5.2</span> Variance of the product of two independent random variables</h2>
 <p>Let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> two random variables, here the estimators of <span class="math inline">\(c\)</span> and <span class="math inline">\(A^z\)</span>.</p>
 <p>The variance of their product <span class="math inline">\(XY\)</span> is</p>
 <p><span class="math display" id="eq:varprod">\[\begin{equation} 
@@ -486,8 +493,17 @@ Figure 5.1: Relation between Sørensen’s similarity and the distance between p
   \tag{5.2}
 \end{equation}\]</span></p>
 </div>
-<div id="apd-logseries" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Log-series estimation of the number of species</h2>
+<div id="apd-npe" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Non-parametric estimation of the number of species</h2>
+<p></p>
+<p></p>
+<p>Assuming that the plots are sample of a single community, the estimation of richness relies on the well-known non-parametric estimators.
+The observed number of species is 1314 among which 204 and 119 are sampled once and twice.
+The lower-bound estimation of the number of species by the Chao1 estimator is 1488.8530446.
+The best jackknife estimator (of order 3) is 1677.</p>
+</div>
+<div id="apd-logseries" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Log-series estimation of the number of species</h2>
 <p>Assuming that the plots are samples of a metacommunity that follows a log-series distribution, the rank-abundance curve can be extrapolated (figure <a href="#fig:logseries">5.2</a>) following <span class="citation">ter Steege et al. (2013)</span>.</p>
 <p></p>
 <p></p>
@@ -512,8 +528,8 @@ Figure 5.2: Extrapolation of the rank-abundance curve built from the GuyaDiv plo
 <p>The estimated number of species according to this model is 3554.
 This is undoubtedly a severe overestimation, see the discussion section of the paper.</p>
 </div>
-<div id="apd-hyperdominance" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Hyperdominance</h2>
+<div id="apd-hyperdominance" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Hyperdominance</h2>
 <p>Hyperdominance is a characteristic of many distributions of species.
 Figure <a href="#fig:hyperdominance">5.3</a> shows the accumulation of individuals from the most abundant to the rarest species.</p>
 
