@@ -413,6 +413,9 @@ These constraints explain why the method has not been widely applied, beyond @Kr
 At smaller scales, i.e. inside a single community, the relation between area and number of species is described by species accumulation curves [SAC: @Gotelli2001].
 It is driven by statistical models that address incomplete sampling [@Shen2003; @Beguinot2015a].
 After replacing the sampled area by the number of individuals it contains, well-known estimators of richness such as Chao's [@Chao2004] or the jackknife [@Burnham1978] apply.
+This estimation is in appendix \@ref(apd-npe).
+It is less than 1700 species, i.e. less than the total number of known species [@Molino2022].
+As already underlined by @TerSteege2013, this method is not appropriate at large scales because of severe undersampling: many local communities are just not included in the data.
 
 At the scale of the metacommunity, defined as of the neutral model of biogeography, the species distribution is in log-series [@Hubbell2001; @Volkov2003].
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
@@ -529,6 +532,21 @@ If $X$ and $Y$ are independent (this applies to $c$ and $A^z$), covariances are 
   \end{split}
   (\#eq:varprodind)
 \end{equation}
+
+
+## Non-parametric estimation of the number of species {#apd-npe}
+
+```{r jackknife}
+library("entropart")
+Community <- colSums(Abundances[, -1])
+S_best <- Richness(Community)
+S_Chao1 <- Richness(Community, Correction="Chao1")
+```
+
+Assuming that the plots are sample of a single community, the estimation of richness relies on the well-known non-parametric estimators.
+The observed number of species is `r sum(Community>0)` among which `r sum(Community==1)` and `r sum(Community==2)` are sampled once and twice.
+The lower-bound estimation of the number of species by the Chao1 estimator is `r S_Chao1`. 
+The best jackknife estimator (of order 3) is `r S_best`.
 
 
 ## Log-series estimation of the number of species {#apd-logseries}
