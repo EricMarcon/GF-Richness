@@ -244,7 +244,7 @@ It encompasses nineteen 1-ha and one half-hectare plots in GuyaDiv and a few sma
 Moreover, many herbarium specimen were collected from the site.
 As a whole, we gathered `r PSE_S` species in a `r PSE_envelope`-km^2^ area.
 
-Nouragues research station [@Bongers2001] provides 22 hectares of permanent plots curated the same way Paracou's in a common network called Guyafor.
+Nouragues research station [@Bongers2001] provides 22 hectares of permanent plots curated the same way as Paracou's in a common network called Guyafor.
 We applied the same protocol, adding 11 Guyadiv plots and herbarium collections up to `r NOU_S` species in a `r NOU_envelope`-km^2^ area.
 
 ```{r n_simulations}
@@ -502,7 +502,7 @@ tibble(Sorensen=as.numeric(log10(Sorensen)),
 ```
 
 
-## Variance of the product of two random variables {#apd-variance}
+## Variance of the product of two independent random variables {#apd-variance}
 
 Let $X$ and $Y$ two random variables, here the estimators of $c$ and $A^z$.
 
