@@ -424,7 +424,7 @@ Its estimation is close to 3500 species in French Guiana: a very unlikely result
 The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
-For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (apendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
+For the same reasons, hyperdominanc is less pronounced: 4% of the species contain half the trees (appendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
 
 The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to `r round(S/100)*100`, with a quite wide confidence interval due to the variability in the estimation of both the number of trees in a squared kilometer and the power-law parameter.
 
@@ -555,7 +555,7 @@ Assuming that the plots are samples of a metacommunity that follows a log-series
 
 ```{r n_trees}
 # Number of trees = area x number of trees per 1-ha plot
-n_trees <- round(A0 * 100 * mean(colSums(Abundances[, -1])))
+n_trees <- round(A0 * 100 * mean(rowSums(Abundances[, -1])))
 ```
 
 First, the total number of trees is estimated by extrapolation of the average number of trees per plot.
