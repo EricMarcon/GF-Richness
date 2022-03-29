@@ -559,7 +559,7 @@ n_trees <- round(A0 * 100 * mean(rowSums(Abundances[, -1])))
 ```
 
 First, the total number of trees is estimated by extrapolation of the average number of trees per plot.
-There are close to `r round(n_trees/1E6)` million trees in French Guiana.
+There are close to `r round(n_trees/1E9)` billion trees in French Guiana.
 
 The probability for one of these trees to belong to a given species is obtained by averaging the probability of the species among plots.
 Each plot is a sample of a local community whose composition is not completely known: for example, many rare species are not in the sample.
@@ -614,12 +614,12 @@ Figure \@ref(fig:hyperdominance) shows the accumulation of individuals from the 
 (ref:hyperdominance) Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical line allows reading the corresponding rank of the species.
 ```{r hyperdominance, fig.cap="(ref:hyperdominance)"}
 # Hyperdominance
-plot(cumsum(abd_est), ylim=c(0, n_trees), xlab="Rank", ylab="Cumulated Number of Trees", axes=FALSE)
+plot(cumsum(as.numeric(abd_est)), ylim=c(0, n_trees), xlab="Rank", ylab="Cumulated Number of Trees", axes=FALSE)
 axis(1, axTicks(1)+1)
 axis(2)
 box()
 abline(h=n_trees/2, lty=2, col="red")
-hdSpecies <- min(which(cumsum(abd_est)>n_trees/2))
+hdSpecies <- min(which(cumsum(as.numeric(abd_est))>n_trees/2))
 abline(v=hdSpecies, lty=2, col="red")
 ```
 
