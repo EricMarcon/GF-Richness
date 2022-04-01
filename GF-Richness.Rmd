@@ -83,7 +83,7 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ```{r Options, include=FALSE}
 ### Customized options for this document
 # Add necessary packages here
-Packages <- c("ade4", "broom", "dbmss", "entropart", "secret", "tidyverse")
+Packages <- c("ade4", "broom", "dbmss", "entropart", "nleqslv", "secret", "tidyverse")
 # Install them
 InstallPackages(Packages)
 
@@ -122,8 +122,10 @@ In French Guiana, the GuyaDiv network consists of close to 250 plots across the 
 Based on similar datasets, the diversity of tree species has been estimated in Amazonia [@TerSteege2013; @TerSteege2020] and at the world scale [@Slik2015].
 The methods used in those studies are not appropriate to estimate regional diversity, i.e. at a smaller scale where dispersal limitation is critical.
 The contribution of this paper is to estimate the number of tree species at the regional scale, in French Guiana (8 million hectares of tropical moist forest with no ecological boundary to distinguish them from the rest of Amazonia) and demonstrate which method is valid to do so.
-We build on Harte's self similarity model [@Harte1999] that implies the power-law relationship of @Arrhenius1921 and provides a technique to evaluate its parameters [@Harte1999a], previously applied by @Krishnamani2004 in the Western Ghats, India.
+We build on Harte's self similarity model [@Harte1999] that implies the power-law relationship of @Arrhenius1921 and provides a technique to evaluate its parameters [@Harte1999a], previously applied by @Krishnamani2004 in the Western Ghats, India, a 60,000-ha tropical forest with around 1,000 species.
 We show that the log-series model underlying the work of @TerSteege2013 does not apply at the regional scale.
+We also compare our results to those obtained by alternative methods such as the MaxEnt species-area curve [@Harte2009] and the grid-aggregated occurrence-based estimation by @CazzollaGatti2022.
+
 
 # Methods
 
@@ -244,7 +246,7 @@ It encompasses nineteen 1-ha and one half-hectare plots in GuyaDiv and a few sma
 Moreover, many herbarium specimen were collected from the site.
 As a whole, we gathered `r PSE_S` species in a `r PSE_envelope`-km^2^ area.
 
-Nouragues research station [@Bongers2001] provides 22 hectares of permanent plots curated the same way as Paracou's in a common network called Guyafor.
+Nouragues research station [@Bongers2001] provides 22 hectares of permanent plots.
 We applied the same protocol, adding 11 Guyadiv plots and herbarium collections up to `r NOU_S` species in a `r NOU_envelope`-km^2^ area.
 
 ```{r n_simulations}
@@ -270,7 +272,7 @@ That of $A^z$ is obtained from the empirical distribution of $z$.
 The variance of their product is calculated (the formula and its derivation are in Appendix \@ref(apd-variance)).
 Finally, we assumed the normality of the distribution of the product of the estimates to retain an approximate 95% confidence interval of $\pm$ 2 standard deviations.
 
-All analyses were made with R [@R] v. 4.1.2.
+All analyses were made with R [@R] v. 4.1.3.
 
 
 # Results
@@ -417,6 +419,11 @@ This estimation is in appendix \@ref(apd-npe).
 It is less than 1700 species, i.e. less than the total number of known species [@Molino2022].
 As already underlined by @TerSteege2013, this method is not appropriate at large scales because of severe undersampling: many local communities are just not included in the data.
 
+@CazzollaGatti2022 applied a similar method on a large-scale grid (100 x 100 km cells) where species occurrences were reported in each cell.
+Considering each cell as a plot, the Chao2 estimator [@Chao1987] allows estimating the total richness.
+The advantage of this approach is the opportunity to combine several sources of occurrence data to improve the sampling coverage.
+When applied to our data, aggregated in 100-km square cells (appendix \@ref(apd-npe)), the estimation is similar to that obtained directly from the abundance data of the plots. 
+
 At the scale of the metacommunity, defined as of the neutral model of biogeography, the species distribution is in log-series [@Hubbell2001; @Volkov2003].
 @TerSteege2013 fitted a log-series to data provided by a network of plots to estimate the number of species in Amazonia.
 We applied the same method to our data in appendix \@ref(apd-logseries).
@@ -424,9 +431,17 @@ Its estimation is well over 4000 species in French Guiana: a very unlikely resul
 The regional species pool does not follow a log-series distribution because of dispersal limitation [@Grilli2012].
 In other words, the regional community is not a sample of the metacommunity: many of the metacommunity's species are not present.
 As a consequence, the log-series estimation of the richness of a regional species pool leads to severe overestimation.
-For the same reasons, hyperdominanc is less pronounced: 4% of the species contain half the trees (appendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
+For the same reasons, hyperdominance is less pronounced: 4% of the species contain half the trees (appendix \@ref(apd-hyperdominance)), compared to 1.4% in Amazonia as a whole [@TerSteege2013].
 
-The estimated number of tree species in the 8-million-hectare forest of French Guiana is close to `r round(S/100)*100`, with a quite wide confidence interval due to the variability in the estimation of both the number of trees in a squared kilometer and the power-law parameter.
+@Harte2008 derived a universal species-area relationship based on the maximum entropy theory.
+Assuming only that the area, the total numbers of species and individuals, and the summed metabolic energy rate of all individuals are fixed, many features of the species distribution at any scale can be predicted.
+Of particular interest is the possibility to derive the number of species in a doubled area from the number of species in a sampled, reference area [@Harte2009;@Xu2012].
+Starting from a local sample, that may be a single 1-ha plot or one of our large inventories, the area can be doubled until the target size is reached.
+The number of species estimated from Paracou, Piste de Saint-Elie and Nouragues starting points (their number of species and area) is on average close to 2800, and over 3000 when extrapolating from an average Guyadiv 1-ha plot (appendix \@ref(apd-harte2009)).
+Again, this model implies a log-series distribution as it integrates as few assumptions as possible [@Harte2008].
+The arguments for overestimation are the same as those against the extrapolation of the log-series at the regional scale.
+
+Finally, our estimations of the number of tree species in the 8-million-hectare forest of French Guiana is close to `r round(S/100)*100`, with a quite wide confidence interval due to the variability in the estimation of both the number of trees in a squared kilometer and the power-law parameter.
 
 As shown in figure \@ref(fig:slope), the fit of the linear model is not perfect.
 The theory does not address habitat variation, that is well-described in French Guiana [@Guitet2015b].
@@ -463,7 +478,7 @@ Therefore, the estimate of `r S %>% round(0)` spp. given here seems quite plausi
 ## Similarity distance decay
 
 The relation between Sørensen's similarity and distance is presented in figure \@ref(fig:slope).
-All pairs of plots more than 800 meters apart (the scale of Paracou's 0.625-km^2^ inventory) are shown.
+All pairs of plots more than 1 km apart (the scale of Paracou's 0.625-km^2^ inventory) are shown.
 The estimation of $z$ is not made this way because some locations contain more plots than others so their weight is increased.
 The technique used in the text of the paper consists of drawing a random plot in each location to estimate $z$, and repeat this process a large number of times to estimate the expectation of $z$.
 
@@ -545,8 +560,67 @@ S_Chao1 <- Richness(Community, Correction="Chao1")
 
 Assuming that the plots are sample of a single community, the estimation of richness relies on the well-known non-parametric estimators.
 The observed number of species is `r sum(Community>0)` among which `r sum(Community==1)` and `r sum(Community==2)` are sampled once and twice.
-The lower-bound estimation of the number of species by the Chao1 estimator is `r S_Chao1`. 
+The lower-bound estimation of the number of species by the Chao1 estimator is `r round(S_Chao1)`. 
 The best jackknife estimator (of order 3) is `r S_best`.
+
+```{r Chao2, include=FALSE}
+# Group plots in a grid
+group_plots <- function(Plots, grid_x, grid_y) {
+  xy_grid <- matrix(0, nrow=nrow(Plots), ncol=2)
+  for (row in seq_len(nrow(Plots))) {
+    xy_grid[row, 1] <- grid_x[max(which(Plots$X_UTM[row] > grid_x))]
+    xy_grid[row, 2] <- grid_y[max(which(Plots$Y_UTM[row] > grid_y))]
+  }
+  colnames(xy_grid) <- c("x_grid", "y_grid")
+  return(xy_grid)
+}
+
+# Estimate total richness according to the size
+gridded_richness <- function(Abundances, Plots, grid_size, x_min=0, x_max=1, y_min=0, y_max=1) {
+
+  grid_x <- seq(x_min, x_max, by=grid_size)
+  grid_y <- seq(y_min, y_max, by=grid_size)
+  gridded_Plots <- cbind(Plots["Plot"], group_plots(Plots, grid_x, grid_y))
+
+  Abundances %>%
+    group_by(Plot) %>%
+    summarise_all(sum) %>%
+    inner_join(gridded_Plots) %>%
+    select(-Plot) %>%
+    group_by(x_grid, y_grid) %>%
+    summarise_all(sum) ->
+    Gridded_Plots
+
+  Occurences <- apply(Gridded_Plots[, -(1:2)] , 2, function(x) sum(x>0))
+  n <- nrow(Gridded_Plots)
+  s_obs <- sum(Occurences > 0)
+  s_1 <- sum(Occurences == 1)
+  s_2 <- sum(Occurences == 2)
+  S_chao2 <- s_obs + (n-1) * s_1^2 / 2 / n / s_2
+  return(S_chao2)
+}
+
+# Check that estimation does not vary with grid size
+sapply(
+  1:8, 
+  function(n) 
+    gridded_richness(
+      Abundances, Plots, 1000 * 2^n, 
+      x_min=116000, x_max=374000, y_min=244000, y_max=587000
+      )
+  )
+
+# Estimation of richness, grid size = 100 km
+S_Chao2 <- gridded_richness(
+  Abundances, Plots, grid_size=100000, 
+  x_min=116000, x_max=374000, y_min=244000, y_max=587000
+  )
+```
+
+An alternative, following @CazzollaGatti2022, consists of paving the territory with a grid whose size does not change the estimation, say 100 km. 
+In each 100 by 100 km cell of the grid, all available data is aggregated to obtain an occurrence dataset.
+The Chao2 estimator if finally applied: it combines the the number of species observed in only one or two cells to estimate the number of unobserved species.
+The estimation is `r round(S_Chao2)`.
 
 
 ## Log-series estimation of the number of species {#apd-logseries}
@@ -561,7 +635,7 @@ n_trees <- round(A0 * 100 * mean(rowSums(Abundances[, -1])))
 First, the total number of trees is estimated by extrapolation of the average number of trees per plot.
 There are close to `r round(n_trees/1E9)` billion trees in French Guiana.
 
-The probability for one of these trees to belong to a given species is obtained by averaging the probability of the species among plots.
+The probability for one of these trees to belong to a given species is obtained by averaging the frequency of the species among plots.
 Each plot is a sample of a local community whose composition is not completely known: for example, many rare species are not in the sample.
 The observed frequency of a species in a plot is not the probability of the species in the community: frequencies sum up to 1 while the sum of the actual probabilities of observed species, called the sample coverage [@Good1953], sums up to 1 minus that of the unobserved species.
 The actual probabilities of observed species can be estimated following @Chao2015, with the *entropart* package [@Marcon2014c].
@@ -624,6 +698,180 @@ abline(v=hdSpecies, lty=2, col="red")
 ```
 
 Only `r hdSpecies` species, i.e. `r round(hdSpecies/S*100)`% of their estimated number, contain half the number of trees.
+
+
+## Universal species-area relationship {#apd-harte2009}
+
+```{r harte2009, include=FALSE}
+library("nleqslv")
+
+# Estimate the number of species according to successive doubling number of individuals
+# Based on Harte et al. (2009) equations 8 and 9, improved by Xu et al. (2012)
+# s_0 and n_0 : initial values from an inventory
+# scales_n : number of doubling 
+# lambda_0 : initial value to estimate lambda
+# maxit : max number of iterations to solve the equation system
+sar_harte2009 <- function(s_0, n_0, scales_n = 1, lambda_0 = 0.1, maxit = 1000 ) {
+  # Helper to solve the equation system
+  solve_eq_8_9 <- function(x) {
+    # x[1] is s_2a; x[2] is lambda; n_a and s_a must be refreshed outside the function
+    n_2a <- 2*n_a
+    s_2a <- x[1]
+    lambda <- x[2]
+
+    # Eq 8 in Harte et al. (2009)
+    eq8 <- s_2a * exp(lambda) -
+      n_2a * (1 -  exp(-lambda)) / (exp(-lambda) - exp(-lambda*(n_2a + 1))) *
+      (1 - exp(-lambda * n_2a) / (n_2a + 1)) - s_a
+    # Eq 9 in Harte et al. (2009)
+    if (n_2a < 100) {
+      n <- 1:n_2a
+      # Original eq 9
+      eq9 <- s_2a/n_2a * sum(exp(-n*lambda)) - sum(exp(-n*lambda)/n)
+    } else {
+      # Simplified for large n_2a (Xu et al. 2012)
+      eq9 <- s_2a + n_2a * (exp(lambda) - 1) * log((1 -  exp(-lambda)))
+    }
+    return(c(eq8, eq9))
+  }
+
+  # Number of individuals
+  n <- n_0 * 2^(0:(scales_n-1))
+  # Number of species
+  s <- c(s_0, rep(0, scales_n-1))
+  # Lagrange multiplier
+  lambda <- rep(0, scales_n)
+
+  # First iteration
+  n_a <- n[1]
+  s_a <- s[1]
+  # Initial values of s and lambda are the previous s and lambda_0
+  solution <- nleqslv(
+    c(s_a, lambda_0),
+    fn = solve_eq_8_9,
+    control = list(maxit=maxit)
+    )
+  s[2] <- solution$x[1]
+  lambda[2] <- solution$x[2]
+
+  # Next iterations
+  for (i in 2:(scales_n-1)) {
+    n_a <- n[i]
+    s_a <- s[i]
+    # Initial values of s and lambda are the previous s plus the previous increase and the previous lambda
+    solution <- nleqslv(
+      c(2*s[i]-s[i-1], lambda[i]),
+      fn = solve_eq_8_9,
+      control = list(maxit =10000)
+      )
+    s[i+1] <- solution$x[1]
+    lambda[i+1] <- solution$x[2]
+  }
+
+  return(data.frame(n, s))
+}
+
+# Check the results with the Western Ghats data
+# Harte et al. (2009), fig. 2
+scales_n <- 24
+Western_Ghats <- sar_harte2009(s_0=32.5, n_0=109, scales_n=scales_n)
+plot(Western_Ghats, log="xy")
+cat("Western Ghats:", round(Western_Ghats[scales_n, 2]),
+    "species in", 1/4*2^scales_n, "ha.")
+
+
+# Extrapolate the number of species through a Michaelis-Menten model
+extrapol_species <- function(n_s, n=max(n_s$n)) {
+  y <- 1/log(n_s$s)
+  x <- 1/log(n_s$n)
+  lm1 <- lm(y ~ x)
+  y_star <- lm1$coefficients[1] + 1/log(n)*lm1$coefficients[2]
+  return(exp(1/y_star))
+}
+
+# Plot the fit of the Michaelis-Menten model
+plot_michaelis_menten <- function(n_s) {
+  y <- 1/log(n_s$s)
+  x <- 1/log(n_s$n)
+  lm1 <- lm(y ~ x)
+  print(summary(lm1))
+  print(
+    ggplot(data.frame(x, y), aes(x, y)) +
+      geom_point() +
+      stat_smooth(method = "lm", col = "red") +
+      labs(x = "1/log(n)", y="1/log(S)")
+    )
+  return(lm1)
+}
+
+# French Guiana - Guyadiv
+scales_n <- 24
+Guyadiv_s_ha <- exp(mean(log(apply(Abundances[, -1], 1, function(distribution) sum(distribution>0)))))
+Guyadiv_n_ha <- exp(mean(log(apply(Abundances[, -1], 1, function(distribution) sum(distribution)))))
+Guyadiv <- sar_harte2009(s_0=Guyadiv_s_ha, n_0=Guyadiv_n_ha, scales_n=scales_n)
+plot(Guyadiv, log="xy")
+
+# French Guiana - St Elie
+scales_n <- 16
+St_Elie <- sar_harte2009(s_0=763, n_0=300*Guyadiv_n_ha, scales_n=scales_n)
+plot(St_Elie, log="xy")
+s_8Mha_St_Elie <- round(extrapol_species(St_Elie, n=8E6*Guyadiv_n_ha))
+cat("St Elie:", s_8Mha_St_Elie, "species.")
+plot_michaelis_menten(St_Elie)
+
+# French Guiana - Paracou
+scales_n <- 15
+Paracou <- sar_harte2009(s_0=740, n_0=484*Guyadiv_n_ha, scales_n=scales_n)
+plot(Paracou, log="xy")
+s_8Mha_Paracou <- round(extrapol_species(Paracou, n=8E6*Guyadiv_n_ha))
+cat("Paracou:", s_8Mha_Paracou, "species.")
+plot_michaelis_menten(Paracou)
+
+# French Guiana - Nouragues
+scales_n <- 17
+Nouragues <- sar_harte2009(s_0=850, n_0=250*Guyadiv_n_ha, scales_n=scales_n)
+plot(Nouragues, log="xy")
+s_8Mha_Nouragues <- round(extrapol_species(Nouragues, n=8E6*Guyadiv_n_ha))
+cat("Nouragues:", s_8Mha_Nouragues, "species.")
+plot_michaelis_menten(Nouragues)
+```
+
+The method from @Harte2009 is applied to our data.
+Assuming the number of individuals per area is constant and starting from a single initial inventory point (a number of species corresponding to a number of individuals), the number of species for twice the number of individuals can be calculated.
+
+The number of trees per hectare is estimated from the Guyadiv network.
+To be consistent with the model, its logarithm equals the average log-number of trees in all 1-ha plots. We retain `r round(Guyadiv_n_ha)` trees/ha.
+
+Initial inventories, e.g. `r paracou_S` trees in `r paracou_envelope*100` ha in Paracou (see the Methods section) and the (log-) average number of species in Guyadiv plots, are the starting points of the estimation.
+The number of trees is doubled and the number of species calculated.
+This operation is repeated until the target area (8 Mha) is reached, i.e. 15 times for Paracou and 24 times for the 1-ha plots.
+Figure \@ref(fig:harte2009sar) shows the obtained species-area curves.
+
+(ref:harte2009sar) Extrapolation of the initial inventories up to 8 Mha (vertical line, assuming `r round(Guyadiv_n_ha)` trees/ha). The vertical line corresponds to the area of French Guiana. Curves are the estimated species-area curves from the Guyadiv 1-ha plots (solid line), Nouragues (dot-dashed line), Piste de Saint-Elie (dashed-line) and Paracou (dotted line) starting points. Estimated values are marked on the lines.
+```{r harte2009sar, fig.cap="(ref:harte2009sar)"}
+ggplot() +
+  geom_line(data=Nouragues, aes(x=n, y=s), lty=4) +
+  geom_point(data=Nouragues, aes(x=n, y=s), shape = "|") +
+  geom_line(data=St_Elie, aes(x=n, y=s), lty=2) +
+  geom_point(data=St_Elie, aes(x=n, y=s), shape = "|") +
+  geom_line(data=Paracou, aes(x=n, y=s), lty=3) +
+  geom_point(data=Paracou, aes(x=n, y=s), shape = "|") +
+  geom_line(data=Guyadiv, aes(x=n, y=s), lty=1) +
+  geom_point(data=Guyadiv, aes(x=n, y=s), shape = "|") +
+  geom_vline(xintercept = 8E6*630, lty=3) +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(x="Number of trees", y="Number of species")
+```
+
+The extrapolation from 1 ha to 8 million hectares is clearly less reliable than that from the three large inventories, which are consistent with our main approach at the regional scale.
+In all cases, the estimated values 
+The curves are almost perfectly fitted by a Michaelis-Menten model, estimated by the linear model [@Lineweaver1934] $\frac{1}{\log{S}} \sim \frac{1}{\log{n}}$, where $S$ is the number of species and $n$ the number of trees.
+The estimated number of species is obtained for $n$ equal to 8 Mha times `r round(Guyadiv_n_ha)` trees/ha:
+
+- From Nouragues: `r round(s_8Mha_Nouragues)` species.
+- From Piste de Saint-Elie: `r round(s_8Mha_St_Elie)` species.
+- From Paracou: `r round(s_8Mha_Paracou)` species.
 
 
 `r if (!knitr:::is_latex_output()) '# References {-}'`
