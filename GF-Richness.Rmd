@@ -840,9 +840,10 @@ The method from @Harte2009 is applied to our data.
 Assuming the number of individuals per area is constant and starting from a single initial inventory point (a number of species corresponding to a number of individuals), the number of species for twice the number of individuals can be calculated.
 
 The number of trees per hectare is estimated from the Guyadiv network.
-To be consistent with the model, its logarithm equals the average log-number of trees in all 1-ha plots. We retain `r round(Guyadiv_n_ha)` trees/ha.
+To be consistent with the model, the geometric mean is applied: its logarithm equals the average logarithm of the number of trees in all 1-ha plots. 
+We retain `r round(Guyadiv_n_ha)` trees/ha.
 
-Initial inventories, e.g. `r paracou_S` trees in `r paracou_envelope*100` ha in Paracou (see the Methods section) and the (log-) average number of species in Guyadiv plots, are the starting points of the estimation.
+Initial inventories, e.g. `r paracou_S` trees in `r paracou_envelope*100` ha in Paracou (see the Methods section) and the geometric-mean number of species in Guyadiv plots, are the starting points of the estimation.
 The number of trees is doubled and the number of species calculated.
 This operation is repeated until the target area (8 Mha) is reached, i.e. 15 times for Paracou and 24 times for the 1-ha plots.
 Figure \@ref(fig:harte2009sar) shows the obtained species-area curves.
@@ -865,9 +866,8 @@ ggplot() +
 ```
 
 The extrapolation from 1 ha to 8 million hectares is clearly less reliable than that from the three large inventories, which are consistent with our main approach at the regional scale.
-In all cases, the estimated values 
 The curves are almost perfectly fitted by a Michaelis-Menten model, estimated by the linear model [@Lineweaver1934] $\frac{1}{\log{S}} \sim \frac{1}{\log{n}}$, where $S$ is the number of species and $n$ the number of trees.
-The estimated number of species is obtained for $n$ equal to 8 Mha times `r round(Guyadiv_n_ha)` trees/ha:
+The estimated number of species is tnen obtained for $n$ equal to 8 Mha times `r round(Guyadiv_n_ha)` trees per ha:
 
 - From Nouragues: `r round(s_8Mha_Nouragues)` species.
 - From Piste de Saint-Elie: `r round(s_8Mha_St_Elie)` species.
