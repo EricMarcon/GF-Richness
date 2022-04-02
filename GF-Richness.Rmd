@@ -867,7 +867,7 @@ ggplot() +
 
 The extrapolation from 1 ha to 8 million hectares is clearly less reliable than that from the three large inventories, which are consistent with our main approach at the regional scale.
 The curves are almost perfectly fitted by a Michaelis-Menten model, estimated by the linear model [@Lineweaver1934] $\frac{1}{\log{S}} \sim \frac{1}{\log{n}}$, where $S$ is the number of species and $n$ the number of trees.
-The estimated number of species is tnen obtained for $n$ equal to 8 Mha times `r round(Guyadiv_n_ha)` trees per ha:
+The estimated number of species is then obtained for $n$ equal to 8 Mha times `r round(Guyadiv_n_ha)` trees per ha:
 
 - From Nouragues: `r round(s_8Mha_Nouragues)` species.
 - From Piste de Saint-Elie: `r round(s_8Mha_St_Elie)` species.
