@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2022-04-01" />
+<meta name="date" content="2022-04-02" />
 
 <title>Estimation of the number of tree species in French Guiana by extrapolation of permanent plots richness</title>
 
@@ -280,7 +280,7 @@ div.tocify {
 <h4 class="author">Ariane Mirabel</h4>
 <h4 class="author">Jean-François Molino</h4>
 <h4 class="author">Daniel Sabatier</h4>
-<h4 class="date">01 April 2022</h4>
+<h4 class="date">02 April 2022</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>The biodiversity of tropical rainforest is difficult to assess. Yet, its estimation is necessary for conservation purposes, to evaluate our level of knowledge and the risks faced by the forest in relation to global change. Our contribution is to estimate the regional richness of tree species from local but widely spread inventories. GuyaDiv is a network of forest plots installed over the whole territory of French Guiana, where trees over 10 cm DBH are identified. We use its information (1315 species censused in 68 one-hectare plots) to estimate the exponent of the species-area relationship, assuming Arrhenius’s power law. We can then extrapolate the number of species from three local, wide inventories (over 2.5 km<sup>2</sup>). We evaluate the number of tree species around 2200 over the territory.</p>
@@ -563,8 +563,9 @@ Figure 5.3: Accumulation of the number of individuals from the most abundant to 
 <p>The method from <span class="citation">Harte, Smith, and Storch (2009)</span> is applied to our data.
 Assuming the number of individuals per area is constant and starting from a single initial inventory point (a number of species corresponding to a number of individuals), the number of species for twice the number of individuals can be calculated.</p>
 <p>The number of trees per hectare is estimated from the Guyadiv network.
-To be consistent with the model, its logarithm equals the average log-number of trees in all 1-ha plots. We retain 602 trees/ha.</p>
-<p>Initial inventories, e.g. 740 trees in 484 ha in Paracou (see the Methods section) and the (log-) average number of species in Guyadiv plots, are the starting points of the estimation.
+To be consistent with the model, the geometric mean is applied: its logarithm equals the average logarithm of the number of trees in all 1-ha plots.
+We retain 602 trees/ha.</p>
+<p>Initial inventories, e.g. 740 trees in 484 ha in Paracou (see the Methods section) and the geometric-mean number of species in Guyadiv plots, are the starting points of the estimation.
 The number of trees is doubled and the number of species calculated.
 This operation is repeated until the target area (8 Mha) is reached, i.e. 15 times for Paracou and 24 times for the 1-ha plots.
 Figure <a href="#fig:harte2009sar">5.4</a> shows the obtained species-area curves.</p>
@@ -578,9 +579,8 @@ Figure 5.4: Extrapolation of the initial inventories up to 8 Mha (vertical line,
 </div>
 <p></p>
 <p>The extrapolation from 1 ha to 8 million hectares is clearly less reliable than that from the three large inventories, which are consistent with our main approach at the regional scale.
-In all cases, the estimated values
 The curves are almost perfectly fitted by a Michaelis-Menten model, estimated by the linear model <span class="citation">(Lineweaver and Burk 1934)</span> <span class="math inline">\(\frac{1}{\log{S}} \sim \frac{1}{\log{n}}\)</span>, where <span class="math inline">\(S\)</span> is the number of species and <span class="math inline">\(n\)</span> the number of trees.
-The estimated number of species is obtained for <span class="math inline">\(n\)</span> equal to 8 Mha times 602 trees/ha:</p>
+The estimated number of species is tnen obtained for <span class="math inline">\(n\)</span> equal to 8 Mha times 602 trees per ha:</p>
 <ul>
 <li>From Nouragues: 3238 species.</li>
 <li>From Piste de Saint-Elie: 2739 species.</li>
