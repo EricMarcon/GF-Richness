@@ -157,7 +157,7 @@ where $z$ is the power parameter and $c$ is the number of species in an area of 
 Actually, $a=2^{-z}$.
 This is a classical relation in macroecology, with long empirical and theoretical support [@Williamson2001; @GarciaMartin2006].
 
-If $z$ is known, the inventory of a reasonably large area $b$ allows computing $c=b^{z}/S(b)$.
+If $z$ is known, the inventory of a reasonably large area $b$ allows computing $c=S(b)/b^{z}$.
 Then, $\mathrm{S}(A)$ can be calculated for any value of $A$.
 
 @Harte1999a showed that under the assumption of self-similarity, $z$ can be inferred from the dissimilarity between small and distant plots of equal size distributed across the area.
