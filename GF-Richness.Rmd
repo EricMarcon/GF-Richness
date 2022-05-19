@@ -619,7 +619,7 @@ S_Chao2 <- gridded_richness(
 
 An alternative, following @CazzollaGatti2022, consists of paving the territory with a grid whose size does not change the estimation, say 100 km. 
 In each 100 by 100 km cell of the grid, all available data is aggregated to obtain an occurrence dataset.
-The Chao2 estimator if finally applied: it combines the the number of species observed in only one or two cells to estimate the number of unobserved species.
+The Chao2 estimator is finally applied: it combines the the number of species observed in only one or two cells to estimate the number of unobserved species.
 The estimation is `r round(S_Chao2)`.
 
 
