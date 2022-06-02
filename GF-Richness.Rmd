@@ -84,7 +84,7 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ```{r Options, include=FALSE}
 ### Customized options for this document
 # Add necessary packages here
-Packages <- c("ade4", "broom", "dbmss", "distill", "entropart", "nleqslv", "secret", "tidyverse")
+Packages <- c("ade4", "broom", "dbmss", "entropart", "nleqslv", "secret", "tidyverse")
 # Install them
 InstallPackages(Packages)
 
