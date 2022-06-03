@@ -27,7 +27,7 @@ abstract: >
   We can then extrapolate the number of species from three local, wide inventories (over 2.5 km^2^).
   We evaluate the number of tree species around 2200 over the territory.
 keywords: [Biodiversity, Tropical Forest, Self Similarity, French Guiana]
-date: "`r format(Sys.time(), '%d %B %Y')`"
+date: "`r format(Sys.time(), '%Y %B %d')`"
 archive: "`r format(Sys.time(), '%d %B %Y')`"
 url: https://github.com/EricMarcon/GF-Richness
 github-repo: EricMarcon/GF-Richness
