@@ -29,8 +29,8 @@ abstract: >
 keywords: [Biodiversity, Tropical Forest, Self Similarity, French Guiana]
 date: "`r format(Sys.time(), '%d %B %Y')`"
 archive: "`r format(Sys.time(), '%d %B %Y')`"
-url: https://GitHubID.github.io/Repository/
-github-repo: GitHubID/Repository
+url: https://github.com/EricMarcon/GF-Richness
+github-repo: EricMarcon/GF-Richness
 lang: en-US
 bibliography: references.bib
 biblio-style: chicago
@@ -874,6 +874,3 @@ The estimated number of species is then obtained for $n$ equal to 8 Mha times `r
 - From Nouragues: `r round(s_8Mha_Nouragues)` species.
 - From Piste de Saint-Elie: `r round(s_8Mha_St_Elie)` species.
 - From Paracou: `r round(s_8Mha_Paracou)` species.
-
-
-`r if (!knitr:::is_latex_output()) '# References {-}'`
