@@ -93,6 +93,7 @@ InstallPackages(Packages)
 knitr::opts_chunk$set(
   cache=TRUE, # Cache chunk results
   echo=FALSE, # Show/Hide R chunks
+  include=FALSE, # Show/Hide R chunks and result
   warning=FALSE, # Show/Hide warnings
   message=FALSE, # Show/Hide messages
   # Figure alignment and size
@@ -206,7 +207,7 @@ We took into account the `r guyadiv_plots` one-hectare plots of the network.
 They are located in `r guyadiv_locations` sites, which provides fairly good coverage of the variability of the forest in French Guiana.
 
 (ref:GuyaDivMap) The GuyaDiv network. Paracou, Piste de Saint-Elie and Nouragues are denoted PAR, PSE and NOU.
-```{r GuyaDivMap, fig.cap="(ref:GuyaDivMap)"}
+```{r GuyaDivMap, fig.cap="(ref:GuyaDivMap)", include=TRUE}
 knitr::include_graphics('images/GuyaDiv2021.jpg')
 ```
 
@@ -485,7 +486,7 @@ The estimation of $z$ is not made this way because some locations contain more p
 The technique used in the text of the paper consists of drawing a random plot in each location to estimate $z$, and repeat this process a large number of times to estimate the expectation of $z$.
 
 (ref:slope) Relation between Sørensen's similarity and the distance between pairs of plots. Both axes are in base-10 logarithms, distances are in meters. Each point is a pair of plots more than 800 m apart, up to 377 km. A linear model is fitted: the slope of the regression is $-2z$.
-```{r slope, fig.cap="(ref:slope)"}
+```{r slope, fig.cap="(ref:slope)", include=TRUE}
 library("ade4")
 library("dbmss")
 
@@ -658,7 +659,7 @@ abd_est <- as.AbdVector(sort(n_trees * colMeans(p_est_plots), decreasing = TRUE)
 The most abundant tree species is *`r names(abd_est[1])`* with around `r round(abd_est[1]/1E6)` million trees.
 
 (ref:logseries) Extrapolation of the rank-abundance curve built from the GuyaDiv plots. Extrapolated abundances (in log scale) of observed species are plotted against the rank of their species. The abundances of unobserved species (the red curve) is extrapolated linearly from the center 50% of the distribution of the observed species. The rarest 25%, ignored for the extrapolation, are plotted as grey points.
-```{r logseries, fig.cap="(ref:logseries)"}
+```{r logseries, fig.cap="(ref:logseries)", include=TRUE}
 # Central 50% of the curve
 EA50 <- as.AbdVector(abd_est[round(length(abd_est)/4):round(length(abd_est)*3/4)])
 x <- seq_along(EA50)
@@ -688,7 +689,7 @@ Hyperdominance is a characteristic of many distributions of species.
 Figure \@ref(fig:hyperdominance) shows the accumulation of individuals from the most abundant to the rarest species.
 
 (ref:hyperdominance) Accumulation of the number of individuals from the most abundant to the rarest species. The horizontal line corresponds to half the individuals. The vertical line allows reading the corresponding rank of the species.
-```{r hyperdominance, fig.cap="(ref:hyperdominance)"}
+```{r hyperdominance, fig.cap="(ref:hyperdominance)", include=TRUE}
 # Hyperdominance
 plot(cumsum(as.numeric(abd_est)), ylim=c(0, n_trees), xlab="Rank", ylab="Cumulated Number of Trees", axes=FALSE)
 axis(1, axTicks(1)+1)
@@ -851,7 +852,7 @@ This operation is repeated until the target area (8 Mha) is reached, i.e. 15 tim
 Figure \@ref(fig:harte2009sar) shows the obtained species-area curves.
 
 (ref:harte2009sar) Extrapolation of the initial inventories up to 8 Mha (vertical line, assuming `r round(Guyadiv_n_ha)` trees/ha). The vertical line corresponds to the area of French Guiana. Curves are the estimated species-area curves from the Guyadiv 1-ha plots (solid line), Nouragues (dot-dashed line), Piste de Saint-Elie (dashed-line) and Paracou (dotted line) starting points. Estimated values are marked on the lines.
-```{r harte2009sar, fig.cap="(ref:harte2009sar)"}
+```{r harte2009sar, fig.cap="(ref:harte2009sar)", include=TRUE}
 ggplot() +
   geom_line(data=Nouragues, aes(x=n, y=s), lty=4) +
   geom_point(data=Nouragues, aes(x=n, y=s), shape = "|") +
