@@ -34,21 +34,22 @@ github-repo: EricMarcon/GF-Richness
 lang: en-US
 bibliography: references.bib
 biblio-style: chicago
+csl: JTropEcol.cls
 toc-depth: 2
 always_allow_html: yes
 output:
-  bookdown::html_document2:
-    base_format: distill::distill_article
-    pandoc_args: ["--number-sections"]
-    toc: yes
-    toc_float: yes
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  bookdown::word_document2:
-     reference_docx: "images/template.docx"
+  bookdown::html_document2:
+    base_format: distill::distill_article
+    pandoc_args: ["--number-sections"]
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r DoNotModify, include=FALSE}
